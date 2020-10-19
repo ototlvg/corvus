@@ -21,6 +21,9 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('survey_id');
             $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('cascade');
 
+            $table->unsignedBigInteger('section_id')->nullable();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 

@@ -27,6 +27,9 @@ Route::post('/home/fq', 'Employee\InitialQuestionsController@store')->name('init
 // 
 Route::get('home/{survey}', 'Employee\SurveyController@index')->name('survey.index');
 
+//
+Route::get('tests', 'TestsController@index');
+
 
 // Logout infividual de user
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
