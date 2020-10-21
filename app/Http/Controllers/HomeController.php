@@ -48,11 +48,19 @@ class HomeController extends Controller
         isset($ref2) ? array_push($surveys, $ref2) : false;
 
 
+        // !empty($ref1) ? $first = $ref1 : $first = null;
+        // isset($ref2) ? $second = $ref2 : $second = null;
+        // $second = null;
+
+
         // return $surveys;
 
         // return $company_type;
         
 
         return view('Employee/home',compact('surveys'));
+        // return view('Employee/home',compact('first', 'second'));
     }
+
+    
 }

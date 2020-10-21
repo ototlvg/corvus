@@ -24,8 +24,10 @@ Route::get('/home/fq/{type}', 'Employee\InitialQuestionsController@index')->name
 Route::post('/home/fq', 'Employee\InitialQuestionsController@store')->name('initialQuestionStore');
 
 
-// 
-Route::get('home/{survey}', 'Employee\SurveyController@index')->name('survey.index');
+// Cuestionarios
+// Route::get('cuestionario/{survey}', 'Employee\SurveyController@index')->name('survey.index');
+Route::get('cuestionario/atrausev', 'Employee\SurveyController@first')->name('survey.first');
+Route::get('cuestionario/rpsic', 'Employee\SurveyController@second')->name('survey.second');
 
 //
 Route::get('tests', 'TestsController@index');
