@@ -16,7 +16,7 @@ class CreateResultsTraumaTable extends Migration
         Schema::create('results_trauma', function (Blueprint $table) {
             $table->bigIncrements('id');
             
-            // $table->unsignedBigInteger('survey_id');
+            // $table->unsignedBigInteger('survey_id')->default(1);
             // $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('cascade');
             
             $table->unsignedBigInteger('question_id');

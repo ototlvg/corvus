@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'apaterno','amaterno'
+        'name', 'email', 'password', 'apaterno','amaterno','company_id'
     ];
 
     /**
@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function company_type(){
+        return $this->belongsTo('App\Company', 'company_id', 'id');
+    }
+
+    function profile(){
+        return $this->hasOne('App\UserProfile', 'user_id', 'id');
+    }
 }

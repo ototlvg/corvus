@@ -25,6 +25,9 @@ class CreateUsersTable extends Migration
 
             $table->bigInteger('iteration')->default(1);
 
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             $table->rememberToken();
             $table->timestamps();
         });
