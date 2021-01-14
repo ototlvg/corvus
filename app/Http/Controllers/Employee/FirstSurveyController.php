@@ -48,7 +48,7 @@ class FirstSurveyController extends Controller
 
 
         $sections = [];
-        if($first_section_results->isEmpty()){
+        if($first_section_results->isEmpty()){ // Busca respuestas a esta encuesta, si no existen resultados es porque aun non lo contesta, por lo que regresa el primer bache de preguntas
             $questions = Question::orderBy('item', 'ASC')->where('survey_id',1)->where('category_id',1)->get();
             $obj = (object) ['category' => null, 'questions' => []];
             $obj->category = $categories[0]->category;
@@ -103,6 +103,7 @@ class FirstSurveyController extends Controller
 
         // return $first_section_results->isEmpty();
 
+        $contestarSiguientesSecciones = false;
         if($first_section_results->isEmpty()){
             for($i=1; $i<=6; $i++){
                 $r = new ResultTrauma;
@@ -111,9 +112,21 @@ class FirstSurveyController extends Controller
                 $r->user_id = $userid;
                 $r->iteration = $user->iteration;
                 $r->save();
+                if($request->post($i)){
+                    $contestarSiguientesSecciones = true;
+                }
             }
 
-            return redirect()->route('survey.first');
+            // return $contestarSiguientesSecciones ? 'Una de las respuestas fue si, se requiere seguir contestando preguntas' :'Todas las respuestas fueron que NO';
+
+            if($contestarSiguientesSecciones){
+                return redirect()->route('survey.first');
+            }else{
+                $status = Status::where('survey_id',1)->where('user_id', $userid)->first();
+                $status->answered = 1;
+                $status->save();
+                return redirect()->route('home');
+            }
         }else{
             // return 'Guardara de la segunda';
             // return $request->post();
