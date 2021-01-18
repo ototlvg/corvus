@@ -42,8 +42,14 @@ Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout
 Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+    // Route::get('/', 'Admin\HomeController@index')->name('admin.dashboard');
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+
+    // Route::resource('home`', 'Admin\HomeController');
+
+    Route::resources([
+        'users' => Admin\HomeController::class,
+    ]);
 
     // Password resets routes
     // Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');

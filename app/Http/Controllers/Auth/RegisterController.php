@@ -131,7 +131,7 @@ class RegisterController extends Controller
 
     public function createStatus($user){
 
-        $company_type = Company::first()->type;
+        $company_type = $user->company_id;
 
         for($i=1; $i<=$company_type; $i++){
             $status = new Status();

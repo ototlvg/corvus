@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Company;
 use App\Status;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -30,8 +31,13 @@ class HomeController extends Controller
     {
         // return Auth::user();
         // dd(auth()->user()->id);
-        $company = Company::first();
-        $company_type = $company->type;
+
+        $userid = Auth::user()->id;
+        $user = User::find($userid);
+        // return $user;
+
+        // $company = Company::first();
+        $company_type = $user->company_id;
 
         // Status
         // $status = Status::where('user_id', Auth::user()->id)->where('answered', 0)->orderBy('survey_id', 'asc')->get();
@@ -40,6 +46,7 @@ class HomeController extends Controller
         
         if($company_type != 1){
             $ref2 = Status::where('user_id', Auth::user()->id)->where('answered', 0)->where('survey_id', $company_type)->with('survey')->first();
+            // return $ref2;
         }
 
         $surveys = [];

@@ -26,8 +26,9 @@ class SecondSurveyController extends Controller
     public function index(){
         $userid = Auth::user()->id;
 
-        $user= User::find($userid)->with('profile')->first();
+        $user= User::where('id',$userid)->with('profile')->first();
         // return $user->profile->clients;
+        // return $user;
 
         $boss = $user->profile->boss;
         // return $user;
@@ -36,7 +37,7 @@ class SecondSurveyController extends Controller
         // $companytypeid =  User::find($userid)->company_type->type;
         $companytype =  $user->company_type->type;
 
-
+        // return $companytype;
         // return $companyid;
         $categories = Category::whereHas('questions', function($query) use($companytype){
             $query->where('survey_id',$companytype);
