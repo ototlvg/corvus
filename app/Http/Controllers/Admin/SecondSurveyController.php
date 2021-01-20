@@ -4,67 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\Result;
 use App\Category;
 
-class HomeController extends Controller
+class SecondSurveyController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-        // $this->middleware('checkAccess');
-        // $this->middleware('checkClientsBossQuestions');
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // return view('Admin.home');
-        $admin = Auth::guard('admin')->user();
-        $companyOfAdminId = $admin->company_id;
-        // $users = User::where('company_id', $companyOfAdminId)->paginate(1);
-        $users = User::where('company_id', $companyOfAdminId)->with('status')->paginate(1);
-        // return $users;
-        // dd($admin);
-        // return $admin;
-        // return $users;
-        return view('Admin.home', compact(['users']));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
+    public function index($id){
         // $companyid = 
         $admin = Auth::guard('admin')->user();
         $companyid = $admin->company_id;
@@ -174,11 +123,38 @@ class HomeController extends Controller
         // return $categoriesComplete;
         // return $domainsComplete;
 
-        // $calificacionFinal = ''
+        $labels = ['Nulo o despreciable', 'Bajo', 'Medio', 'Alto', 'Muy alto'];
+        $criterios = [
+            'El riesgo resulta despreciable por lo que no se requiere medidas adicionales.',
+            'Es necesario una mayor difusión de la política de prevención de riesgos psicosociales y programas para: la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la violencia laboral.',
+            'Se requiere revisar la política de prevención de riesgos psicosociales y programas para la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la violencia laboral, así como reforzar su aplicación y difusión, mediante un Programa de intervención.',
+            'Se requiere realizar un análisis de cada categoría y dominio, de manera quese puedan determinar las acciones de intervención apropiadas a través de un Programa de intervención, que podrá incluir una evaluación específica1y deberá incluir una campaña de sensibilización, revisar la política deprevención de riesgos psicosociales y programas para la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacionalfavorable y la prevención de la violencia laboral, así como reforzar suaplicación y difusión.',
+            'Se requiere realizar el análisis de cada categoría y dominio para establecerlas acciones de intervención apropiadas, mediante un Programa de intervención que deberá incluir evaluaciones específicas, y contemplarcampañas de sensibilización, revisar la política de prevención de riesgospsicosociales y programas para la prevención de los factores de riesgopsicosocial, la promoción de un entorno organizacional favorable y laprevención de la violencia laboral, así como reforzar su aplicación y difusión.'
+        ];
+
+        // calificacionFinal
+        
+        if($companyid == 2){
+            $calificacionesFinal = [20,20,45,45,70,70,90,90];
+        }else{
+            $calificacionesFinal = [50,50,75,75,99,99,140,140];
+        }
+
         $puntuacionfinal = 0;
         foreach ($items as $item) {
             $puntuacionfinal += $item->puntuacion;
         }
+        $cf = $calificacionesFinal;
+        $evaluation = [ ($puntuacionfinal<$cf[0]), ($puntuacionfinal>= $cf[1] && $puntuacionfinal<$cf[2]), ($puntuacionfinal>=$cf[3] && $puntuacionfinal<$cf[4]), ($puntuacionfinal>=$cf[5] && $puntuacionfinal<$cf[6]), ($puntuacionfinal>=$cf[7]) ];
+        
+        $buscar = array_search(true, $evaluation);
+        
+        $calificacion = $labels[$buscar];
+        $criterio = $criterios[$buscar];
+
+        $finalobj = (object) ['puntuacion' => $puntuacionfinal, 'calificacion' => $calificacion, 'criterio' => $criterio, 'criterioflag' => $buscar];
+        // return [$finalobj];
+
 
         // Puntuacion por categiria
         foreach ($categoriesComplete as $category) {
@@ -232,8 +208,10 @@ class HomeController extends Controller
         // return $categoriesComplete;
         // return $domainsComplete;
 
+
         // Calificacion por categorias
-        $labels = ['Nulo o despreciable', 'Bajo', 'Medio', 'Alto', 'Muy alto'];
+        
+
 
         if($companyid == 2){
             $calificacionesCategoria = [
@@ -260,12 +238,18 @@ class HomeController extends Controller
             
             $evaluation = [ ($punt<$cc[0]), ($punt>= $cc[1] && $punt<$cc[2]), ($punt>=$cc[3] && $punt<$cc[4]), ($punt>=$cc[5] && $punt<$cc[6]), ($punt>=$cc[7]) ];
             
-            $calificacion = $labels[array_search(true, $evaluation)];
-
+            $buscar = array_search(true, $evaluation);
+            
+            $calificacion = $labels[$buscar];
+            $criterio = $criterios[$buscar];
+            
+            $category->criterioflag = $buscar;
+            $category->criterio = $criterio;
             $category->calificacion = $calificacion;
             // return $calificacion;
         }
 
+        // return $categoriesComplete;
         // return $domainsComplete;
         // Calificacion dominio
         if($companyid == 2){
@@ -302,47 +286,30 @@ class HomeController extends Controller
             
             $evaluation = [ ($punt<$cc[0]), ($punt>= $cc[1] && $punt<$cc[2]), ($punt>=$cc[3] && $punt<$cc[4]), ($punt>=$cc[5] && $punt<$cc[6]), ($punt>=$cc[7]) ];
             
-            $calificacion = $labels[array_search(true, $evaluation)];
+            $buscar = array_search(true, $evaluation);
 
+            $calificacion = $labels[$buscar];
+
+            $criterio = $criterios[$buscar];
+
+            $domain->criterio = $criterio;
+            $domain->criterioflag = $buscar;
             $domain->calificacion = $calificacion;
             // return $calificacion;
         }
 
-        return $domainsComplete;
+
+
         // return $categoriesComplete;
-    }
+        // return $user;
+        $obj =  [$finalobj, $categoriesComplete, $domainsComplete];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $categories = $categoriesComplete;
+        $domains = $domainsComplete;
+        $final = $finalobj;
+        // return [$user];
+        // return [$final];
+        // return $categories;
+        return view('Admin.rpsic', compact('final', 'categories', 'domains', 'user'));
     }
 }

@@ -51,6 +51,8 @@ Route::group(['prefix' => 'admin'], function(){
         'users' => Admin\HomeController::class,
     ]);
 
+    Route::get('/rpsic/{user}', 'Admin\SecondSurveyController@index')->name('admin.rpsic.index');
+
     // Password resets routes
     // Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
     // Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
