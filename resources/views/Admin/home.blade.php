@@ -28,14 +28,18 @@
                             <td class="align-middle">{{$user->name}}</td>
                             <td class="align-middle">{{$user->apaterno}} {{$user->amaterno}}</td>
                             <td class="align-middle">
-                                <button type="button" class="btn btn-info text-light">ATS</button>
+                                <a href="{{route('admin.atrausev.index', $user->id)}}">
+                                    <button type="button" class="btn btn-info text-light">ATS</button>
+                                </a>
                                 <a href="{{route('admin.rpsic.index', $user->id)}}">
                                     <button type="button" class="btn btn-danger">RPSIC</button>
                                 </a>
                             </td>
                             <td class="align-middle">
                                 <button type="button" class="btn btn-success">Editar</button>
-                                <button type="button" class="btn btn-primary">Ver</button>
+                                <a href="{{route('users.show', $user->id)}}">
+                                    <button type="button" class="btn btn-primary">Ver</button>
+                                </a>
                             </td>
                         </tr>
                         

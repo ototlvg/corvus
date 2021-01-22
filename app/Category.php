@@ -11,4 +11,9 @@ class Category extends Model
     function questions(){
         return $this->hasOne('App\Question', 'category_id', 'id');
     }
+    
+    function preguntas(){
+        return $this->hasMany('App\Question', 'category_id', 'id');
+
+    }
 }

@@ -93,7 +93,7 @@
                             @foreach ($domains as $domain)
                                 <div class="row mt-4 ">
                                     <div class="col-12">
-                                        <div class="card w-100">
+                                        <div class="card w-100 bg-danger">
                                             <div class="card-header fw-bold">
                                                 {{$domain->domain}}
                                             </div>

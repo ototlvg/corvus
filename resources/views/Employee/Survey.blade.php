@@ -24,10 +24,10 @@
                 
                     <p>{{$item2->item}}. {{$item2->question}}</p>
                     
-                    <input type="radio" id="true_{{$item2->item}}" name="{{$item2->item}}" value="1" checked>
+                    <input type="radio" id="true_{{$item2->item}}" name="{{$item2->item}}" value="1">
                     <label for="true_{{$item2->item}}">Si</label>
 
-                    <input type="radio" id="false_{{$item2->item}}" name="{{$item2->item}}" value="0">
+                    <input type="radio" id="false_{{$item2->item}}" name="{{$item2->item}}" value="0" checked>
                     <label for="false_{{$item2->item}}">No</label>
 
                     {{-- {{$item2->id}} --}}
