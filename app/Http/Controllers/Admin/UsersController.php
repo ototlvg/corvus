@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
@@ -11,7 +12,7 @@ use App\Result;
 use App\ResultTrauma;
 use App\Category;
 
-class HomeController extends Controller
+class UsersController extends Controller
 {
     public function __construct()
     {
@@ -27,6 +28,15 @@ class HomeController extends Controller
     public function index()
     {
         // return view('Admin.home');
+        $admin = Auth::guard('admin')->user();
+        $companyOfAdminId = $admin->company_id;
+        // $users = User::where('company_id', $companyOfAdminId)->paginate(1);
+        $users = User::where('company_id', $companyOfAdminId)->with('status')->paginate(1);
+        // return $users;
+        // dd($admin);
+        // return $admin;
+        // return $users;
+        return view('Admin.users.index', compact(['users']));
     }
 
     /**
@@ -36,7 +46,7 @@ class HomeController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -58,13 +68,13 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        // $admin = Auth::guard('admin')->user();
-        // $companyid = $admin->company_id;
-        // $user = User::where('company_id', $companyid)->find($id);
+        $admin = Auth::guard('admin')->user();
+        $companyid = $admin->company_id;
+        $user = User::where('company_id', $companyid)->find($id);
 
         
-        // // return $user;
-        // return view('Admin.users.show', compact('user'));
+        // return $user;
+        return view('Admin.users.show', compact('user'));
     }
 
     /**

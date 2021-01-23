@@ -48,7 +48,11 @@ Route::group(['prefix' => 'admin'], function(){
     // Route::resource('home`', 'Admin\HomeController');
 
     Route::resources([
-        'users' => Admin\HomeController::class,
+        'users' => Admin\UsersController::class,
+    ]);
+
+    Route::resources([
+        'empresa' => Admin\EmpresaController::class,
     ]);
 
     Route::get('/rpsic/{user}', 'Admin\SecondSurveyController@index')->name('admin.rpsic.index');
