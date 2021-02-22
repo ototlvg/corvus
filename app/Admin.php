@@ -48,4 +48,8 @@ class Admin extends Authenticatable
         // use App\Notifications\AdminResetPasswordNotification;
         $this->notify(new AdminResetPasswordNotification($token));
     }
+
+    public function company(){
+        return $this->belongsTo('App\Company', 'company_id', 'id');
+    }
 }

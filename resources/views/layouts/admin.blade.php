@@ -24,12 +24,14 @@
             min-height: 100vh;
         }
     </style>
+
+    @yield('styles')
 </head>
 <body>
     <div id="app" class="d-flex flex-column app">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Corvus</a>
+                <a class="navbar-brand" href="{{route('empresa.index')}}">NOM-035</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

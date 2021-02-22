@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,20 +9,171 @@ use Illuminate\Support\Facades\Auth;
 
 use App\User;
 use App\Result;
+use App\ResultTrauma;
 use App\Category;
 use App\Company;
 
-class SecondSurveyController extends Controller
+class ResultsController extends Controller
 {
-    public function index($id){
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // $this->middleware('checkAccess');
+        $this->middleware('checkClientsBossQuestions');
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $userid = Auth::user()->id;
+        $user= User::where('id',$userid)->with('status.survey')->first();
+
+        $status = $user->status;
+        // return $user->status;
+        return view('Employee.results.home', compact('status'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    public function firstSurvey($surveyid, $user){
+        
+        $valoracionClinica = '0';
+        $categories = Category::whereHas('preguntas', function ($query) {
+            $query->where('survey_id',1);
+        })->with('preguntas')->get();
+        // })->get();
+
+        
+        $results = ResultTrauma::where('user_id', $user->id)->orderBy('question_id', 'ASC')->get();
+        
+        // return count($results)==0 ? 'No hay nada' :  'Si hay algo';
+
+        if(count($results)==0 ){
+            return redirect()->route('user.resultados.index');
+        }
+
+        if(count($results) == 6){
+            $categories = [$categories[0]];
+            // return 'A todas';
+        }
+        
+        // return $categories;
+        // return $results;
+
+        $answersByCategories = [];
+        foreach ($categories as $category) {
+                
+            $answers = [];
+            foreach ($category['preguntas'] as $question) {
+                $answer = $results[$question->item-1]->answer;
+                $question->answer = $answer;
+
+                array_push($answers, $answer);
+                // return $results[$question->item-1]->answer;
+            }
+
+            $category->answers = $answers;
+            if(!($category['id']==1)){
+                array_push($answersByCategories, $answers);
+            }
+        }
+
+        if(count($results) == 6){
+            // return 'Solo hay 6 resultados, por lo que contesto a todas no';
+            // return $categories;
+            $why = 0;
+            $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
+            return view('Admin.atrausev', compact('categories', 'valoracionClinica', 'user', 'why'));
+        }
+
+        //---------------------------------------------------------------
+        // $answersByCategories[0] - Sección II Recuerdos persistentes sobre acontecimiento
+        // $answersByCategories[1] - Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento
+        // $answersByCategories[2] - Sección IV Afectación
+
+        if(in_array(1, $answersByCategories[0])){
+            $valoracionClinica = 1;
+            $why = 'Cuando responda "Sí", en alguna de las preguntas de la Sección II Recuerdos persistentes sobre acontecimiento';
+            // return 'Existe un uno enn la seguna';
+        }else{
+            $amounts = [3,2];
+            $flag = 0;
+            for ($i=1; $i <=2 ; $i++) { 
+                $categoryAnswers = $answersByCategories[$i];
+
+                $trueAnswers = array_filter($categoryAnswers,function($answer){
+                    return $answer==1;
+                });
+
+                // return count($trueAnswers);
+
+                $flag = $i;
+                if(count($trueAnswers) >= $amounts[$i-1]){
+                    $valoracionClinica = 1;
+
+                    $i = 1000;
+                }
+
+            }
+
+            if($flag==1){
+                $why = 'Cuando responda "Sí", en tres o más de las preguntas de la Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento';
+            }else{
+                $why = 'Cuando responda "Sí", en dos o más de las preguntas de la Sección IV Afectación';
+            }
+
+
+        }
+
+        // return $categories;
+        // return $user;
+        $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
+        
+
+        return view('Employee.results.firstSurvey', compact('categories', 'valoracionClinica', 'user', 'why'));
+        // return $valoracionClinica;
+    }
+
+    public function secondSurvey($id, $user){
         // $companytype = 
-        $company = Auth::guard('company')->user();
+
+        // $user = Auth::guard('web')->user();
+
+        // return $user;
+
+        $companyid = $user->company_id;
+
+        $company = Company::find($companyid);
+
+        // return $company;
 
         // $company = Company::find($admin->company_id);
         
         $companytype = $company->type;
-
-        $user = User::where('company_id', $company->id)->find($id);
 
         // return $user;
 
@@ -322,9 +473,66 @@ class SecondSurveyController extends Controller
         $categories = $categoriesComplete;
         $domains = $domainsComplete;
         $final = $finalobj;
-        // return [$user];
-        // return [$final];
-        // return $categories;
-        return view('Admin.rpsic', compact('final', 'categories', 'domains', 'user'));
+
+        // return $obj;
+
+        // return $user;
+        
+        return view('Employee.results.secondSurvey', compact('final', 'categories', 'domains', 'user'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $userid = Auth::user()->id;
+        $user= User::where('id',$userid)->with('profile')->first();
+
+
+
+        // return $id;
+        if($id == 1){
+            return $this->firstSurvey($id, $user);
+        }else{
+            return $this->secondSurvey($id, $user);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

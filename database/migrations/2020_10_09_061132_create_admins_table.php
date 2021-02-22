@@ -17,9 +17,6 @@ class CreateAdminsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            
-            $table->unsignedBigInteger('company_id')->nulla+ble();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->boolean('super')->default(0);
 

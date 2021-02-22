@@ -44,6 +44,11 @@ class InitialQuestionsController extends Controller
 
     public function store(Request $request){
         $type = $request->post('type');
+
+        // return $type;
+        
+        // return (int) $request->post('question');
+
         if($type == 'jefe' || $type == 'clientes'){
 
             // return auth()->user()->id;

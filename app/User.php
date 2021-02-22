@@ -47,6 +47,6 @@ class User extends Authenticatable
 
     function status(){
         // return $this->hasMany('App\Status', 'id', 'user_id');
-        return $this->hasMany('App\Status', 'user_id', 'id');
+        return $this->hasMany('App\Status', 'user_id', 'id')->orderBy('survey_id', 'ASC');
     }
 }

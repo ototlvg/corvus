@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\Survey;
 use App\Question;
 use App\Category;
-use App\User;
 use App\Status;
 use App\Result;
 // use App\ResultTrauma;

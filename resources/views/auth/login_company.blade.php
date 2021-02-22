@@ -8,7 +8,7 @@
                 <div class="card-header bg-dark text-light p-5 py-3">Iniciar sesion</div>
 
                 <div class="card-body p-5">
-                    <form method="POST" action="{{ route('admin.login.submit') }}">
+                    <form method="POST" action="{{ route('company.login.submit') }}">
                         @csrf
 
                         <div class="form-group row mb-3">

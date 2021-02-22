@@ -13,8 +13,8 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <!-- Styles -->
@@ -46,8 +46,14 @@
                         @else
                             <div class="d-flex">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Inicio</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('user.resultados.index') }}">Resultados</a>
+                                </li>
+
+                                @yield('li-options')
                             </div>
 
                             <div class="d-flex">
@@ -71,7 +77,7 @@
                                             <li><a class="dropdown-item" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar sesion</a></li>
                                         </ul>
                                     </div>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('user.logout') }}" method="get" style="display: none;">
                                         @csrf
                                     </form>
                                 </li>

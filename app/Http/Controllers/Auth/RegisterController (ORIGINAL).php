@@ -55,7 +55,7 @@ class RegisterController extends Controller
     {
         // return $request->all(); // Es un array
         // $admin = Auth::guard('admin')->user();
-        // return $admin->company_id;
+        // return $admin;
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));

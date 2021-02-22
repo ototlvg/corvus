@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'checkAccess' => \App\Http\Middleware\CheckAccess::class,
         'checkClientsBossQuestions' => \App\Http\Middleware\CheckClientsBossQuestions::class,
         'checkAccessForInitialQuestion' => \App\Http\Middleware\checkAccessForInitialQuestion::class,
+        'checkCompany' => \App\Http\Middleware\CheckCompany::class,
         
     ];
 

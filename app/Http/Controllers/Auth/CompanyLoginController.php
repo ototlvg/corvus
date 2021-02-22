@@ -13,18 +13,17 @@ use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 
-class AdminLoginController extends Controller
+class CompanyLoginController extends Controller
 {
     use RedirectsUsers, ThrottlesLogins; // Agregados para Limitar el numero de Intentos
 
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        // $this->middleware('guest:admin')->except('logout');
     }
 
-
     public function showLoginForm(){
-        return view('auth.login_admin');
+        return view('auth.login_company');
     }
 
     public function login(Request $request){
@@ -32,7 +31,7 @@ class AdminLoginController extends Controller
         // Validate the form data
         $this->validate($request, [
             'email' => 'required|email',
-             'password' => 'required|min:6'
+            'password' => 'required|min:6'
          ]);
 
          // Limitar el intento de Accesos
@@ -43,9 +42,10 @@ class AdminLoginController extends Controller
         }
 
         // Attempt to log the user in
-        if(Auth::guard('admin')->attempt(['email'=>$request->email, 'password' => $request->password], $request->remember)){
+        if(Auth::guard('company')->attempt(['email'=>$request->email, 'password' => $request->password], $request->remember)){
             // return redirect()->intended(route('admin.dashboard'));
-            return redirect()->intended(route('users.index'));
+            // return redirect()->intended(route('users.index'));
+            return 'Accedio correctamente';
         }
 
         // return redirect()->back()->withInput($request->only('email')); // If unsuccesfull, the redirect to their intendet location
@@ -66,6 +66,7 @@ class AdminLoginController extends Controller
         ]);
     }
 
+
     public function username()
     {
         return 'email';
@@ -73,8 +74,7 @@ class AdminLoginController extends Controller
 
     public function logout()
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('company')->logout();
         return redirect('/');
     }
-    
 }

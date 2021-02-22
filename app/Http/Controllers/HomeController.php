@@ -33,11 +33,15 @@ class HomeController extends Controller
         // dd(auth()->user()->id);
 
         $userid = Auth::user()->id;
-        $user = User::find($userid);
-        // return $user;
+        $user = User::with('company_type')->find($userid);
+
+        $companyname = $user->company_type->name;
+        // return $user->company_type->name;
 
         // $company = Company::first();
-        $company_type = $user->company_id;
+
+
+        $company_type = $user->company_type->type;
 
         // Status
         // $status = Status::where('user_id', Auth::user()->id)->where('answered', 0)->orderBy('survey_id', 'asc')->get();
@@ -64,8 +68,9 @@ class HomeController extends Controller
 
         // return $company_type;
         
+        // return $surveys;
 
-        return view('Employee/home',compact('surveys'));
+        return view('Employee/home',compact('surveys','companyname'));
         // return view('Employee/home',compact('first', 'second'));
     }
 

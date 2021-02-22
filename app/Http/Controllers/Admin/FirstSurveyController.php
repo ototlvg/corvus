@@ -15,8 +15,8 @@ use App\Category;
 class FirstSurveyController extends Controller
 {
     public function index($id){
-        $admin = Auth::guard('admin')->user();
-        $companyid = $admin->company_id;
+        $company = Auth::guard('company')->user();
+        $companyid = $company->id;
 
         $valoracionClinica = '0';
 
