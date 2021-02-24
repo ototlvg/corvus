@@ -113,12 +113,15 @@
                     <p class="m-0 fs-2">Elegir tipo de usuario</p>
                 </div>
 
-                <div class="d-flex flex-wrap p-5 justify-content-center w-100">
+                <div class="d-flex flex-wrap p-5 justify-content-center w-100 flex-column">
                     <a href="{{ route('login') }}">
                         <button type="button" class="btn btn-primary btn-lg me-5">Empleado</button>
                     </a>
                     <a href="{{ route('admin.login') }}">
-                        <button type="button" class="btn btn-secondary btn-lg">Administrador</button>
+                        <button type="button" class="btn btn-secondary btn-lg me-5">Administrador</button>
+                    </a>
+                    <a href="{{ route('company.login') }}">
+                        <button type="button" class="btn btn-info btn-lg">Empresa</button>
                     </a>
                 </div>
 

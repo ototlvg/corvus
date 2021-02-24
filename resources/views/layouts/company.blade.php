@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Admin</title>
+    <title>Empresa</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -31,7 +31,7 @@
     <div id="app" class="d-flex flex-column app">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{route('admin.empresas.index')}}">Admin</a>
+                <a class="navbar-brand" href="{{route('empresa.index')}}">Empresa</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -40,17 +40,29 @@
                         <li class="nav-item">
                             {{-- <a class="nav-link active" aria-current="page" href="#">Home</a> --}}
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                @auth('admin')
-                                    {{-- <a class="nav-link active" aria-current="page" href="{{ route('admin.logout') }}">Logout</a> --}}
+                                @auth('company')
                                     <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="{{route('admin.empresas.index')}}">Empresas</a>
+                                        <a class="nav-link" aria-current="page" href="{{route('empresa.index')}}">Empresa</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" aria-current="page" href="{{route('users.index')}}">Usuarios</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" aria-current="page" href="{{route('company.payment.index')}}">Pago</a>
+                                    </li>
+                                @else
+                                    <li class="nav-item">
+                                        <a class="nav-link" aria-current="page" href="{{route('company.register.show')}}">Registrar</a>
+                                    </li>
+
+                                    
                                 @endauth
                             </ul>
                         </li>
                         <li class="nav-item d-flex">
-                            @auth('admin')
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.logout') }}">Logout</a>
+                            @auth('company')
+                                <a class="nav-link active" aria-current="page" href="{{ route('company.logout') }}">Logout</a>
+                                {{-- <a class="btn btn-primary" href="#" role="button">Link</a> --}}
                             @endauth
                             {{-- <a class="nav-link active" aria-current="page" href="#">Usuarios</a> --}}
                         </li>
@@ -73,7 +85,10 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="w-100 pt-4">
+            @yield('content')
+        </div>
+
         
         {{-- <div class="d-flex w-100 flex-grow-1 bg-danger">
         </div> --}}

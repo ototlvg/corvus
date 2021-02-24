@@ -18,12 +18,18 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // return dd('dds');
         if (Auth::guard($guard)->check()) {
+            // dd('dd');
             // return redirect(RouteServiceProvider::HOME);
             
             if($guard == 'admin'){
-                return redirect('/admin'); // La url directa
-            }else{
+                // return redirect('/admin'); // La url directa
+                return redirect()->route('admin.empresas.index');
+            }elseif($guard == 'company'){
+                return redirect()->route('empresa.index');
+            }
+            else{
                 return redirect('/home');
             }
         }

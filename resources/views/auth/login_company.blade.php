@@ -1,4 +1,4 @@
-@extends('../layouts.admin')
+@extends('../layouts.company')
 
 @section('content')
 <div class="container pt-5">
@@ -57,11 +57,11 @@
                                     Iniciar sesion
                                 </button>
 
-                                {{-- @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('admin.password.request') }}">
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('company.password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif --}}
+                                @endif
                             </div>
                         </div>
                     </form>

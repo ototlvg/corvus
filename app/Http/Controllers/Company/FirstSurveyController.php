@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,6 +14,13 @@ use App\Category;
 
 class FirstSurveyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:company');
+        $this->middleware('CheckIfCompanyCanSeeResult');
+    }
+
     public function index($id){
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
@@ -33,6 +40,10 @@ class FirstSurveyController extends Controller
         if(count($results) == 6){
             $categories = [$categories[0]];
             // return 'A todas';
+        }
+
+        if(count($results) == 0){
+            return redirect()->route('users.index');
         }
         
         // return $categories;
@@ -105,6 +116,6 @@ class FirstSurveyController extends Controller
 
         // return $categories;
         $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
-        return view('Admin.atrausev', compact('categories', 'valoracionClinica', 'user', 'why'));
+        return view('Company.atrausev', compact('categories', 'valoracionClinica', 'user', 'why'));
     }
 }

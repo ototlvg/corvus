@@ -8,11 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Notifications\AdminResetPasswordNotification;
+use App\Notifications\CompanyResetPasswordNotification;
 
 class Company extends Authenticatable
 {
     use Notifiable;
+
     protected $guard='company';
 
     protected $table = 'companies';
@@ -23,7 +24,7 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'type', 'access'
     ];
 
     /**
@@ -47,6 +48,6 @@ class Company extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         // use App\Notifications\AdminResetPasswordNotification;
-        $this->notify(new AdminResetPasswordNotification($token));
+        $this->notify(new CompanyResetPasswordNotification($token));
     }
 }

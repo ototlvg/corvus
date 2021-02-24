@@ -158,26 +158,20 @@ class ResultsController extends Controller
         // return $valoracionClinica;
     }
 
-    public function secondSurvey($id, $user){
-        // $companytype = 
-
-        // $user = Auth::guard('web')->user();
-
-        // return $user;
-
+    public function secondSurvey($id, $user)
+    {
+        // $id es el type de la compania, pero no pueden ser 2 y 3 al mismo tiempo, por lo que esta logica la pensamos mal, directamente podiamos obtener el valor de la base de datos, sin que nos dijeran el numero
         $companyid = $user->company_id;
 
         $company = Company::find($companyid);
 
-        // return $company;
-
-        // $company = Company::find($admin->company_id);
-        
         $companytype = $company->type;
 
-        // return $user;
+        $results = Result::where('survey_id', $companytype)->where('user_id', $user->id)->where('iteration',1)->with('question')->get();
 
-        $results = Result::where('survey_id', $companytype)->where('user_id', $id)->where('iteration',1)->with('question')->get();
+        if(count($results)==0 ){
+            return redirect()->route('user.resultados.index');
+        }
 
         $tablaDePuntajes1 = [0,1,2,3,4];
         $tablaDePuntajes2 = [4,3,2,1,0];
@@ -473,10 +467,9 @@ class ResultsController extends Controller
         $categories = $categoriesComplete;
         $domains = $domainsComplete;
         $final = $finalobj;
-
-        // return $obj;
-
-        // return $user;
+        // return [$user];
+        // return [$final];
+        // return $categories;
         
         return view('Employee.results.secondSurvey', compact('final', 'categories', 'domains', 'user'));
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,19 +14,29 @@ use App\Company;
 
 class SecondSurveyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:company');
+        $this->middleware('CheckIfCompanyCanSeeResult');
+    }
+
     public function index($id){
+        // dd('xxxss');
+        // $id es el usuario_id
+        // return $id;
         // $companytype = 
+        $userid = $id;
         $company = Auth::guard('company')->user();
 
         // $company = Company::find($admin->company_id);
         
         $companytype = $company->type;
 
-        $user = User::where('company_id', $company->id)->find($id);
+        $user = User::where('company_id', $company->id)->find($userid);
 
         // return $user;
 
-        $results = Result::where('survey_id', $companytype)->where('user_id', $id)->where('iteration',1)->with('question')->get();
+        $results = Result::where('survey_id', $companytype)->where('user_id', $userid)->where('iteration',1)->with('question')->get();
 
         $tablaDePuntajes1 = [0,1,2,3,4];
         $tablaDePuntajes2 = [4,3,2,1,0];
@@ -325,6 +335,6 @@ class SecondSurveyController extends Controller
         // return [$user];
         // return [$final];
         // return $categories;
-        return view('Admin.rpsic', compact('final', 'categories', 'domains', 'user'));
+        return view('Company.rpsic', compact('final', 'categories', 'domains', 'user'));
     }
 }

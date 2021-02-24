@@ -1,12 +1,12 @@
-@extends('../../layouts.admin')
+@extends('../../layouts.company')
 
 @section('content')
 
-    <main class="flex-grow-1 pt-5">
+    <main class="flex-grow-1">
 
-        <div class="container pb-5">
+        <div class="container">
     
-            <div class="row w-100 mb-5">
+            <div class="row w-100">
                 <div class="col-12 d-flex justify-content-center">
                     <p class="fs-3 fw-bold m-0">Datos de usuario</p>
                 </div>

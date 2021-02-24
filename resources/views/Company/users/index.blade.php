@@ -1,4 +1,4 @@
-@extends('../../layouts.admin')
+@extends('../../layouts.company')
 
 @section('content')
     {{-- @foreach ($users as $user)
@@ -10,7 +10,7 @@
         
 
 
-        <div class="container mt-5">
+        <div class="container">
             <div class="row mb-5">
                 <div class="col-12 d-flex justify-content-between align-items-center">
                     <p class="m-0 fs-3">Usuarios</p>
@@ -63,7 +63,12 @@
 
                                         </td>
                                         <td class="align-middle">
-                                            <button type="button" class="btn btn-success">Editar</button>
+                                            {{-- <button type="button" class="btn btn-success">Editar</button> --}}
+
+                                            <a href="{{route('users.edit', $user->id)}}">
+                                                <button type="button" class="btn btn-primary">Editar</button>
+                                            </a>
+
                                             <a href="{{route('users.show', $user->id)}}">
                                                 <button type="button" class="btn btn-primary">Ver</button>
                                             </a>

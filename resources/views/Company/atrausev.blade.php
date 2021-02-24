@@ -1,9 +1,9 @@
-@extends('../layouts.admin')
+@extends('../layouts.company')
 
 @section('content')
     {{-- <div class="d-flex w-100 flex-grow-1 align-items-center"> --}}
     {{-- <p>{{$why}}</p> --}}
-    <div class="d-flex w-100 flex-grow-1 my-4">
+    <div class="d-flex w-100 flex-grow-1">
 
         <div class="container">
 

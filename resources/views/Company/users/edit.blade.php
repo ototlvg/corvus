@@ -1,8 +1,8 @@
-@extends('../../layouts.admin')
+@extends('../../layouts.company')
 
 @section('content')
     <main class="d-flex w-100 flex-grow-1">
-        <div class="container pt-5">
+        <div class="container">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
                     <p class="fs-2">Crear nuevo usuario</p>
@@ -11,36 +11,40 @@
 
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <form method="POST" action="{{ route('users.store') }}" class="w-75 p-5 border">
+                    <form method="POST" action="{{ route('users.store') }}" class="w-75 border">
                         @csrf
                         <div class="row mb-4">
                             <div class="col">
                                 <label class="mb-2" for="apaterno" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" placeholder="Jason" aria-label="name" name="name" required>
+                                <input type="text" class="form-control" placeholder="Jason" aria-label="name" name="name" required value="{{$user->name}}">
                             </div>
                             <div class="col">
                                 <label class="mb-2" for="apaterno" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" placeholder="Torres" aria-label="apaterno" name="apaterno" required>
+                                <input type="text" class="form-control" placeholder="Torres" aria-label="apaterno" name="apaterno" required value="{{$user->apaterno}}">
                             </div>
                             <div class="col">
                                 <label class="mb-2" for="apaterno" class="form-label">Apellido Materno</label>
-                                <input type="text" class="form-control" placeholder="Luis" aria-label="amaterno" name="amaterno">
+                                <input type="text" class="form-control" placeholder="Luis" aria-label="amaterno" name="amaterno" value="{{$user->amaterno}}">
                             </div>
                         </div>
 
                         <div class="row mb-4">
+                            {{$user}}
                             <div class="col">
                                 <label class="mb-2" for="apaterno" class="form-label">Fecha de nacimiento</label>
-                                <input type="date" name="birthday" id="birthday" class="form-control" required>
+                                <input type="date" name="birthday" id="birthday" class="form-control" required value="{{$user->profile->birthday}}">
                             </div>
                         </div>
 
+                        {{-- {{$genders[1]}} --}}
+                        {{-- {{$user->gender}} --}}
                         <div class="row mb-4">
                             <div class="col">
                                 <label class="mb-2" for="gender">Sexo</label>
                                 <select name="gender" id="gender" class="form-select" required>
-                                    <option value="1">Masculino</option>
-                                    <option value="2">Femenino</option>
+                                    @foreach ($genders as $gender)
+                                        <option value="{{$gender}}" {{ $gender == $user->profile->gender ? 'selected' : '' }}>{{$gender}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -49,11 +53,15 @@
                             <div class="col">
                                 <label class="mb-2" for="marital">Estado Civil</label>
                                 <select name="marital" id="marital" class="form-select" required>
-                                    <option value="Casado">Casado</option>
+                                    @foreach ($marital as $civil)
+                                        <option value="{{$civil}}" {{ $civil == $user->profile->marital ? 'selected' : '' }}>{{$civil}}</option>
+                                    @endforeach
+
+                                    {{-- <option value="Casado">Casado</option>
                                     <option value="Soltero">Soltero</option>
                                     <option value="Union libre">Union libre</option>
                                     <option value="Divorciado">Divorciado</option>
-                                    <option value="Viudo">Viudo</option>
+                                    <option value="Viudo">Viudo</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -157,20 +165,6 @@
                                 <input name="work_experience" id="work_experience" type="number" class="form-control">
                             </div>
                         </div>
-
-                        {{-- <div class="row">
-                            <div class="col">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div> --}}
 
                         <div class="row">
                             <div class="col-12">

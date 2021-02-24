@@ -44,6 +44,10 @@ Route::get('tests', 'TestsController@index');
 
 //
 Route::get('/admin', function () {
+    return redirect()->route('admin.empresas.index');
+});
+
+Route::get('/company', function () {
     return redirect()->route('empresa.index');
 });
 
@@ -56,35 +60,36 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
-    
-    // No descomentar
-    // Route::resource('home`', 'Admin\HomeController');
-    // Route::get('/', 'Admin\HomeController@index')->name('admin.dashboard');
 
-    // Route::resources([
-    //     'users' => Admin\UsersController::class,
-    // ]);
+    // Route::get('/home', 'Admin\HomeController@index')->name('admin.home');
 
-    // Route::resources([
-    //     'empresa' => Admin\EmpresaController::class,
-    // ]);
-
-    // Route::get('/rpsic/{user}', 'Admin\SecondSurveyController@index')->name('admin.rpsic.index');
-    // Route::get('/atrausev/{user}', 'Admin\FirstSurveyController@index')->name('admin.atrausev.index');
+    Route::resource('/empresas', 'Admin\Companies\CompaniesController', [
+        'as' => 'admin',
+    ]);
 
     // No descomentar
     // Password resets routes
-    // Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
-    // Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
-    // Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
-    // Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+    Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
+    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 });
+
 
 Route::group(['prefix' => 'empresa'], function(){
     Route::get('/login', 'Auth\CompanyLoginController@showLoginForm')->name('company.login');
     Route::post('/login', 'Auth\CompanyLoginController@login')->name('company.login.submit');
     Route::get('/logout', 'Auth\CompanyLoginController@logout')->name('company.logout');
-
+    
+    Route::get('/registro', 'Auth\CompanyRegisterController@show')->name('company.register.show');
+    Route::get('/validar/{email}', 'Auth\CompanyRegisterController@validateEmail')->name('company.register.validateEmail');
+    Route::get('/confirmar', 'Auth\CompanyRegisterController@confirmation')->middleware('auth:company')->name('company.register.confirmation');
+    Route::post('/registro', 'Auth\CompanyRegisterController@register')->name('company.register.register');
+    // Route::post('/registro', 'Auth\CompanyRegisterController@register')->name('company.register.register');
+    
+    Route::get('/pago', 'Company\PaymentController@index')->name('company.payment.index');
+    
+    
     Route::resources([
         'users' => Company\UsersController::class,
     ]);
@@ -93,6 +98,16 @@ Route::group(['prefix' => 'empresa'], function(){
         'empresa' => Company\EmpresaController::class,
     ]);
 
-    Route::get('/rpsic/{user}', 'Admin\SecondSurveyController@index')->name('admin.rpsic.index');
-    Route::get('/atrausev/{user}', 'Admin\FirstSurveyController@index')->name('admin.atrausev.index');
+    // Route::resource('/', 'Company\CompanyController', [
+    //     'as' => 'empresa',
+    // ]);
+
+    Route::get('/rpsic/{user}', 'Company\SecondSurveyController@index')->name('admin.rpsic.index');
+    Route::get('/atrausev/{user}', 'Company\FirstSurveyController@index')->name('admin.atrausev.index');
+
+    // Password resets routes
+    Route::post('/password/email', 'Auth\CompanyForgotPasswordController@sendResetLinkEmail')->name('company.password.email');//este es el metodo que envia el mail al correo, cual correo se enviara se definie en el Model!!!
+    Route::get('/password/reset', 'Auth\CompanyForgotPasswordController@showLinkRequestForm')->name('company.password.request');
+    Route::post('/password/reset', 'Auth\CompanyResetPasswordController@reset')->name('company.password.update');
+    Route::get('/password/reset/{token}', 'Auth\CompanyResetPasswordController@showResetForm')->name('company.password.reset');
 });

@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
 use App\Providers\RouteServiceProvider;
-use App\Company;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 
+
+use App\Company;
 use App\User;
 use App\Status;
 use App\UserProfile;

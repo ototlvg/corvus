@@ -1,4 +1,4 @@
-@extends('../layouts.admin')
+@extends('../layouts.company')
 
 @section('styles')
     <style>
@@ -32,7 +32,7 @@
 @section('content')
 
     @if ($flag==1)
-        <main class="flex-grow-1 pt-4 d-flex">
+        <main class="flex-grow-1 d-flex">
             <div class="container">
                 <div class="row w-100">
                     <div class="col-4">
@@ -110,9 +110,12 @@
                             <div class="row">
                                 <div class="col-12">
                                     <p class="form-label m-0">Cantidad de trabajadores: </p>
-                                    {{-- <p class="fs-1">{{$company->type}}</p> --}}
+                                    {{-- <p class="fs-1">{{$company->type}}s</p> --}}
                                     <p class="fs-1">
-                                        @if ($company->type == 2)
+                                        
+                                        @if ($company->type == 1)
+                                            Menor o igual a 15 trabajadores
+                                        @elseif($company->type == 2)
                                             Menor o igual a 50 trabajadores
                                         @else
                                             Mayor a 50 trabajadores

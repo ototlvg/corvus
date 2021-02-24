@@ -17,6 +17,7 @@ class EmpresaController extends Controller
     public function __construct()
     {
         $this->middleware('auth:company');
+        $this->middleware('email.verified.company');
         // $this->middleware('checkAccess');
         // $this->middleware('checkClientsBossQuestions');
     }
@@ -88,7 +89,7 @@ class EmpresaController extends Controller
             $company = Company::find($companyid);
     
     
-            return view('Admin.empresa.index', compact('answered','usersCount', 'company', 'flag'));
+            return view('Company.empresa.index', compact('answered','usersCount', 'company', 'flag'));
         }
 
     }

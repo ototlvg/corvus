@@ -41,6 +41,8 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        
     ];
 
     /**
@@ -65,6 +67,9 @@ class Kernel extends HttpKernel
         'checkClientsBossQuestions' => \App\Http\Middleware\CheckClientsBossQuestions::class,
         'checkAccessForInitialQuestion' => \App\Http\Middleware\checkAccessForInitialQuestion::class,
         'checkCompany' => \App\Http\Middleware\CheckCompany::class,
+        'CheckIfCompanyCanSeeResult' => \App\Http\Middleware\CheckIfCompanyCanSeeResult::class,
+        'admin.verified' => \App\Http\Middleware\AdminEmailIsVerified::class,
+        'email.verified.company' => \App\Http\Middleware\VerifyCompanyEmail::class,
         
     ];
 

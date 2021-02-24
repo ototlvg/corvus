@@ -60,6 +60,9 @@ class Handler extends ExceptionHandler
 //                dd($guard);
             }elseif($guard == 'admin'){
                 return redirect(route('admin.login'));
+            }elseif($guard == 'company'){
+                return redirect(route('company.login'));
+                // dd('dsds');
             }
         }
         return parent::render($request, $exception);

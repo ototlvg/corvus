@@ -23,7 +23,10 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth:company');
-        $this->middleware('checkCompany');
+        $this->middleware('email.verified.company');
+
+        $this->middleware('CheckIfCompanyCanSeeResult', [ 'except' => [ 'index', 'create', 'store'] ]);
+        // $this->middleware('checkCompany');
         // $this->middleware('checkAccess');
         // $this->middleware('checkClientsBossQuestions');
     }
@@ -48,7 +51,7 @@ class UsersController extends Controller
         // dd($admin);
         // return $admin;
         // return $users;
-        return view('Admin.users.index', compact(['users']));
+        return view('Company.users.index', compact(['users']));
     }
 
     public function createStatus($user, $company_type){
@@ -98,7 +101,7 @@ class UsersController extends Controller
         // $companyid = $company->id;
         // return $company;
 
-        return view('Admin.users.create');
+        return view('Company.users.create');
     }
 
     /**
@@ -174,7 +177,7 @@ class UsersController extends Controller
 
         
         // return $user;
-        return view('Admin.users.show', compact('user'));
+        return view('Company.users.show', compact('user'));
     }
 
     /**
@@ -185,6 +188,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+       $user = User::with('profile')->find($id);
+       $genders = ['Masculino','Femenino'];
+       $marital = ['Casado', 'Soltero', 'Union libre', 'Divorciado', 'Viudo'];
+       
+       return view('Company.users.edit',compact(['user', 'genders', 'marital']));
         
     }
 

@@ -19,7 +19,7 @@ class CompanyLoginController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:company')->except('logout');
     }
 
     public function showLoginForm(){
@@ -45,7 +45,8 @@ class CompanyLoginController extends Controller
         if(Auth::guard('company')->attempt(['email'=>$request->email, 'password' => $request->password], $request->remember)){
             // return redirect()->intended(route('admin.dashboard'));
             // return redirect()->intended(route('users.index'));
-            return 'Accedio correctamente';
+            // return 'Accedio correctamente';
+            return redirect()->route('empresa.index');
         }
 
         // return redirect()->back()->withInput($request->only('email')); // If unsuccesfull, the redirect to their intendet location
