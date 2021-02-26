@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::get('/payment/create-checkout-session', function (Request $request) {
+//     return $request->user();
+// });
+
+
+// Route::get('/payment/create-checkout-session', 'API\Company\CheckoutSessionController@create')->name('company.payment.create.session');
+// Route::post('/empresa/payment/create-checkout-session', 'API\Company\Payment\CheckoutSessionController@create');

@@ -111,3 +111,5 @@ Route::group(['prefix' => 'empresa'], function(){
     Route::post('/password/reset', 'Auth\CompanyResetPasswordController@reset')->name('company.password.update');
     Route::get('/password/reset/{token}', 'Auth\CompanyResetPasswordController@showResetForm')->name('company.password.reset');
 });
+
+Route::post('/api/empresa/payment/create-checkout-session', 'API\Company\Payment\CheckoutSessionController@create');
