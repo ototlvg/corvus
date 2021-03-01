@@ -18,6 +18,10 @@ use App\UserProfile;
 use App\Admin;
 use App\Company;
 
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 class UsersController extends Controller
 {
     public function __construct()
@@ -25,7 +29,13 @@ class UsersController extends Controller
         $this->middleware('auth:company');
         $this->middleware('email.verified.company');
 
-        $this->middleware('CheckIfCompanyCanSeeResult', [ 'except' => [ 'index', 'create', 'store'] ]);
+        $this->middleware('CheckIfCompanyCanSeeResult', [ 'except' => [ 'index', 'create', 'store', 'importFromExcel'] ]);
+
+        $this->middleware('PaymentDone');
+
+        $this->middleware('ReturnAuthVariable');
+
+        
         // $this->middleware('checkCompany');
         // $this->middleware('checkAccess');
         // $this->middleware('checkClientsBossQuestions');
@@ -217,5 +227,57 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function importFromExcel(Request $request){
+        // return 'hola';
+
+
+        $company = Auth::guard('company')->user();
+        $companyid = $company->id;
+        $company_type = $company->type;
+
+        $file = $request->file('file');
+        $usersInit = Excel::toArray([], $file)[0]; // Obtener todos los alumnos
+        array_shift($usersInit); // Quitar la cabezera
+        // return $usersInit;
+        // return Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($usersInit[0][4]));
+
+        $users = [];
+        foreach($usersInit as $key=>$user){
+            if(!is_null($user[0])){
+                array_push($users,$user);
+                // return $usersInit[$key];
+                $u = $usersInit[$key];
+
+                if(!is_null($u[3]) && !is_null($u[5])){
+                    $newUser = new User;
+                    $newUser->name = $u[0];
+                    $newUser->apaterno = $u[1];
+                    $newUser->amaterno = $u[2];
+                    $newUser->email = $u[3];
+                    $newUser->password = Hash::make('password123-');
+                    $newUser->company_id = $companyid;
+                    $newUser->save();
+
+                    $birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($u[4]));
+                    // $birthday = $u[4];
+                    // $birthday = $u[4];
+                    $newUserProfile = new UserProfile( ['birthday' => $birthday,'gender' => $u[5],'marital' => $u[6],'education' => $u[7],'job' => $u[8],'department' => $u[9],'hiring_type' => $u[10],'turn' => $u[11],'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
+
+                    $newUser->profile()->save($newUserProfile);
+
+
+                    $this->createStatus($newUser, $company_type);
+
+
+                    
+                    // return 'xx';
+                }
+
+            }
+        }
+        // return $users;
+        return redirect()->route('users.index');
     }
 }

@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
         'CheckIfCompanyCanSeeResult' => \App\Http\Middleware\CheckIfCompanyCanSeeResult::class,
         'admin.verified' => \App\Http\Middleware\AdminEmailIsVerified::class,
         'email.verified.company' => \App\Http\Middleware\VerifyCompanyEmail::class,
+        'PaymentDone' => \App\Http\Middleware\PaymentDone::class,
+        'ReturnAuthVariable' => \App\Http\Middleware\ReturnAuthVariable::class,
         
     ];
 

@@ -88,15 +88,20 @@ Route::group(['prefix' => 'empresa'], function(){
     // Route::post('/registro', 'Auth\CompanyRegisterController@register')->name('company.register.register');
     
     Route::get('/pago', 'Company\PaymentController@index')->name('company.payment.index');
+    Route::get('/pago/exitoso', 'Company\PaymentController@success')->name('company.payment.success');
     
     
     Route::resources([
         'users' => Company\UsersController::class,
     ]);
 
+    Route::post('/users/uploadfromexcel', 'Company\UsersController@importFromExcel')->name('empresa.users.excel');
+
     Route::resources([
         'empresa' => Company\EmpresaController::class,
     ]);
+
+
 
     // Route::resource('/', 'Company\CompanyController', [
     //     'as' => 'empresa',

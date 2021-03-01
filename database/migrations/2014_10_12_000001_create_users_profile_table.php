@@ -22,13 +22,13 @@ class CreateUsersProfileTable extends Migration
             
             $table->date('birthday');
 
-            // $table->unsignedBigInteger('gender');
-            // $table->foreign('gender')->references('id')->on('genders')->onDelete('cascade');
+            $table->unsignedBigInteger('gender');
+            $table->foreign('gender')->references('id')->on('genders')->onDelete('cascade');
 
             // $table->unsignedBigInteger('marital');
             // $table->foreign('marital')->references('id')->on('marital')->onDelete('cascade');
 
-            $table->string('gender')->nullable();
+            // $table->string('gender')->nullable();
             $table->string('marital')->nullable();
 
             $table->string('education')->nullable();

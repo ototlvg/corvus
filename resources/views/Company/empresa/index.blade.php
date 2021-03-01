@@ -1,5 +1,5 @@
-@extends('../layouts.company')
 
+@extends('layouts.company')
 @section('styles')
     <style>
         /* .container{
@@ -31,6 +31,8 @@
 
 @section('content')
 
+    {{-- <p>kjdjdjd</p>
+    {{$companyGlobal}} --}}
     @if ($flag==1)
         <main class="flex-grow-1 d-flex">
             <div class="container">

@@ -18,7 +18,8 @@ class EmpresaController extends Controller
     {
         $this->middleware('auth:company');
         $this->middleware('email.verified.company');
-        // $this->middleware('checkAccess');
+        $this->middleware('PaymentDone');
+        $this->middleware('ReturnAuthVariable');
         // $this->middleware('checkClientsBossQuestions');
     }
     /**
@@ -41,6 +42,7 @@ class EmpresaController extends Controller
 
         if(is_null($companyid)){
             $flag = 0;
+            dd('error');
             return view('Admin.empresa.index', compact('answered','usersCount', 'company', 'flag'));
         }else{
             $flag = 1;
@@ -88,6 +90,7 @@ class EmpresaController extends Controller
             
             $company = Company::find($companyid);
     
+            // return $flag;
     
             return view('Company.empresa.index', compact('answered','usersCount', 'company', 'flag'));
         }

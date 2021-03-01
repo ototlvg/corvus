@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 
 use App\Company;
+use App\CompanyProfile;
 use App\Notifications\ValidateEmailNotification;
 
 
@@ -31,11 +32,18 @@ class CompanyRegisterController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('guest:company');
+        
+        $this->middleware('guest:company');
+        $this->middleware('ReturnAuthVariable');
     }
 
     public function show(){
-        return view('Company.register.show');
+        $company_types = [
+            (object) ['value' => 1, 'name' => 'Menor o igual a 15 trabajadores'],
+            (object) ['value' => 2, 'name' => 'Menor o igual a 50 trabajadores'],
+            (object) ['value' => 3, 'name' => 'Mayor a 50 trabajadores'],
+        ];
+        return view('Company.register.show', compact(['company_types']));
     }
 
     public function register(Request $request)
@@ -48,6 +56,11 @@ class CompanyRegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
 
+        $companyProfile = new CompanyProfile;
+        $companyProfile->address = $request->post('company_address');
+        $companyProfile->user_name = $request->post('user_name');
+        $companyProfile->company_id = $user->id;
+        $companyProfile->save();
         
         // return 'Se creo users correctamente';
 
@@ -61,6 +74,8 @@ class CompanyRegisterController extends Controller
 
 
         // return redirect()->route('company.register.confirmation', ['email' => $email]);
+
+        
 
         return view('Company.register.confirmation', compact('email'));
 
@@ -79,9 +94,12 @@ class CompanyRegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:companies,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'user_name' => ['required','string'],
+            'company_type' => ['required','numeric','between:1,3'],
+            'company_address' => ['required','string'],
         ]);
     }
 
@@ -95,7 +113,7 @@ class CompanyRegisterController extends Controller
     {
 
         return Company::create([
-            'name' => $data['name'],
+            'name' => $data['company_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'type' => 2,
@@ -125,7 +143,15 @@ class CompanyRegisterController extends Controller
     }
 
     public function confirmation(){
-        $email = Auth::guard('company')->user()->email;
+        $company = Auth::guard('company')->user();
+
+
+        if(!is_null($company->email_verified_at)){
+            // return redirect->route('company.empresa.index');
+            return redirect()->route('empresa.index');
+        }
+
+        $email = $company->email;
         return view('Company.register.confirmation', compact('email'));
     }
 }

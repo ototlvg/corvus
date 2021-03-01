@@ -36,12 +36,19 @@
         .app{
             min-height: 100vh;
         }
+
+        .container-mini{
+            max-width: 500px;
+        }
     </style>
+
+    @stack('style-stack')
 
     @yield('styles')
 </head>
 <body>
     <div id="app" class="d-flex flex-column app">
+        {{-- {{$companyGlobal}} --}}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{route('empresa.index')}}">Empresa</a>
@@ -54,21 +61,25 @@
                             {{-- <a class="nav-link active" aria-current="page" href="#">Home</a> --}}
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 @auth('company')
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="{{route('empresa.index')}}">Empresa</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="{{route('users.index')}}">Usuarios</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="{{route('company.payment.index')}}">Pago</a>
-                                    </li>
+
+                                    @if ($companyGlobal->access)
+                                        <li class="nav-item">
+                                            <a class="nav-link" aria-current="page" href="{{route('empresa.index')}}">Empresa</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" aria-current="page" href="{{route('users.index')}}">Usuarios</a>
+                                        </li>
+                                    @else
+                                        <li class="nav-item">
+                                            <a class="nav-link" aria-current="page" href="{{route('company.payment.index')}}">Pago</a>
+                                        </li>
+                                    @endif
+                                    
                                 @else
                                     <li class="nav-item">
                                         <a class="nav-link" aria-current="page" href="{{route('company.register.show')}}">Registrar</a>
                                     </li>
 
-                                    
                                 @endauth
                             </ul>
                         </li>
@@ -121,6 +132,8 @@
         window.codigo = window.areaid= {!! json_encode(csrf_token()) !!};
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    @stack('script-stack')
 
 </body>
 </html>

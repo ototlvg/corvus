@@ -1,11 +1,46 @@
 @extends('../layouts.company')
 
 @section('style-area-stripe')
-    <link rel="stylesheet" href="{{asset('css/stripe.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/stripe.css')}}"> --}}
+
+    <style>
+    </style>
+
 @endsection
 
 @section('content')
-<section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+
+            <div class="card" style="width: 18rem;">
+                {{-- <img src="..." class="card-img-top" alt="...">
+                 --}}
+                 <img
+                src="https://i.imgur.com/EHyR2nP.png"
+                alt="The cover of Stubborn Attachments"
+                />
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    {{-- <a href="#" class="btn btn-primary">Go somewhere</a>
+                     --}}
+                    <button type="button" id="checkout-button" class="btn btn-primary w-100">
+                        <span id="pagar">Pagar</span>
+                        <div id="loading" class="spinner-border text-light d-none" style="width: 1.8rem; height: 1.8rem;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+{{-- <section>
     <div class="product">
       <img
         src="https://i.imgur.com/EHyR2nP.png"
@@ -17,17 +52,27 @@
       </div>
     </div>
     <button type="button" id="checkout-button">Checkout</button>
-  </section>
+</section> --}}
     
 @endsection
 
 @section('script-area-stripe')
     <script type="text/javascript">
+
+        let pagar = document.getElementById('pagar')
+        let loading = document.getElementById('loading')
+
+
+
         // Create an instance of the Stripe object with your publishable API key
         var stripe = Stripe("pk_test_51IOcIuCSm0hMqsgEOGCdSantCG0TFIrv8AGsBRSFieHgPTILNFDwzWfw9U6HgvXYRqmLTkkV0MaEHPUrddzMukO600kAzZnHOR");
         var checkoutButton = document.getElementById("checkout-button");
 
         checkoutButton.addEventListener("click", function () {
+            
+            pagar.classList.toggle('d-none')
+            loading.classList.toggle('d-none')
+
           fetch("/api/empresa/payment/create-checkout-session", {
             method: "POST",
             headers: {

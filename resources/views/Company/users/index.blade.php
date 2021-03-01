@@ -11,12 +11,33 @@
 
 
         <div class="container">
-            <div class="row mb-5">
+            <div class="row mb-4">
                 <div class="col-12 d-flex justify-content-between align-items-center">
                     <p class="m-0 fs-3">Usuarios</p>
                     <a href="{{route('users.create')}}">
                         <button type="button" class="btn btn-success">Añadir</button>
                     </a>
+                </div>
+            </div>
+
+
+            <div class="row mb-4">
+                <div class="col">
+                    <form action="{{route('empresa.users.excel')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="d-flex">
+                            {{-- <p>Subida masiva de usuarios</p> --}}
+                            <label for="formFile" class="form-label">Subida masiva de usuarios</label>
+                        </div>
+                        <div class="d-flex">
+                            <input class="form-control" type="file" id="formFile" name="file">
+                            <button type="submit" class="btn btn-primary">Subir</button>
+                        </div>
+                        <div class="d-flex">
+                            {{-- <div id="emailHelp" class="form-text"></div> --}}
+                            <a href="" class="form-text">Descargar plantilla</a>
+                        </div>
+                    </form>
                 </div>
             </div>
 

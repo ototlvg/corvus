@@ -18,6 +18,8 @@ class SecondSurveyController extends Controller
     {
         $this->middleware('auth:company');
         $this->middleware('CheckIfCompanyCanSeeResult');
+        $this->middleware('PaymentDone');
+        $this->middleware('ReturnAuthVariable');
     }
 
     public function index($id){
