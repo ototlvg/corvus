@@ -27,14 +27,14 @@ class CompanyRegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/empresa/empresa';
+
+    // protected $redirectTo = '/empresa/empresa';
 
 
     public function __construct()
     {
-        
-        $this->middleware('guest:company');
-        $this->middleware('ReturnAuthVariable');
+        $this->middleware('guest:company')->except('confirmation','validateEmail');
+        $this->middleware('ReturnAuthVariable')->only('confirmation','validateEmail');;
     }
 
     public function show(){
@@ -48,6 +48,7 @@ class CompanyRegisterController extends Controller
 
     public function register(Request $request)
     {
+        // return $request->post('default_password');
         // return $request->all(); // Es un array
         // $admin = Auth::guard('admin')->user();
         // return $admin->company_id;
@@ -72,12 +73,17 @@ class CompanyRegisterController extends Controller
 
         $email = $user->email;
 
+        // return $user->password;
 
-        // return redirect()->route('company.register.confirmation', ['email' => $email]);
+        Auth::guard('company')->attempt(['email' => $email, 'password' => $request->post('password')]);
+
+
+        return redirect()->route('company.register.confirmation')->with('email',$email);
 
         
 
-        return view('Company.register.confirmation', compact('email'));
+        // return view('Company.register.confirmation', compact('email'));
+        
 
         // Auth::guard('company')->loginUsingId($user->id);
 
@@ -100,6 +106,7 @@ class CompanyRegisterController extends Controller
             'user_name' => ['required','string'],
             'company_type' => ['required','numeric','between:1,3'],
             'company_address' => ['required','string'],
+            'default_password' => ['required', 'string', 'min:8']
         ]);
     }
 
@@ -118,6 +125,7 @@ class CompanyRegisterController extends Controller
             'password' => Hash::make($data['password']),
             'type' => 2,
             'access' => 0,
+            'default_password_user' => Hash::make($data['default_password'])
         ]);
 
     }
@@ -143,6 +151,9 @@ class CompanyRegisterController extends Controller
     }
 
     public function confirmation(){
+
+        // return 'hola';
+
         $company = Auth::guard('company')->user();
 
 

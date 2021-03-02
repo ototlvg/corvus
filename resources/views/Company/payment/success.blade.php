@@ -16,6 +16,7 @@
 
             <p>pago existoso</p>
             <p>{{$object->payment_status}}</p>
+            {{-- <p>{{$object}}</p> --}}
         </div>
     </div>
 </div>

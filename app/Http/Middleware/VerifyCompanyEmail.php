@@ -23,7 +23,7 @@ class VerifyCompanyEmail
         if(is_null($verified)){
             // dd('Se ha enviado un correo de confirmacion al correo: ' . $company->email);
             $email = $company->email;
-            return redirect()->route('company.register.confirmation');
+            return redirect()->route('company.register.confirmation')->with('email',$company->email);;
             // return view('Company.register.confirmation', compact('email'));
         }
         return $next($request);

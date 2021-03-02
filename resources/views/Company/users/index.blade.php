@@ -31,7 +31,7 @@
                         </div>
                         <div class="d-flex">
                             <input class="form-control" type="file" id="formFile" name="file">
-                            <button type="submit" class="btn btn-primary">Subir</button>
+                            <button type="submit" class="btn btn-primary ms-3">Subir</button>
                         </div>
                         <div class="d-flex">
                             {{-- <div id="emailHelp" class="form-text"></div> --}}

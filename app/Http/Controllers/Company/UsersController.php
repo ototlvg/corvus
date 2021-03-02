@@ -22,6 +22,13 @@ use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 
+use App\Education;
+use App\Gender;
+use App\Hiring;
+use App\Marital;
+use App\Turn;
+
+
 class UsersController extends Controller
 {
     public function __construct()
@@ -82,22 +89,66 @@ class UsersController extends Controller
 
     }
 
-    public function createUserProfile(array $data, $id){
-        return UserProfile::create([
-            'user_id' => $id,
-            'birthday' => $data['birthday'],
-            'gender' => $data['gender'],
-            'marital' => $data['marital'],
+    // public function createUserProfile(array $data, $id){
+    //     return UserProfile::create([
+    //         'user_id' => $id,
+    //         'birthday' => $data['birthday'],
+    //         'gender' => $data['gender'],
+    //         'marital' => $data['marital'],
 
-            'education' => $data['education'],
+    //         'education' => $data['education'],
+    //         'job' => $data['job'],
+    //         'department' => $data['department'],
+    //         'hiring_type' => $data['hiring_type'],
+    //         'turn' => $data['turn'],
+    //         'rotation' => $data['rotation'],
+    //         'current_work_experience' => $data['current_work_experience'],
+    //         'work_experience' => $data['work_experience']
+    //     ]);
+    // }
+
+    public function createUserPack($data){
+        
+        $company = Auth::guard('company')->user();
+        $companyid = $company->id;
+        $company_default_password_user = $company->default_password_user;
+        $company_type = $company->type;
+        
+        $newUser = new User;
+        $newUser->name = $data['name'];
+        $newUser->apaterno = $data['apaterno'];
+        $newUser->amaterno = $data['amaterno'];
+        $newUser->email = $data['email'];
+        $newUser->password = $company_default_password_user;
+        $newUser->company_id = $companyid;
+        $newUser->save();
+        
+        // $birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['birthday']));
+                    // $birthday = $u[4];
+                    // $birthday = $u[4];
+        $newUserProfile = new UserProfile( [
+            'birthday' => $data['birthday'],
+            'gender_id' => $data['gender'],
+            'marital_id' => $data['marital'],
+            'education_id' => $data['education'],
             'job' => $data['job'],
             'department' => $data['department'],
-            'hiring_type' => $data['hiring_type'],
-            'turn' => $data['turn'],
+            'hiring_type_id' => $data['hiring_type'],
+            'turn_id' => $data['turn'],
             'rotation' => $data['rotation'],
             'current_work_experience' => $data['current_work_experience'],
-            'work_experience' => $data['work_experience']
-        ]);
+            'work_experience' => $data['current_work_experience']
+        ] );
+
+        $newUser->profile()->save($newUserProfile);
+
+        $this->createStatus($newUser,$company_type);
+        
+
+        // 'name' => $data['name'],
+        // 'apaterno' => $data['apaterno'],
+        // 'amaterno' => $data['amaterno'],
+        // 'email' => $data['email'],
     }
 
     /**
@@ -108,10 +159,18 @@ class UsersController extends Controller
     public function create()
     {
         $company = Auth::guard('company')->user();
-        // $companyid = $company->id;
-        // return $company;
 
-        return view('Company.users.create');
+        $genders = Gender::all();
+
+        $maritals = Marital::all();
+
+        $education_levels = Education::all();
+
+        $hiring_types = Hiring::all();
+
+        $turns = Turn::all();
+
+        return view('Company.users.create', compact(['company','genders','maritals','education_levels','hiring_types','turns']));
     }
 
     /**
@@ -122,16 +181,10 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
-
-        // $company = Company::find($companyid);
         $company_type = $company->type;
 
-        // return $company_type;
-
-        // return $company->password;
         
         // return Validator::make($data, [
         //     'name' => ['required', 'string', 'max:255'],
@@ -141,34 +194,11 @@ class UsersController extends Controller
         //     'company' => ['required', 'numeric'],
         // ]);
 
-        // $user = $this->create($request->all());
         $data = $request->all();
 
-        // return $data;
-
-
-
-        $user = User::create([
-            'name' => $data['name'],
-            'apaterno' => $data['apaterno'],
-            'amaterno' => $data['amaterno'],
-            'email' => $data['email'],
-            'password' => '$2y$10$2l.roApUvp9.to/Dj/BkL.1RdR0HnH1hlywU9qVslkJDe.5MhkCT6',
-            'company_id' => $companyid
-
-            // 'education' => $data['education'],
-            // 'job' => $data['job'],
-            // 'department' => $data['department'],
-            // 'hiring_type' => $data['hiring_type'],
-            // 'turn' => $data['turn'],
-            // 'rotation' => $data['rotation'],
-            // 'current_work_experience' => $data['current_work_experience'],
-            // 'work_experience' => $data['work_experience']
-            
-        ]);
-
-        $this->createUserProfile($request->all(), $user->id);
-        $this->createStatus($user,$company_type);
+        
+        $this->createUserPack($data);
+        // $this->createStatus($user,$company_type);
 
         return redirect()->route('users.index');
     }
@@ -183,7 +213,7 @@ class UsersController extends Controller
     {
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
-        $user = User::where('company_id', $companyid)->with('profile')->find($id);
+        $user = User::where('company_id', $companyid)->with('profile.education','profile.gender','profile.hiring_type','profile.marital','profile.turn')->find($id);
 
         
         // return $user;
@@ -263,7 +293,7 @@ class UsersController extends Controller
                     $birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($u[4]));
                     // $birthday = $u[4];
                     // $birthday = $u[4];
-                    $newUserProfile = new UserProfile( ['birthday' => $birthday,'gender' => $u[5],'marital' => $u[6],'education' => $u[7],'job' => $u[8],'department' => $u[9],'hiring_type' => $u[10],'turn' => $u[11],'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
+                    $newUserProfile = new UserProfile( ['birthday' => $birthday,'gender_id' => $u[5],'marital_id' => $u[6],'education_id' => $u[7],'job' => $u[8],'department' => $u[9],'hiring_type_id' => $u[10],'turn_id' => $u[11],'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
 
                     $newUser->profile()->save($newUserProfile);
 
@@ -280,4 +310,8 @@ class UsersController extends Controller
         // return $users;
         return redirect()->route('users.index');
     }
+
+    // public function createUserProfile(){
+
+    // }
 }

@@ -18,17 +18,22 @@
                         <li class="list-group-item"><span class="fw-bold">Apellidos:</span> {{$user->apaterno}} {{$user->amaterno}}</li>
                         <li class="list-group-item"><span class="fw-bold">Correo:</span> {{$user->email}}</li>
                         
-                        <li class="list-group-item"><span class="fw-bold">Edad:</span> {{$user->profile->birthday}}</li>
-                        <li class="list-group-item"><span class="fw-bold">Estado civil:</span> {{$user->profile->marital}}</li>
-                        <li class="list-group-item"><span class="fw-bold">Nivel de estudios:</span> {{$user->profile->education}}</li>
+                        {{-- <li class="list-group-item"><span class="fw-bold">Edad:</span> {{$user->profile->birthday}}</li> --}}
+                        <li class="list-group-item"><span class="fw-bold">Edad:</span> {{\Carbon\Carbon::parse($user->profile->birthday)->diff(\Carbon\Carbon::now())->format('%y años')}}</li>
+                        <li class="list-group-item"><span class="fw-bold">Estado civil:</span> {{$user->profile->marital->status}}</li>
+                        <li class="list-group-item"><span class="fw-bold">Nivel de estudios:</span> {{$user->profile->education->name}}</li>
                         <li class="list-group-item"><span class="fw-bold">Ocupacion/Profesion/Puesto:</span> {{$user->profile->job}}</li>
                         <li class="list-group-item"><span class="fw-bold">Departamento:</span> {{$user->profile->department}}</li>
-                        <li class="list-group-item"><span class="fw-bold">Tipo de contratacion:</span> {{$user->profile->hiring_type}}</li>
-                        <li class="list-group-item"><span class="fw-bold">Tipo de jornada de trabajo:</span> {{$user->profile->turn}}</li>
+                        <li class="list-group-item"><span class="fw-bold">Tipo de contratacion:</span> {{$user->profile->hiring_type->name}}</li>
+                        <li class="list-group-item"><span class="fw-bold">Tipo de jornada de trabajo:</span> {{$user->profile->turn->name}}</li>
                         {{-- <li class="list-group-item">Realiza rotacion de turnos: {{$user->profile->rotation}}</li> --}}
                         <li class="list-group-item"><span class="fw-bold">Realiza rotacion de turnos:</span> @if ($user->profile->rotation=='true') Si @else No @endif</li>
                         <li class="list-group-item"><span class="fw-bold">Tiempo en el puesto actual:</span> {{$user->profile->current_work_experience}}</li>
                         <li class="list-group-item"><span class="fw-bold">Tiempo experiencia laboral:</span> {{$user->profile->work_experience}}</li>
+
+                        {{-- {{\Carbon\Carbon::parse($user->profile->birthday)->diff(\Carbon\Carbon::now())->format('%y years, %m months and %d days')}} --}}
+                        {{-- {{\Carbon\Carbon::parse($user->profile->birthday)->diff(\Carbon\Carbon::now())->format('%y years')}} --}}
+
                     </ul>
     
                 </div>

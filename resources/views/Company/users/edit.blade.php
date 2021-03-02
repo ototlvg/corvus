@@ -11,7 +11,7 @@
 
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <form method="POST" action="{{ route('users.store') }}" class="w-75 border">
+                    <form method="POST" action="{{ route('users.store') }}" class="w-75">
                         @csrf
                         <div class="row mb-4">
                             <div class="col">

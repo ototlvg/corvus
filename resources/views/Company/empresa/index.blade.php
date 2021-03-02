@@ -122,6 +122,7 @@
                                         @else
                                             Mayor a 50 trabajadores
                                         @endif
+                                        
                                     </p>
                                 </div>
                             </div>

@@ -20,6 +20,7 @@ class ReturnAuthVariable
     {
         $company = Auth::guard('company')->user();
         View::share('companyGlobal', $company);
+        // dd($company);
         return $next($request);
     }
 }

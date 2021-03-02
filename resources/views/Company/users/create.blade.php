@@ -40,9 +40,9 @@
 
                                 <label class="mb-2" for="gender">Sexo</label>
                                 <select name="gender" id="gender" class="form-select" required>
-
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
+                                    @foreach ($genders as $gender)
+                                        <option value="{{$gender->id}}">{{$gender->gender}}</option>
+                                    @endforeach
                                 </select>
 
 
@@ -53,11 +53,14 @@
                             <div class="col">
                                 <label class="mb-2" for="marital">Estado Civil</label>
                                 <select name="marital" id="marital" class="form-select" required>
-                                    <option value="Casado">Casado</option>
-                                    <option value="Soltero">Soltero</option>
-                                    <option value="Union libre">Union libre</option>
-                                    <option value="Divorciado">Divorciado</option>
-                                    <option value="Viudo">Viudo</option>
+                                    {{-- <option value="1">Casado</option>
+                                    <option value="2">Soltero</option>
+                                    <option value="3">Union libre</option>
+                                    <option value="4">Divorciado</option>
+                                    <option value="5">Viudo</option> --}}
+                                    @foreach ($maritals as $marital)
+                                        <option value="{{$marital->id}}">{{$marital->status}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -73,14 +76,17 @@
                             <div class="col">
                                 <label class="mb-2" for="education">Nivel de estudios</label>
                                 <select name="education" id="education" class="form-select">
-                                    <option value="Sin formación">Sin formación</option>
+                                    @foreach ($education_levels as $education)
+                                        <option value="{{$education->id}}">{{$education->name}}</option>
+                                    @endforeach
+                                    {{-- <option value="Sin formación">Sin formación</option>
                                     <option value="Primaria">Primaria</option>
                                     <option value="Secundaria">Secundaria</option>
                                     <option value="Preparatoria o Bachillerato">Preparatoria o Bachillerato</option>
                                     <option value="Técnico Superior">Técnico Superior</option>
                                     <option value="Licenciatura">Licenciatura</option>
                                     <option value="Maestría">Maestría</option>
-                                    <option value="Doctorado">Doctorado</option>
+                                    <option value="Doctorado">Doctorado</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -103,9 +109,12 @@
                             <div class="col">
                                 <label class="mb-2" for="hiring_type">Tipo de personal:</label>
                                 <select name="hiring_type" id="hiring_type" class="form-select">
-                                    <option value="Sindicalizado">Sindicalizado</option>
+                                    @foreach ($hiring_types as $hiring)
+                                        <option value="{{$hiring->id}}">{{$hiring->name}}</option>
+                                    @endforeach
+                                    {{-- <option value="Sindicalizado">Sindicalizado</option>
                                     <option value="Ninguno">Ninguno</option>
-                                    <option value="Confianza">Confianza</option>
+                                    <option value="Confianza">Confianza</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -114,9 +123,12 @@
                             <div class="col">
                                 <label class="mb-2" for="turn">Tipo de jornada de trabajo:</label>
                                 <select name="turn" id="turn" class="form-select">
-                                    <option value="Fijo nocturno (entre las 20:00 y 6:00 hrs)">Fijo nocturno (entre las 20:00 y 6:00 hrs)</option>
+                                    @foreach ($turns as $turn)
+                                        <option value="{{$turn->id}}">{{$turn->name}}</option>
+                                    @endforeach
+                                    {{-- <option value="Fijo nocturno (entre las 20:00 y 6:00 hrs)">Fijo nocturno (entre las 20:00 y 6:00 hrs)</option>
                                     <option value="Fijo diurno (entre las 6:00 y 20:00 hrs">Fijo diurno (entre las 6:00 y 20:00 hrs</option>
-                                    <option value="Fijo mixto (combinación de nocturno y diurno)">Fijo mixto (combinación de nocturno y diurno)</option>
+                                    <option value="Fijo mixto (combinación de nocturno y diurno)">Fijo mixto (combinación de nocturno y diurno)</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -137,13 +149,6 @@
                         <div class="row mb-4">
                             <div class="col">
                                 <label class="mb-2" for="current_work_experience">Tiempo en el puesto actual (años)</label>
-                                {{-- <select name="current_work_experience" id="current_work_experience" class="form-select">
-                                    <option value="1"></option>
-                                    <option value="2"></option>
-                                    <option value="3"></option>
-                                    <option value="4"></option>
-                                    <option value="5"></option>
-                                </select> --}}
                                 <input name="current_work_experience" id="current_work_experience" type="number" class="form-control">
                             </div>
                         </div>
@@ -151,13 +156,6 @@
                         <div class="row mb-4">
                             <div class="col">
                                 <label class="mb-2" for="work_experience">Tiempo experiencia laboral</label>
-                                {{-- <select name="current_work_experience" id="current_work_experience" class="form-select">
-                                    <option value="1"></option>
-                                    <option value="2"></option>
-                                    <option value="3"></option>
-                                    <option value="4"></option>
-                                    <option value="5"></option>
-                                </select> --}}
                                 <input name="work_experience" id="work_experience" type="number" class="form-control">
                             </div>
                         </div>

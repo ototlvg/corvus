@@ -24,7 +24,7 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type', 'access'
+        'name', 'email', 'password', 'type', 'access','default_password_user'
     ];
 
     /**

@@ -119,9 +119,18 @@
                         <div class="col">
                             <div class="col">
                                 <label for="email" class="form-label">Email</label>
-                                <input value="{{old('email')}}" id="email" type="email" name="email" class="form-control" placeholder="ejemplo@gmail.com" required value="{{ old('email') }}">
+                                <input value="{{old('email')}}" id="email" type="email" name="email" class="form-control" placeholder="ejemplo@gmail.com" required>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+
+                            <label for="default_password" class="form-label">Contraseña por default para el usuario</label>
+                            <input value="{{old('default_password')}}" id="default_password" type="password" name="default_password" class="form-control">
+                            
+                        </div> 
                     </div>
                     
                     <div class="row mb-4">
