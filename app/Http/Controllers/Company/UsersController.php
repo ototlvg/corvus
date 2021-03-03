@@ -229,10 +229,25 @@ class UsersController extends Controller
     public function edit($id)
     {
        $user = User::with('profile')->find($id);
-       $genders = ['Masculino','Femenino'];
-       $marital = ['Casado', 'Soltero', 'Union libre', 'Divorciado', 'Viudo'];
+    //    return $user;
+    //    $genders = ['Masculino','Femenino'];
+    //    $marital = ['Casado', 'Soltero', 'Union libre', 'Divorciado', 'Viudo'];
+
+        $company = Auth::guard('company')->user();
+
+        $genders = Gender::all();
+
+        $maritals = Marital::all();
+
+        $education_levels = Education::all();
+
+        $hiring_types = Hiring::all();
+
+        $turns = Turn::all();
+
+        // compact(['company','genders','maritals','education_levels','hiring_types','turns'])
        
-       return view('Company.users.edit',compact(['user', 'genders', 'marital']));
+        return view('Company.users.edit',compact(['user', 'company','genders','maritals','education_levels','hiring_types','turns']));
         
     }
 
@@ -245,7 +260,48 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $this->validate($request, [
+            'name'=> ['required', 'string', 'max:255'],
+            'apaterno' => ['required', 'string', 'max:255'],
+            'amaterno' => ['required', 'string', 'max:255'],
+            'birthday' => ['required', 'date'],
+            'gender_id' => ['required', 'numeric'],
+            'marital_id' => ['required', 'numeric'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'education_id' => ['required', 'numeric'],
+            'job' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
+            'hiring_type_id' => ['required', 'numeric'],
+            'turn_id' => ['required', 'numeric'],
+            'rotation' => ['required'],
+            'current_work_experience' => ['required', 'numeric'],
+            'work_experience' => ['required', 'numeric'],
+        ]);
+
+        $user = User::find($id);
+        $user->update($request->all());
+        // $user->profile()->update(['gender_id'=>$request->post('gender_id')]);
+        $user->profile()->update(
+            [
+                'birthday' => $request->post('birthday'),
+                'gender_id' => $request->post('gender_id'),
+                'marital_id' => $request->post('marital_id'),
+                'education_id' => $request->post('education_id'),
+                'job' => $request->post('job'),
+                'department' => $request->post('department'),
+                'hiring_type_id' => $request->post('hiring_type_id'),
+                'turn_id' => $request->post('turn_id'),
+                'rotation' => $request->post('rotation'),
+                'current_work_experience' => $request->post('current_work_experience'),
+                'work_experience' => $request->post('work_experience'),
+            ]
+        );
+
+    
+        // return $request->all();
+        return redirect()->route('users.edit',$user->id)->with(['saved' => true]);
     }
 
     /**

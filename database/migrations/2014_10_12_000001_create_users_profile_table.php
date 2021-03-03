@@ -50,11 +50,6 @@ class CreateUsersProfileTable extends Migration
             $table->string('rotation')->nullable();
             $table->string('current_work_experience')->nullable();
             $table->string('work_experience')->nullable();
-
-            
-            
-
-
             
 
             $table->boolean('clients')->nullable();
