@@ -322,22 +322,29 @@ class UsersController extends Controller
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
         $company_type = $company->type;
-        $companyDefaultPassword = $company->default_password_user;
+        $companyDefaultPassword = $company->default_password;
 
+
+
+
+        // $availableGenders = Gender::all('gender')->pluck('gender')->toArray();
+        // return $availableGenders;
+        // $yourArray = array_map(function($x){
+        //     return strtoupper($x);
+        // }, $availableGenders);
 
         $availableGenders = array_map('strtoupper', Gender::orderBy('id', 'ASC')->pluck('gender')->toArray()  );
-        $availableMaritals = array_map('strtoupper', Marital::orderBy('id', 'ASC')->pluck('status')->toArray()  );
-        $availableEducation_levels = array_map('strtoupper', Education::orderBy('id', 'ASC')->pluck('name')->toArray() );
-        $availableHiring_types = array_map('strtoupper', Hiring::orderBy('id', 'ASC')->pluck('name')->toArray() );
-        $availableTurns = array_map('strtoupper', Turn::orderBy('id', 'ASC')->pluck('name')->toArray() );
+        $availableMaritals = Marital::orderBy('id', 'ASC')->pluck('status');
+        $availableEducation_levels = Education::orderBy('id', 'ASC')->pluck('name');
+        $availableHiring_types = Hiring::orderBy('id', 'ASC')->pluck('name');
+        $availableTurns = Turn::orderBy('id', 'ASC')->pluck('name');
 
-        // return $availableEducation_levels;
         
-        $gender_ids = Gender::orderBy('id', 'ASC')->get();
-        $marital_ids = Marital::orderBy('id', 'ASC')->get();
-        $education_level_ids = Education::orderBy('id', 'ASC')->get();
-        $hiring_type_ids = Hiring::orderBy('id', 'ASC')->get();
-        $turn_ids = Turn::orderBy('id', 'ASC')->get();
+        $genders = Gender::orderBy('id', 'ASC')->get();
+        $maritals = Marital::orderBy('id', 'ASC')->get();
+        $education_levels = Education::orderBy('id', 'ASC')->get();
+        $hiring_types = Hiring::orderBy('id', 'ASC')->get();
+        $turns = Turn::orderBy('id', 'ASC')->get();
         
         // return $maritals;
         // return $availableGenders;
@@ -349,66 +356,14 @@ class UsersController extends Controller
         // return Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($usersInit[0][4]));
 
         $users = [];
-        $usersAdded = 0;
-        $notAddedUsers = [];
-
-        $flagNull = 0;
-
-        $usersNotAddedBecauseEmailDuplicate = [];
         foreach($usersInit as $key=>$user){
-            $flagCurrentNulls = 0;
-
-            $complete = true;
-            $u = $usersInit[$key];
-            for ($i=0; $i < count($u); $i++) { 
-                $column = $u[$i];
-                if(is_null($column)){
-                    $complete = false;
-                    $flagCurrentNulls++;
-                    // $i = count($u)+1;
-                    // return 'una columna esta vacia, esto no se anadira';
-                }
-                // return $column;
-            }
-
-            // return $flagCurrentNulls;
-
-            if($complete){
-                
-                // array_push($users,$user);
+            if(!is_null($user[0])){
+                array_push($users,$user);
                 // return $usersInit[$key];
-            
-            
-                
-                // $newUserProfile = new UserProfile( ['birthday' => $birthday,'gender_id' => $u[5],'marital_id' => $u[6],'education_id' => $u[7],'job' => $u[8],'department' => $u[9],'hiring_type_id' => $u[10],'turn_id' => $u[11],'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
+                $u = $usersInit[$key];
 
-                $gender = $u[5];
-                $marital = $u[6];
-                $education = $u[7];
-                $hiring_type = $u[10];
-                $turn = $u[11];
+                if(!is_null($u[3]) && !is_null($u[5])){
 
-                // return array_search(strtoupper($gender), $availableGenders);
-
-                $gender_key = array_search(strtoupper($gender), $availableGenders);
-                $marital_key = array_search(strtoupper($marital), $availableMaritals);
-                $education_key = array_search(strtoupper($education), $availableEducation_levels);
-                $hiring_type_key = array_search(strtoupper($hiring_type), $availableHiring_types);
-                $turn_key = array_search(strtoupper($turn), $availableTurns);
-
-                // return $marital_key;
-
-                if(!is_bool($gender_key) && !is_bool($marital_key) && !is_bool($education_key) && !is_bool($hiring_type_key) && !is_bool($turn_key)){
-                    
-                    $gender = $gender_ids[$gender_key]->id;
-                    $marital = $marital_ids[$marital_key]->id;
-                    $education = $education_level_ids[$education_key]->id;
-                    $hiring_type = $hiring_type_ids[$hiring_type_key]->id;
-                    $turn = $gender_ids[$turn_key]->id;
-
-                    // return $turn;
-                    
-                    
                     $newUser = new User;
                     $newUser->name = $u[0];
                     $newUser->apaterno = $u[1];
@@ -416,88 +371,30 @@ class UsersController extends Controller
                     $newUser->email = $u[3];
                     $newUser->password = $companyDefaultPassword;
                     $newUser->company_id = $companyid;
-    
+
                     $genderX = $u[5];
-    
-                    // return array_search(strtoupper($genderX), $availableGenders);
 
-                    // try {
-                    //     //code...
-                    //     $newUser->save();
-                    // } catch (\Exception $e) {
-                    //     return $e->message();
-                    // }
-                    
-                    try {
-                        //code...
-                        $newUser->save();
+                    return (strtoupper($genderX) == strtoupper($availableGenders[0])) ? 'Igual' : 'nel';
 
-                        $usersAdded++;
-                        $birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($u[4]));
-                        $newUserProfile = new UserProfile( ['birthday' => $birthday, 'gender_id' => $gender ,'marital_id' => $marital,'education_id' => $education,'job' => $u[8],'department' => $u[9],'hiring_type_id' => $hiring_type,'turn_id' => $turn,'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
+                    $newUser->save();
 
-                        $newUser->profile()->save($newUserProfile);
+                    $birthday = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($u[4]));
+                    $newUserProfile = new UserProfile( ['birthday' => $birthday,'gender_id' => $u[5],'marital_id' => $u[6],'education_id' => $u[7],'job' => $u[8],'department' => $u[9],'hiring_type_id' => $u[10],'turn_id' => $u[11],'rotation' => $u[12],'current_work_experience' => $u[13],'work_experience' => $u[14]] );
+
+                    $newUser->profile()->save($newUserProfile);
 
 
-                        $this->createStatus($newUser, $company_type);
-                    } catch (\Exception $e) {
-                        // return $e->getCode();
+                    $this->createStatus($newUser, $company_type);
 
-                        if($e->getCode() == 23000){
-                            // array_push($usersNotAddedBecauseEmailDuplicate, ['name' => "$u[0] $u[1] $u[2]", 'email' => $u[3] ]);                             
-                            array_push($usersNotAddedBecauseEmailDuplicate,  $u[3]);                             
-                        }else{
-                            return $e->getMessage();
-                        }
-                    }
 
                     
-    
-    
-    
-    
-                    // $gender = $gender_ids[$gender_key]->id;
-                    // $marital = $marital_ids[$marital_key]->id;
-                    // $education = $education_level_ids[$education_key]->id;
-                    // $hiring_type = $hiring_type_ids[$hiring_type_key]->id;
-                    // $turn = $gender_ids[$turn_key]->id;
-                                                                
+                    // return 'xx';
                 }
 
-
-                // return $turn;
-
-
-                // gender_id = $u[5]
-                // marital_id = $u[6]
-                // education_id = $u[7]
-                // hiring_type_id = $u[10]
-                // turn_id => $u[11]
-
-
-
-                
-                // return 'xx';
-
-            }else{
-                if($flagCurrentNulls == 15){
-                    $flagNull++;
-                    // return 'todos son null';
-                    break;
-                }else{
-                    $object = (object) ['email' => $u[3], 'motive' => []];
-                    return $object->motive;
-                    array_push($notAddedUsers, json_encode($object) );
-                }
             }
-
-            
         }
         // return $users;
-        // return $usersInit;
-        // return $usersNotAddedBecauseEmailDuplicate;
-        // return redirect()->route('users.index');
-        return redirect()->back()->withErrors(['duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => $notAddedUsers ])->with('success',$usersAdded);
+        return redirect()->route('users.index');
     }
 
     // public function createUserProfile(){

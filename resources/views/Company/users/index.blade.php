@@ -5,12 +5,14 @@
     {{ $user->name }}
     @endforeach --}}
 
+    
     {{-- Esta clase debe estar en todos las plantillas que hereden el layout admin --}}
     <div class="d-flex w-100 flex-grow-1"> 
         
-
-
+        
+        
         <div class="container">
+            
             <div class="row mb-4">
                 <div class="col-12 d-flex justify-content-between align-items-center">
                     <p class="m-0 fs-3">Usuarios</p>
@@ -19,7 +21,7 @@
                     </a>
                 </div>
             </div>
-
+            
 
             <div class="row mb-4">
                 <div class="col">
@@ -40,6 +42,46 @@
                     </form>
                 </div>
             </div>
+
+            @if ($errors->has('duplicate'))
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Correos electronicos no disponibles (no se agregaron al sistema):</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @foreach ($errors->get('duplicate') as $email)
+                        <p class="m-0">{{$email}}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            @if ($errors->has('notadded'))
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Usarios que no se agregaron (no se agregaron al sistema):</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @foreach ($errors->get('notadded') as $email)
+                        <p class="m-0">{{$email}}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            @if (Session::has('success') && Session::get('success')!=0)
+                <div class="row mb-4">
+                    <div class="col-12">
+                        {{-- <div class="alert alert-success" role="alert">
+                            <h5 class="alert-heading">Se han agregado {{Session::get('success')}} usuarios exitosamente</h5>
+                        </div> --}}
+
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Se han agregado {{Session::get('success')}} usuarios exitosamente</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            
+
 
             @if (count($users)!=0)
                 <div class="row">

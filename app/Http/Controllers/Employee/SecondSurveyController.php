@@ -14,6 +14,9 @@ use App\Status;
 use App\Result;
 // use App\ResultTrauma;
 
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 class SecondSurveyController extends Controller
 {
     public function __construct()
@@ -116,6 +119,8 @@ class SecondSurveyController extends Controller
     }
 
     public function store(Request $request){
+        // return $request->all();
+        
         $userid= Auth::user()->id;
         $user = User::find($userid);
 
@@ -126,19 +131,30 @@ class SecondSurveyController extends Controller
         array_shift($allNamesInputs);
 
         // return $allNamesInputs; 
-        // return $request->all();  
+        // return $allNamesInputs;
 
         // return $request->post(22);
+
+
+        // foreach ($allNamesInputs as $inputname) {
+        //     $r = new Result;
+        //     $r->survey_id = $companytype;
+        //     $r->question_id = (int) $inputname;
+        //     $r->answer_id = $request->post((int) $inputname);
+        //     $r->user_id = $userid;
+        //     $r->iteration = $user->iteration;
+        //     $r->save();
+        // }
+
+        $massinsert = [];
+
         foreach ($allNamesInputs as $inputname) {
-            $r = new Result;
-            $r->survey_id = $companytype;
-            $r->question_id = (int) $inputname;
-            // return $request->post($inputname);
-            $r->answer_id = $request->post((int) $inputname);
-            $r->user_id = $userid;
-            $r->iteration = $user->iteration;
-            $r->save();
+            array_push($massinsert, ['survey_id' => $companytype, 'question_id' => (int) $inputname, 'answer_id' => $request->post((int) $inputname), 'user_id' => $userid, 'iteration' => $user->iteration, 'created_at' => \Carbon\Carbon::now(), 'updated_at' =>\Carbon\Carbon::now()]);
         }
+
+        DB::table('results')->insert($massinsert);
+
+        // return $massinsert;
 
         $status = Status::where('survey_id',$companytype)->where('user_id', $userid)->first();
         $status->answered = 1;

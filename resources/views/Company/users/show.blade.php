@@ -4,11 +4,11 @@
 
     <main class="flex-grow-1">
 
-        <div class="container">
+        <div class="container mb-5">
     
             <div class="row w-100">
                 <div class="col-12 d-flex justify-content-center">
-                    <p class="fs-3 fw-bold m-0">Datos de usuario</p>
+                    <p class="fs-3 fw-bold m-0 mb-3">Datos de usuario</p>
                 </div>
             </div>
             <div class="row w-100 d-flex justify-content-center">
