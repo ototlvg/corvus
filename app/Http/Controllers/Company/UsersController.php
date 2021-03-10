@@ -504,10 +504,11 @@ class UsersController extends Controller
         // return $usersNotAddedBecauseEmailDuplicate;
         // return redirect()->route('users.index');
 
-        $data = json_encode((array)$notAddedUsers);
+        $data2 = json_encode((array)$usersNotAddedBecauseEmailDuplicate);
+        $data3 = json_encode((array)$notAddedUsers);
         // return $headersWhoAreNull;
         // return redirect()->back()->withErrors(['duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => $notAddedUsers  ])->with('success',$usersAdded);
-        return redirect()->back()->with([ 'success'=> $usersAdded, 'duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => json_decode($data, true)]);
+        return redirect()->back()->with([ 'success'=> $usersAdded, 'duplicate' => json_decode($data2, true), 'notadded' => json_decode($data3, true)]);
     }
 
     // public function createUserProfile(){

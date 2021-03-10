@@ -72,23 +72,30 @@
 
                         {{-- {{$genders[1]}} --}}
                         {{-- {{$user->gender}} --}}
+
+                        {{-- @if (!empty(old('gender_id')))
+                            <span>Empty NO esta vacio</span>
+                            {{old('gender_id')}}
+                        
+                        @else
+                            <span>Empty SI esta vacio</span>
+                            {{old('gender_id')}}
+
+                        @endif --}}
                         <div class="row mb-4">
                             <div class="col">
                                 <label class="mb-2" for="gender">Sexo</label>
+                                {{-- <p>{{ empty(old('gender')) }}</p> --}}
                                 <select name="gender_id" id="gender" class="form-select" required>
                                     
-                                    @if (!empty(old('gender')))
-
+                                    @if (!empty(old('gender_id')))
                                         @foreach ($genders as $gender)
-                                            <option value="{{$gender->id}}" {{ $gender->id == old('gender') ? 'selected' : '' }}>{{$gender->gender}}</option>
+                                            <option value="{{$gender->id}}" {{ $gender->id == old('gender_id') ? 'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
-                                    
                                     @else
-
                                         @foreach ($genders as $gender)
                                             <option value="{{$gender->id}}" {{ $gender->id == $user->profile->gender_id ? 'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
-
                                     @endif
 
                                     {{-- @foreach ($hiring_types as $type)
@@ -110,10 +117,10 @@
                                 <select name="marital_id" id="marital" class="form-select" required>
                                     
                                     
-                                    @if (!empty( old('marital') ))
+                                    @if (!empty( old('marital_id') ))
 
                                         @foreach ($maritals as $civil)
-                                            <option value="{{$civil->id}}" {{ $civil->id == old('marital') ? 'selected' : '' }}>{{$civil->status}}</option>
+                                            <option value="{{$civil->id}}" {{ $civil->id == old('marital_id') ? 'selected' : '' }}>{{$civil->status}}</option>
                                         @endforeach
                                     
                                     @else
@@ -163,10 +170,10 @@
                                     
                                     
                                     
-                                    @if (!empty( old('education') ))
+                                    @if (!empty( old('education_id') ))
 
                                         @foreach ($education_levels as $level)
-                                            <option value="{{$level->id}}" {{ $level->id == old('education') ? 'selected' : '' }}>{{$level->name}}</option>
+                                            <option value="{{$level->id}}" {{ $level->id == old('education_id') ? 'selected' : '' }}>{{$level->name}}</option>
                                         @endforeach
                                     
                                     @else
@@ -205,10 +212,10 @@
 
                                     
 
-                                    @if (!empty( old('hiring_type') ))
+                                    @if (!empty( old('hiring_type_id') ))
 
                                         @foreach ($hiring_types as $type)
-                                            <option value="{{$type->id}}" {{ $type->id == old('hiring_type') ? 'selected' : '' }}>{{$type->name}}</option>
+                                            <option value="{{$type->id}}" {{ $type->id == old('hiring_type_id') ? 'selected' : '' }}>{{$type->name}}</option>
                                         @endforeach
                                     
                                     @else
@@ -232,10 +239,10 @@
 
                                     
 
-                                    @if (!empty( old('turn') ))
+                                    @if (!empty( old('turn_id') ))
 
                                         @foreach ($turns as $turn)
-                                            <option value="{{$turn->id}}" {{ $turn->id == old('turn') ? 'selected' : '' }}>{{$turn->name}}</option>
+                                            <option value="{{$turn->id}}" {{ $turn->id == old('turn_id') ? 'selected' : '' }}>{{$turn->name}}</option>
                                         @endforeach
                                     
                                     @else

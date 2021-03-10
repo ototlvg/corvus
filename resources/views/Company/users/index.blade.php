@@ -43,27 +43,39 @@
                 </div>
             </div>
 
-            {{-- @if ($errors->has('duplicate'))
+            @if (Session::has('duplicate') && count(Session::get('duplicate'))!=0)
 
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Correos electronicos no disponibles (no se agregaron al sistema):</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    @foreach ($errors->get('duplicate') as $email)
-                        <p class="m-0">{{$email}}</p>
+                    @foreach (Session::get('duplicate') as $email)
+                        <p class="m-0">- {{$email}}</p>
                     @endforeach
+                    {{-- <br>
+                    <br>
+                    <br>
+                    <br>
+                    @php
+                        var_dump(Session::get('duplicate'));
+                    @endphp --}}
                 </div>
-            @endif --}}
+
+
+            @endif
 
             {{-- @if ($errors->has('notadded')) --}}
-            @if (Session::has('notadded'))
+            @if (Session::has('notadded') && count(Session::get('notadded'))!=0 )
 
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Usarios que no se agregaron porque tenian campos vacios (no se agregaron al sistema):</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-                    @foreach (Session::get('notadded')[0]['motive'] as $item)
-                        <div>
-                            <p>{{$item}}</p>
+                    @foreach (Session::get('notadded') as $obj)
+                        <div class="d-flex">
+                            <p class="m-0">- {{$obj['email'] . ': '}}</p>
+                            @foreach ($obj['motive'] as $motive)
+                                <span>{{$motive . ', '}}</span>
+                            @endforeach
                         </div>
                     @endforeach
 
@@ -72,7 +84,7 @@
                     <br>
                     <br>
                     @php
-                        var_dump(Session::get('notadded')[0]['motive'][0]);
+                        var_dump(Session::get('notadded')[0]);
                     @endphp --}}
                 </div>
 
