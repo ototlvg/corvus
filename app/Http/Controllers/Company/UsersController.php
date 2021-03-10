@@ -316,7 +316,7 @@ class UsersController extends Controller
     }
 
     public function importFromExcel(Request $request){
-        // return 'hola';
+        // return 'holadsdasdasdsadsads';
 
 
         $company = Auth::guard('company')->user();
@@ -344,7 +344,7 @@ class UsersController extends Controller
 
         $file = $request->file('file');
         $usersInit = Excel::toArray([], $file)[0]; // Obtener todos los alumnos
-        array_shift($usersInit); // Quitar la cabezera
+        $headersExcel = array_shift($usersInit); // Quitar la cabezera
         // return $usersInit;
         // return Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($usersInit[0][4]));
 
@@ -360,9 +360,12 @@ class UsersController extends Controller
 
             $complete = true;
             $u = $usersInit[$key];
+
+            $headersWhoAreNull = [];
             for ($i=0; $i < count($u); $i++) { 
                 $column = $u[$i];
                 if(is_null($column)){
+                    array_push($headersWhoAreNull, $headersExcel[$i]);
                     $complete = false;
                     $flagCurrentNulls++;
                     // $i = count($u)+1;
@@ -447,6 +450,7 @@ class UsersController extends Controller
                             // array_push($usersNotAddedBecauseEmailDuplicate, ['name' => "$u[0] $u[1] $u[2]", 'email' => $u[3] ]);                             
                             array_push($usersNotAddedBecauseEmailDuplicate,  $u[3]);                             
                         }else{
+                            return 'xcxcxc';
                             return $e->getMessage();
                         }
                     }
@@ -486,8 +490,10 @@ class UsersController extends Controller
                     break;
                 }else{
                     $object = (object) ['email' => $u[3], 'motive' => []];
-                    return $object->motive;
-                    array_push($notAddedUsers, json_encode($object) );
+                    $object->motive = $headersWhoAreNull;
+                    // array_push($notAddedUsers, json_encode($object) );
+                    array_push($notAddedUsers, $object );
+                    
                 }
             }
 
@@ -497,7 +503,11 @@ class UsersController extends Controller
         // return $usersInit;
         // return $usersNotAddedBecauseEmailDuplicate;
         // return redirect()->route('users.index');
-        return redirect()->back()->withErrors(['duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => $notAddedUsers ])->with('success',$usersAdded);
+
+        $data = json_encode((array)$notAddedUsers);
+        // return $headersWhoAreNull;
+        // return redirect()->back()->withErrors(['duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => $notAddedUsers  ])->with('success',$usersAdded);
+        return redirect()->back()->with([ 'success'=> $usersAdded, 'duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => json_decode($data, true)]);
     }
 
     // public function createUserProfile(){

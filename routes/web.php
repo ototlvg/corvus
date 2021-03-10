@@ -96,7 +96,7 @@ Route::group(['prefix' => 'empresa'], function(){
     ]);
 
     Route::post('/users/uploadfromexcel', 'Company\UsersController@importFromExcel')->name('empresa.users.excel');
-
+        
     Route::resources([
         'empresa' => Company\EmpresaController::class,
     ]);

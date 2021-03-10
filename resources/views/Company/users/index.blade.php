@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            @if ($errors->has('duplicate'))
+            {{-- @if ($errors->has('duplicate'))
 
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Correos electronicos no disponibles (no se agregaron al sistema):</strong>
@@ -52,17 +52,30 @@
                         <p class="m-0">{{$email}}</p>
                     @endforeach
                 </div>
-            @endif
+            @endif --}}
 
-            @if ($errors->has('notadded'))
+            {{-- @if ($errors->has('notadded')) --}}
+            @if (Session::has('notadded'))
 
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Usarios que no se agregaron (no se agregaron al sistema):</strong>
+                    <strong>Usarios que no se agregaron porque tenian campos vacios (no se agregaron al sistema):</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    @foreach ($errors->get('notadded') as $email)
-                        <p class="m-0">{{$email}}</p>
+
+                    @foreach (Session::get('notadded')[0]['motive'] as $item)
+                        <div>
+                            <p>{{$item}}</p>
+                        </div>
                     @endforeach
+
+                    {{-- <br>
+                    <br>
+                    <br>
+                    <br>
+                    @php
+                        var_dump(Session::get('notadded')[0]['motive'][0]);
+                    @endphp --}}
                 </div>
+
             @endif
 
             @if (Session::has('success') && Session::get('success')!=0)
