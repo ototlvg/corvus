@@ -11,6 +11,7 @@
 
     <title>Empresa</title>
 
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <!-- Fonts -->
@@ -128,15 +129,15 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap.js') }}" defer></script>
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+
+    <script>
+        window.codigo = {!! json_encode(csrf_token()) !!};
+    </script>
     
     {{-- STRIPE --}}
     @yield('script-area-stripe')
-    <script>
-        // {{ csrf_token() }}
-        window.codigo = window.areaid= {!! json_encode(csrf_token()) !!};
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
 
     @stack('script-stack')
 

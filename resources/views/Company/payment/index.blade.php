@@ -57,6 +57,7 @@
 @endsection
 
 @section('script-area-stripe')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
 
         let pagar = document.getElementById('pagar')

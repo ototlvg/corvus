@@ -13,15 +13,57 @@
         
         <div class="container">
             
-            <div class="row mb-4">
-                <div class="col-12 d-flex justify-content-between align-items-center">
-                    <p class="m-0 fs-3">Usuarios</p>
-                    <a href="{{route('users.create')}}">
-                        <button type="button" class="btn btn-success">Añadir</button>
-                    </a>
+            
+            <div class="row mb-3">
+                <div class="col d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">Usuarios</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">n usuarios registrados</h6>
+                    </div>
+
+                    <div>
+                        <a href="{{route('users.create')}}">
+                            <button type="button" class="btn btn-success">Añadir</button>
+                        </a>
+                    </div>
                 </div>
             </div>
+
+
+
             
+            <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
+                            <div class="card-body d-flex">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-people fs-icon"></i>
+                                </div>
+
+                                <div class="d-flex flex-wrap ms-4">
+                                    <p class="w-100 m-0 fs-special">Hombre que faltan de registrar</p>
+                                    <p class="card-text fs-1">110</p>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
+                            <div class="card-body d-flex">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-journal-richtext fs-icon"></i>
+                                </div>
+
+                                <div class="d-flex flex-wrap ms-4">
+                                    <p class="w-100 m-0 fs-special">Mujeres que faltan de registrar</p>
+                                    <p class="card-text fs-1">0</p>
+                                </div>
+                            </div>
+                          </div>
+                </div>
+                
+            </div>
 
             <div class="row mb-4">
                 <div class="col">

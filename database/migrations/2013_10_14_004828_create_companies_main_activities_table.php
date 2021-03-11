@@ -13,7 +13,7 @@ class CreateCompaniesMainActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('main_activities_table', function (Blueprint $table) {
+        Schema::create('main_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

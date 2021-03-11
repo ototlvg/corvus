@@ -30,16 +30,30 @@
 @endsection
 
 @section('content')
-
-    {{-- <p>kjdjdjd</p>
-    {{$companyGlobal}} --}}
     @if ($flag==1)
         <main class="flex-grow-1 d-flex">
             <div class="container">
+
+                <div class="row mb-3">
+                    <div class="col">
+                        {{-- <p></p> --}}
+                        <h5 class="card-title">{{$company->name}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            @if ($company->type == 1)
+                                Menor o igual a 15 trabajadores
+                            @elseif($company->type == 2)
+                                Menor o igual a 50 trabajadores
+                            @else
+                                Mayor a 50 trabajadores
+                            @endif
+                        </h6>
+
+                    </div>
+                </div>
+
                 <div class="row w-100">
                     <div class="col-4">
                         <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
-                            {{-- <div class="card-header">Header</div> --}}
                             <div class="card-body d-flex">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-people fs-icon"></i>
@@ -49,14 +63,12 @@
                                     <p class="w-100 m-0 fs-special">Cantidad de empleados</p>
                                     <p class="card-text fs-1">{{$usersCount}}</p>
                                 </div>
-                                {{-- <h5 class="card-title">Primary card title</h5> --}}
                             </div>
                           </div>
                     </div>
 
                     <div class="col-4">
                         <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
-                            {{-- <div class="card-header">Header</div> --}}
                             <div class="card-body d-flex">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-journal-richtext fs-icon"></i>
@@ -66,14 +78,12 @@
                                     <p class="w-100 m-0 fs-special">{{$answered[0]->name}}</p>
                                     <p class="card-text fs-1">{{$answered[0]->answered}}</p>
                                 </div>
-                                {{-- <h5 class="card-title">Primary card title</h5> --}}
                             </div>
                           </div>
                     </div>
 
                     <div class="col-4">
                         <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
-                            {{-- <div class="card-header">Header</div> --}}
                             <div class="card-body d-flex">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-journal-text fs-icon"></i>
@@ -83,61 +93,45 @@
                                     <p class="w-100 m-0 fs-special">{{$answered[1]->name}}</p>
                                     <p class="card-text fs-1">{{$answered[1]->answered}}</p>
                                 </div>
-                                {{-- <h5 class="card-title">Primary card title</h5> --}}
                             </div>
                           </div>
                     </div>
                 </div>
 
                 <div class="row w-100">
-                    <div class="col-12">
-                        <p class="fs-3">Detalles</p>
-                    </div>
-                </div>
+                    
+                    <div class="col">
 
-                <div class="row mt-3 w-100">
-                    <div class="col-4 d-flex justify-content-center">
-                        <div class="d-flex w-100 border bg-light justify-content-center bg-white">
-                            <i class="bi bi-building fs-build"></i>
+                        <div class="w-100">
+                            <h5 class="card-title">Principales actividades</h5>
+                            <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        </div>
+
+                        <div class="d-flex w-100" id="activities">
+                            {{-- <input type="text" name="" id="" class="form-control me-3">
+                            <button type="button" class="btn btn-primary">Añadir</button> --}}
                         </div>
                     </div>
-                    <div class="col-8 d-flex flex-wrap">
-                        <div class="d-flex flex-wrap border bg-white w-100 p-5">
-                            <div class="row w-100">
-                                <div class="col-12">
-                                    <p class="form-label m-0">Empresa</p>
-                                    <p class="fs-1">{{$company->name}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p class="form-label m-0">Cantidad de trabajadores: </p>
-                                    {{-- <p class="fs-1">{{$company->type}}s</p> --}}
-                                    <p class="fs-1">
-                                        
-                                        @if ($company->type == 1)
-                                            Menor o igual a 15 trabajadores
-                                        @elseif($company->type == 2)
-                                            Menor o igual a 50 trabajadores
-                                        @else
-                                            Mayor a 50 trabajadores
-                                        @endif
-                                        
-                                    </p>
-                                </div>
-                            </div>
+
+                    @if ($company->type == 3)
+                        <div class="col-6">
+                            dkasjdkljds
                         </div>
-                        {{-- <div class="row w-100">
-                            <div class="col-12">
-                                <p class="form-label m-0">Contraseña: </p>
-                                <p class="fs-1 m-0">*******</p>
-                            </div>
-                        </div> --}}
-                    </div>
+                    @endif
+
                 </div>
             </div>
         </main>
 
+        {{-- <p class="fs-1">{{$company->name}}</p> --}}
+        {{-- @if ($company->type == 1)
+            Menor o igual a 15 trabajadores
+        @elseif($company->type == 2)
+            Menor o igual a 50 trabajadores
+        @else
+            Mayor a 50 trabajadores
+        @endif --}}
+        
     @else
         <div class="main flex-grow-1 d-flex align-items-center justify-content-center">
             <div class="border p-5">
@@ -181,8 +175,7 @@
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary w-100">Guardar</button>
                                 </div>
-                            </div>
-
+                            </div>  
                         </form>
                     </div>
                 </div>
@@ -191,13 +184,8 @@
 
         </div>
     @endif
-
-
-    {{-- <p>{{$company->name}}</p>
-
-    @foreach ($answered as $item)
-        <p>name: {{$item->name}}</p>
-        <p>answered: {{$item->answered}}</p>
-    @endforeach
-    <p>{{$usersCount}}</p> --}}
 @endsection
+
+@push('script-stack')
+    <script src="{{asset('js/activities.js')}}"></script>
+@endpush
