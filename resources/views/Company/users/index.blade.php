@@ -1,5 +1,34 @@
 @extends('../../layouts.company')
 
+@section('styles')
+    <style>
+        /* .container{
+            margin-top: -4em important!;
+        } */
+
+        .coco{
+            /* margin-top: -18em; */
+        }
+
+        .fs-special{
+            font-size: 16px;
+        }
+
+        .fs-icon{
+            font-size: 3.5em;
+        }
+
+        .fs-build{
+            font-size: 10em;
+        }
+
+        .bg-white{
+            background-color: white !important;
+        }
+
+    </style>
+@endsection
+
 @section('content')
     {{-- @foreach ($users as $user)
     {{ $user->name }}
@@ -7,7 +36,7 @@
 
     
     {{-- Esta clase debe estar en todos las plantillas que hereden el layout admin --}}
-    <div class="d-flex w-100 flex-grow-1"> 
+    <div class="d-flex w-100 flex-grow-1 mb-5"> 
         
         
         
@@ -18,7 +47,7 @@
                 <div class="col d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="card-title">Usuarios</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">n usuarios registrados</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">{{$userscount}} usuarios registrados</h6>
                     </div>
 
                     <div>
@@ -31,39 +60,41 @@
 
 
 
-            
-            <div class="row mb-3">
-                    <div class="col-6">
-                        <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
-                            <div class="card-body d-flex">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-people fs-icon"></i>
-                                </div>
+            @if ($company->profile->men_workers!=0 && $company->profile->women_workers && $company->type==3)
+                <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
+                                <div class="card-body d-flex">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-people fs-icon"></i>
+                                    </div>
 
-                                <div class="d-flex flex-wrap ms-4">
-                                    <p class="w-100 m-0 fs-special">Hombre que faltan de registrar</p>
-                                    <p class="card-text fs-1">110</p>
+                                    <div class="d-flex flex-wrap ms-4">
+                                        <p class="w-100 m-0 fs-special">Hombre que faltan de registrar</p>
+                                        <p class="card-text fs-1">{{$numberOfMenWhoNeedsToTakeTheSurvey}}</p>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
+                                <div class="card-body d-flex">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-journal-richtext fs-icon"></i>
+                                    </div>
+
+                                    <div class="d-flex flex-wrap ms-4">
+                                        <p class="w-100 m-0 fs-special">Mujeres que faltan de registrar</p>
+                                        <p class="card-text fs-1">{{$numberOfWomenWhoNeedsToTakeTheSurvey}}</p>
+                                    </div>
                                 </div>
                             </div>
-                          </div>
                     </div>
-
-                    <div class="col-6">
-                        <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
-                            <div class="card-body d-flex">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-journal-richtext fs-icon"></i>
-                                </div>
-
-                                <div class="d-flex flex-wrap ms-4">
-                                    <p class="w-100 m-0 fs-special">Mujeres que faltan de registrar</p>
-                                    <p class="card-text fs-1">0</p>
-                                </div>
-                            </div>
-                          </div>
+                    
                 </div>
-                
-            </div>
+            @endif
+            
 
             <div class="row mb-4">
                 <div class="col">

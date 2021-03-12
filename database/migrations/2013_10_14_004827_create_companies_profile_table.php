@@ -19,8 +19,8 @@ class CreateCompaniesProfileTable extends Migration
             $table->string('user_name');
             // $table->string('main_activity')->nullable();
             $table->integer('workers')->nullable();
-            $table->integer('men_workers')->nullable();
-            $table->integer('women_workers')->nullable();
+            $table->integer('men_workers')->default(0);
+            $table->integer('women_workers')->default(0);
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();

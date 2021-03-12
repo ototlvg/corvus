@@ -50,4 +50,8 @@ class Company extends Authenticatable
         // use App\Notifications\AdminResetPasswordNotification;
         $this->notify(new CompanyResetPasswordNotification($token));
     }
+
+    function profile(){
+        return $this->hasOne('App\CompanyProfile', 'company_id', 'id');
+    }
 }

@@ -115,7 +115,7 @@
 
                     @if ($company->type == 3)
                         <div class="col-6">
-                            dkasjdkljds
+                            <div class="d-flex w-100" id="workers"></div>
                         </div>
                     @endif
 
@@ -189,3 +189,11 @@
 @push('script-stack')
     <script src="{{asset('js/activities.js')}}"></script>
 @endpush
+
+@if ($company->type == 3)
+    
+    @push('script-stack')
+        <script src="{{asset('js/workers.js')}}"></script>
+    @endpush
+
+@endif

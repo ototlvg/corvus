@@ -58,17 +58,63 @@ class UsersController extends Controller
         // return view('Admin.home');
         // $admin = Auth::guard('admin')->user();
         // $companyOfAdminId = $admin->company_id;
-        $company = Auth::guard('company')->user();
-        $companyid = $company->id;
+        $companyid = Auth::guard('company')->id();
+
+        $company = Company::with('profile')->find($companyid);
+
+        $users = User::where('company_id', $companyid)->with('status')->paginate(10);
+
+        $userscount = User::where('company_id',$companyid)->count();
+
+        $men = $company->profile->men_workers;
+        $women = $company->profile->women_workers;
+
+        if($men!=0 && $women!=0 && $company->type==3){
+            $totalWorkers = $men+$women;
+
+            $womenPercentage = ($women)/$totalWorkers;
+            $menPercentage = ($men)/$totalWorkers;
+
+            // return $womenPercentage;
+
+            $n = (0.9604*$totalWorkers) / ( ( 0.0025*($totalWorkers-1) ) + 0.9604 );
+            $n = round($n, 0, PHP_ROUND_HALF_UP);
+
+            $numberOfWomenWhoNeedsToTakeTheSurvey = round($n*$womenPercentage, 0, PHP_ROUND_HALF_UP);
+            $numberOfMenWhoNeedsToTakeTheSurvey = round($n*$menPercentage, 0, PHP_ROUND_HALF_UP);
+
+            
+            $womenAlreadyRegistered= User::whereHas('profile',function($query) {
+                $query->where('gender_id',2);
+            })->where('company_id',$companyid)->count();
+    
+            $menAlreadyRegistered= User::whereHas('profile',function($query) {
+                $query->where('gender_id',1);
+            })->where('company_id',$companyid)->count();
+
+            $numberOfWomenWhoNeedsToTakeTheSurvey = $numberOfWomenWhoNeedsToTakeTheSurvey-$womenAlreadyRegistered;
+            $numberOfMenWhoNeedsToTakeTheSurvey = $numberOfMenWhoNeedsToTakeTheSurvey-$menAlreadyRegistered;
+            
+            return view('Company.users.index', compact(['users', 'company','totalWorkers','numberOfWomenWhoNeedsToTakeTheSurvey','numberOfMenWhoNeedsToTakeTheSurvey', 'userscount']));
+        }
+
+
+
+        // return $numberOfMenWhoNeedsToTakeTheSurvey;
+
+
+
+        // return $company;
+        // $companyid = $company->id;
 
         // return $admin;
         // $users = User::where('company_id', $companyOfAdminId)->paginate(1);
-        $users = User::where('company_id', $companyid)->with('status')->paginate(10);
+        
         // return $users;
         // dd($admin);
         // return $admin;
         // return $users;
-        return view('Company.users.index', compact(['users']));
+        return view('Company.users.index', compact(['users', 'company','userscount']));
     }
 
     public function createStatus($user, $company_type){
