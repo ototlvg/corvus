@@ -88,7 +88,9 @@ class EmpresaController extends Controller
             // return $answered;
             // return $usersCount;
             
-            $company = Company::find($companyid);
+            $company = Company::with('profile')->find($companyid);
+
+            // return $company;
     
             // return $flag;
     
@@ -172,7 +174,40 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // return $id;
+        // return $request->all();
+        $this->validate($request, [
+            'name'=> ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'men_workers' => ['required', 'numeric'],
+            'women_workers' => ['required', 'numeric'],
+        ]);
+
+        $company = Company::with('profile')->find($id);
+
+        // return $company->profile->men_workers;
+
+        // $company->name = $request->post('companyname');
+        // $company->profile->address = $request->post('address');
+        // $company->profile->men_workers = $request->post('men_workers');
+        // $company->profile->women_workers = $request->post('women_workers');
+        // $company->save();
+
+        // $company->profile()->update([
+        //     'address' => $request->post('address')
+        // ]);
+
+        // return $request['_token'];
+        // return $request['_method'];
+
+        unset($request['_token']);
+        unset($request['_method']);
+        unset($request['name']);
+
+        $company->profile()->update($request->all());
+
+
+        return redirect()->back();
     }
 
     /**

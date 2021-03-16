@@ -61,6 +61,7 @@
 
 
             @if ($company->profile->men_workers!=0 && $company->profile->women_workers && $company->type==3)
+            
                 <div class="row mb-3">
                         <div class="col-6">
                             <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
@@ -90,8 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    
+                        </div>
                 </div>
             @endif
             

@@ -101,23 +101,48 @@
                 <div class="row w-100">
                     
                     <div class="col">
-
                         <div class="w-100">
                             <h5 class="card-title">Principales actividades</h5>
                             <h6 class="card-subtitle mb-2 text-muted"></h6>
                         </div>
 
                         <div class="d-flex w-100" id="activities">
-                            {{-- <input type="text" name="" id="" class="form-control me-3">
-                            <button type="button" class="btn btn-primary">Añadir</button> --}}
                         </div>
                     </div>
 
-                    @if ($company->type == 3)
+                    <div class="col">
+                        <form method="POST" action="{{route('empresa.update',$company->id)}}">
+                            @csrf
+                            @method('put')
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nombre, denominación o razón social</label>
+                                <input type="text" name="name" id="name" class="form-control" required value="{{ empty( old('companyname') ) ? $company->name : old('companyname') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Domicilio</label>
+                                <input type="text" name="address" id="address" class="form-control" required value="{{ empty( old('address') ) ? $company->profile->address : old('address') }}">
+                            </div>
+                            
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="men_workers" class="form-label">Numero de Hombres</label>
+                                    <input id="men_workers" name="men_workers" type="number" class="form-control" required value="{{ empty( old('men_workers') ) ? $company->profile->men_workers : old('men_workers') }}">
+                                </div>
+                                <div class="col">
+                                    <label for="women_workers" class="form-label">Numero de Mujeres</label>
+                                    <input id="women_workers" name="women_workers" type="number" class="form-control" required value="{{ empty( old('women_workers') ) ? $company->profile->women_workers : old('women_workers') }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                          </form>
+                    </div>
+
+                    {{-- @if ($company->type == 3)
                         <div class="col-6">
                             <div class="d-flex w-100" id="workers"></div>
                         </div>
-                    @endif
+                    @endif --}}
 
                 </div>
             </div>
@@ -190,10 +215,10 @@
     <script src="{{asset('js/activities.js')}}"></script>
 @endpush
 
-@if ($company->type == 3)
+{{-- @if ($company->type == 3)
     
     @push('script-stack')
         <script src="{{asset('js/workers.js')}}"></script>
     @endpush
 
-@endif
+@endif --}}

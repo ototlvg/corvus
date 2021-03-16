@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Activity;
+use App\Company;
 
 class ActivitiesController extends Controller
 {
@@ -34,7 +35,19 @@ class ActivitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $companyid = Auth::guard('company')->id();
+        // return $companyid;
+        $company = Company::find($companyid);
+
+        $newactivity = $request->post('activity');
+
+        $activity = new Activity;
+        $activity->company_id = $companyid;
+        $activity->activity = $newactivity;
+        $activity->save();
+
+
+        return $activity;
     }
 
     /**
@@ -68,6 +81,10 @@ class ActivitiesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $companyid = Auth::guard('company')->id();
+        $res = Activity::where('id',$id)->where('company_id', $companyid)->delete();
+
+        return $res;
+        return 'primesss';
     }
 }

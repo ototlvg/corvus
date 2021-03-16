@@ -120,3 +120,5 @@ Route::group(['prefix' => 'empresa'], function(){
 Route::post('/api/empresa/payment/create-checkout-session', 'API\Company\Payment\CheckoutSessionController@create');
 
 Route::get('/api/empresa/getactivities', 'API\Company\Index\ActivitiesController@index');
+Route::post('/api/empresa/addactivity', 'API\Company\Index\ActivitiesController@store');
+Route::delete('/api/empresa/destroyactivity/{id}', 'API\Company\Index\ActivitiesController@destroy');

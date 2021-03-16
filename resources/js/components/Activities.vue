@@ -1,8 +1,8 @@
 <template>
     <div class="activities">
         <div class="w-100 d-flex mb-3">
-            <input type="text" name="" id="" class="form-control me-3">
-            <button class="btn btn-primary">Agregar</button>
+            <input type="text" v-model="activity" class="form-control me-3">
+            <button class="btn btn-primary" @click="add">Agregar</button>
         </div>
         <table class="table table-bordered">
 
@@ -19,7 +19,7 @@
                 <tr v-for="(activity,index) in activities" :key="index">
                     <th scope="row">{{index+1}}</th>
                     <td>{{activity.activity}}</td>
-                    <td><button class="btn btn-danger">Eliminar</button></td>
+                    <td><button class="btn btn-danger" @click="destroy(activity.id)">Eliminar</button></td>
                 </tr>
             </tbody>
         </table>
@@ -51,27 +51,69 @@ export default {
         //       console.error("Error:", error);
         //     });
 
-        axios.get('/api/empresa/getactivities')
-        .then((response) => {
-            this.activities = response.data
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+        this.get()
     },
     data() {
         return {
-            activities: []
+            activities: [],
+            activity: ''
         }
     },
     methods: {
         saludo(){
             console.log('Conejo')
+        },
+
+        get(){
+            axios.get('/api/empresa/getactivities')
+                .then((response) => {
+                    this.activities = response.data
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        },
+
+        add(){
+            console.log('accionado')
+
+            if(this.activity == ''){
+                console.log('falso')
+                return false;
+            }
+
+            axios.post('/api/empresa/addactivity', {
+                activity: this.activity
+            })
+            .then((response) => {
+                console.log(response.data);
+                this.activity = ''
+                this.get()
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        },
+
+        destroy($id){
+            console.log('id: ' + $id)
+            axios.delete('/api/empresa/destroyactivity/'+$id, {
+                activityid: $id
+            })
+            .then((response) => {
+                console.log(response.data);
+                // this.activity = ''
+                this.get()
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     }
 }

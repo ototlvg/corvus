@@ -82,7 +82,6 @@ class UsersController extends Controller
 
             $numberOfWomenWhoNeedsToTakeTheSurvey = round($n*$womenPercentage, 0, PHP_ROUND_HALF_UP);
             $numberOfMenWhoNeedsToTakeTheSurvey = round($n*$menPercentage, 0, PHP_ROUND_HALF_UP);
-
             
             $womenAlreadyRegistered= User::whereHas('profile',function($query) {
                 $query->where('gender_id',2);
@@ -97,8 +96,6 @@ class UsersController extends Controller
             
             return view('Company.users.index', compact(['users', 'company','totalWorkers','numberOfWomenWhoNeedsToTakeTheSurvey','numberOfMenWhoNeedsToTakeTheSurvey', 'userscount']));
         }
-
-
 
         // return $numberOfMenWhoNeedsToTakeTheSurvey;
 

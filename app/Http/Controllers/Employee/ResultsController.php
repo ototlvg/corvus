@@ -60,6 +60,8 @@ class ResultsController extends Controller
     }
 
     public function firstSurvey($surveyid, $user){
+
+        $objectReturn = (object) ['redirect' => '', 'view' => null, 'categories'=> null, 'valoracionClinica' => null, 'user' => null, 'why' => null];
         
         $valoracionClinica = '0';
         $categories = Category::whereHas('preguntas', function ($query) {
@@ -72,8 +74,11 @@ class ResultsController extends Controller
         
         // return count($results)==0 ? 'No hay nada' :  'Si hay algo';
 
+        // $results = [];
         if(count($results)==0 ){
-            return redirect()->route('user.resultados.index');
+            $objectReturn->redirect = 'user.resultados.index';
+            // return $objectReturn;
+            // return redirect()->route('user.resultados.index');
         }
 
         if(count($results) == 6){
@@ -107,55 +112,56 @@ class ResultsController extends Controller
             // return $categories;
             $why = 0;
             $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
-            return view('Admin.atrausev', compact('categories', 'valoracionClinica', 'user', 'why'));
-        }
-
-        //---------------------------------------------------------------
-        // $answersByCategories[0] - Sección II Recuerdos persistentes sobre acontecimiento
-        // $answersByCategories[1] - Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento
-        // $answersByCategories[2] - Sección IV Afectación
-
-        if(in_array(1, $answersByCategories[0])){
-            $valoracionClinica = 1;
-            $why = 'Cuando responda "Sí", en alguna de las preguntas de la Sección II Recuerdos persistentes sobre acontecimiento';
-            // return 'Existe un uno enn la seguna';
+            $view = 'Admin.atrausev';
+            // return view($view, compact('categories', 'valoracionClinica', 'user', 'why'));
         }else{
-            $amounts = [3,2];
-            $flag = 0;
-            for ($i=1; $i <=2 ; $i++) { 
-                $categoryAnswers = $answersByCategories[$i];
-
-                $trueAnswers = array_filter($categoryAnswers,function($answer){
-                    return $answer==1;
-                });
-
-                // return count($trueAnswers);
-
-                $flag = $i;
-                if(count($trueAnswers) >= $amounts[$i-1]){
-                    $valoracionClinica = 1;
-
-                    $i = 1000;
-                }
-
-            }
-
-            if($flag==1){
-                $why = 'Cuando responda "Sí", en tres o más de las preguntas de la Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento';
+            //---------------------------------------------------------------
+            // $answersByCategories[0] - Sección II Recuerdos persistentes sobre acontecimiento
+            // $answersByCategories[1] - Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento
+            // $answersByCategories[2] - Sección IV Afectación
+    
+            if(in_array(1, $answersByCategories[0])){
+                $valoracionClinica = 1;
+                $why = 'Cuando responda "Sí", en alguna de las preguntas de la Sección II Recuerdos persistentes sobre acontecimiento';
+                // return 'Existe un uno enn la seguna';
             }else{
-                $why = 'Cuando responda "Sí", en dos o más de las preguntas de la Sección IV Afectación';
+                $amounts = [3,2];
+                $flag = 0;
+                for ($i=1; $i <=2 ; $i++) { 
+                    $categoryAnswers = $answersByCategories[$i];
+    
+                    $trueAnswers = array_filter($categoryAnswers,function($answer){
+                        return $answer==1;
+                    });
+    
+                    // return count($trueAnswers);
+    
+                    $flag = $i;
+                    if(count($trueAnswers) >= $amounts[$i-1]){
+                        $valoracionClinica = 1;
+    
+                        $i = 1000;
+                    }
+    
+                }
+    
+                if($flag==1){
+                    $why = 'Cuando responda "Sí", en tres o más de las preguntas de la Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento';
+                }else{
+                    $why = 'Cuando responda "Sí", en dos o más de las preguntas de la Sección IV Afectación';
+                }
+    
+    
             }
-
-
+            $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
+            $view = 'Employee.results.firstSurvey';
+            // return view('Employee.results.firstSurvey', compact('categories', 'valoracionClinica', 'user', 'why'));
         }
 
-        // return $categories;
-        // return $user;
-        $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
+        $objectReturn->view = 'Employee.results.firstSurvey';
         
+        return $objectReturn;
 
-        return view('Employee.results.firstSurvey', compact('categories', 'valoracionClinica', 'user', 'why'));
-        // return $valoracionClinica;
     }
 
     public function secondSurvey($id, $user)
@@ -489,7 +495,16 @@ class ResultsController extends Controller
 
         // return $id;
         if($id == 1){
-            return $this->firstSurvey($id, $user);
+            $obj = $this->firstSurvey($id, $user);
+
+            if(!empty($obj->redirect)){
+                return redirect()->route('user.resultados.index');
+                return 'reedireccionad';
+            }else{
+                return 'entrando en else';
+            }
+
+            // return json_decode();
         }else{
             return $this->secondSurvey($id, $user);
         }
@@ -527,5 +542,21 @@ class ResultsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function download($id)
+    {
+        // $id es el tipo de encuesta
+        $userid = Auth::user()->id;
+        $user= User::where('id',$userid)->with('profile')->first();
+
+
+
+        // return $id;
+        if($id == 1){
+            return $this->firstSurvey($id, $user);
+        }else{
+            return $this->secondSurvey($id, $user);
+        }
     }
 }

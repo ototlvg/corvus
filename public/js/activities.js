@@ -1942,8 +1942,6 @@ __webpack_require__.r(__webpack_exports__);
 axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-CSRF-TOKEN'] = window.codigo;
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    var _this = this;
-
     // fetch("/api/empresa/getactivities", {
     //     method: "GET",
     //     headers: {
@@ -1960,23 +1958,64 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-CSRF-TOK
     //     .catch(function (error) {
     //       console.error("Error:", error);
     //     });
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/empresa/getactivities').then(function (response) {
-      _this.activities = response.data;
-      console.log(response.data);
-    })["catch"](function (error) {
-      // handle error
-      console.log(error);
-    }).then(function () {// always executed
-    });
+    this.get();
   },
   data: function data() {
     return {
-      activities: []
+      activities: [],
+      activity: ''
     };
   },
   methods: {
     saludo: function saludo() {
       console.log('Conejo');
+    },
+    get: function get() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/empresa/getactivities').then(function (response) {
+        _this.activities = response.data;
+        console.log(response.data);
+      })["catch"](function (error) {
+        // handle error
+        console.log(error);
+      }).then(function () {// always executed
+      });
+    },
+    add: function add() {
+      var _this2 = this;
+
+      console.log('accionado');
+
+      if (this.activity == '') {
+        console.log('falso');
+        return false;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/empresa/addactivity', {
+        activity: this.activity
+      }).then(function (response) {
+        console.log(response.data);
+        _this2.activity = '';
+
+        _this2.get();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    destroy: function destroy($id) {
+      var _this3 = this;
+
+      console.log('id: ' + $id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/empresa/destroyactivity/' + $id, {
+        activityid: $id
+      }).then(function (response) {
+        console.log(response.data); // this.activity = ''
+
+        _this3.get();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -2467,10 +2506,36 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "activities" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "w-100 d-flex mb-3" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.activity,
+            expression: "activity"
+          }
+        ],
+        staticClass: "form-control me-3",
+        attrs: { type: "text" },
+        domProps: { value: _vm.activity },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.activity = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary", on: { click: _vm.add } }, [
+        _vm._v("Agregar")
+      ])
+    ]),
     _vm._v(" "),
     _c("table", { staticClass: "table table-bordered" }, [
-      _vm._m(1),
+      _vm._m(0),
       _vm._v(" "),
       _c(
         "tbody",
@@ -2480,7 +2545,20 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(activity.activity))]),
             _vm._v(" "),
-            _vm._m(2, true)
+            _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      return _vm.destroy(activity.id)
+                    }
+                  }
+                },
+                [_vm._v("Eliminar")]
+              )
+            ])
           ])
         }),
         0
@@ -2493,19 +2571,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-100 d-flex mb-3" }, [
-      _c("input", {
-        staticClass: "form-control me-3",
-        attrs: { type: "text", name: "", id: "" }
-      }),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("Agregar")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
@@ -2514,14 +2579,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-danger" }, [_vm._v("Eliminar")])
     ])
   }
 ]
