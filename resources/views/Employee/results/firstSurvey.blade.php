@@ -2,6 +2,8 @@
 
 @section('content')
     <main>
+        {{-- Si o si debe de ser '1', osea una constante --}}
+        <a href="{{route('employee.download',1)}}" target="_blank">Descargar</a> 
         <div class="d-flex w-100 flex-grow-1 my-4">
     
             <div class="container">

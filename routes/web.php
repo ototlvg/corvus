@@ -52,6 +52,9 @@ Route::get('/company', function () {
 });
 
 
+Route::get('cuestionario/descargar/{surveytype}', 'Employee\ResultsController@download')->name('employee.download');
+
+
 // Logout infividual de user
 Route::get('/user/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 

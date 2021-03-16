@@ -13,6 +13,9 @@ use App\ResultTrauma;
 use App\Category;
 use App\Company;
 
+
+use PDF;
+
 class ResultsController extends Controller
 {
     public function __construct()
@@ -159,7 +162,12 @@ class ResultsController extends Controller
         }
 
         $objectReturn->view = 'Employee.results.firstSurvey';
+        $objectReturn->categories = $categories;
+        $objectReturn->valoracionClinica = $valoracionClinica;
+        $objectReturn->user = $user;
+        $objectReturn->why = $why;
         
+        // return 'xls';
         return $objectReturn;
 
     }
@@ -476,8 +484,23 @@ class ResultsController extends Controller
         // return [$user];
         // return [$final];
         // return $categories;
+        $view = 'Employee.results.secondSurvey';
+
+        $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
+
+
+
         
-        return view('Employee.results.secondSurvey', compact('final', 'categories', 'domains', 'user'));
+
+        $objectReturn->view = $view;
+        $objectReturn->final = $final;
+        $objectReturn->categories = $categories;
+        $objectReturn->domains = $domains;
+        $objectReturn->user = $user;
+
+        return $objectReturn;
+        
+        return view($view, compact('final', 'categories', 'domains', 'user'));
     }
 
     /**
@@ -486,27 +509,54 @@ class ResultsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($surveytype)
     {
         $userid = Auth::user()->id;
         $user= User::where('id',$userid)->with('profile')->first();
 
+        $company = Company::find($user->company_id);
+
+        // return $company;
 
 
         // return $id;
-        if($id == 1){
-            $obj = $this->firstSurvey($id, $user);
+        if($surveytype == 1){
+            $obj = $this->firstSurvey($surveytype, $user);
 
             if(!empty($obj->redirect)){
                 return redirect()->route('user.resultados.index');
                 return 'reedireccionad';
             }else{
-                return 'entrando en else';
+
+                $view = $obj->view;
+                $categories = $obj->categories;
+                $valoracionClinica = $obj->valoracionClinica;
+                $user = $obj->user;
+                $why = $obj->why;
+                
+                // return 'entrando en else';
+                return view($view, compact('categories', 'valoracionClinica', 'user', 'why', 'company'));
             }
 
             // return json_decode();
         }else{
-            return $this->secondSurvey($id, $user);
+            $objectReturn =  $this->secondSurvey($surveytype, $user);
+
+
+
+
+
+            $view = $objectReturn->view;
+            $final = $objectReturn->final;
+            $categories = $objectReturn->categories;
+            $domains = $objectReturn->domains;
+            $user = $objectReturn->user;
+
+            // return $objectReturn;
+            
+            return view($view, compact('final', 'categories', 'domains', 'user'));
+
+
         }
     }
 
@@ -544,19 +594,55 @@ class ResultsController extends Controller
         //
     }
 
-    public function download($id)
+    public function download($surveytype)
     {
         // $id es el tipo de encuesta
         $userid = Auth::user()->id;
         $user= User::where('id',$userid)->with('profile')->first();
+        $company = Company::with('profile')->find($user->company_id);
 
-
-
+        // return $company;
+        
         // return $id;
-        if($id == 1){
-            return $this->firstSurvey($id, $user);
+        if($surveytype == 1){
+            $obj = $this->firstSurvey($surveytype, $user);
+
+            // return 'hola';
+            // dd($obj);
+
+            if(!empty($obj->redirect)){
+                return 'COndicion de reedireccionamiento';
+            }else{
+
+                $view = $obj->view;
+                $categories = $obj->categories;
+                $valoracionClinica = $obj->valoracionClinica;
+                $why = $obj->why;
+
+                // return view('Employee.download.firstSurvey', compact(['categories','valoracionClinica','why','company']));
+                // $user = $obj->user;
+
+                // return $obj->categories;
+                // dd($obj);
+
+                $pdf = PDF::loadView('Employee.download.firstSurvey', [
+                    'categories' => $categories,
+                    'valoracionClinica' => $valoracionClinica,
+                    'why' => $why,
+                    'user' => $user,
+                    'company' => $company
+                ]);
+                
+                $pdf->setOption('page-size','letter');
+                $pdf->setOption('margin-left',12);
+
+                return $pdf->stream('invoice.pdf');
+                
+            }
+
         }else{
-            return $this->secondSurvey($id, $user);
+            return 'entro en else';
+            return $this->secondSurvey(2, $user); // El 2 ni se usa, por lo que ni pienses en ello
         }
     }
 }
