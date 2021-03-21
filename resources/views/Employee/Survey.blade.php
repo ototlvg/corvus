@@ -59,12 +59,12 @@
 
                                 <div class="d-flex m-3">
                                     <div class="d-flex me-3">
-                                        <input type="radio" id="true_{{$item2->item}}" name="{{$item2->item}}" value="1" checked>
+                                        <input type="radio" id="true_{{$item2->item}}" name="{{$item2->item}}" value="1">
                                         <label for="true_{{$item2->item}}">Si</label>
                                     </div>
                     
                                     <div class="d-flex">
-                                        <input type="radio" id="false_{{$item2->item}}" name="{{$item2->item}}" value="0">
+                                        <input type="radio" id="false_{{$item2->item}}" name="{{$item2->item}}" value="0" checked>
                                         <label for="false_{{$item2->item}}">No</label>
                                     </div>
                                 </div>

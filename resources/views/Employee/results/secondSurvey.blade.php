@@ -3,11 +3,20 @@
 @section('content')
     {{-- <div class="d-flex w-100 flex-grow-1 align-items-center"> --}}
 
+    {{-- <a href="{{route('employee.download',2)}}" target="_blank">Descargar</a>  --}}
+
 
     <main>
         <div class="d-flex w-100 flex-grow-1 my-4">
     
             <div class="container">
+
+                <div class="row mb-4">
+                    <div class="col-12 d-flex justify-content-lg-between align-items-center">
+                        <p class="m-0 h2">Encuesta 2</p>
+                        <a class="btn btn-primary" href="{{route('employee.download',2)}}" role="button" target="_blank">Descargar reporte</a>
+                    </div>
+                </div>
     
                 <div class="row">
                     <div class="col-4">
@@ -83,9 +92,9 @@
                                                     {{$category->category}}
                                                 </div>
                                                 <ul class="list-group list-group-flush">
-                                                <li class="list-group-item"><span class="fw-bold">Criterio: </span>{{$category->criterio}}</li>
-                                                <li class="list-group-item"><span class="fw-bold">Puntuacion: </span>{{$category->puntuacion}}</li>
-                                                <li class="list-group-item"><span class="fw-bold">Calificacion : </span>{{$category->calificacion}}</li>
+                                                    <li class="list-group-item"><span class="fw-bold">Criterio: </span>{{$category->criterio}}</li>
+                                                    <li class="list-group-item"><span class="fw-bold">Puntuacion: </span>{{$category->puntuacion}}</li>
+                                                    <li class="list-group-item"><span class="fw-bold">Calificacion : </span>{{$category->calificacion}}</li>
                                                 </ul>
                                                 </div>
                                         </div> 

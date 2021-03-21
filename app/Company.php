@@ -54,4 +54,8 @@ class Company extends Authenticatable
     function profile(){
         return $this->hasOne('App\CompanyProfile', 'company_id', 'id');
     }
+
+    function activities(){
+        return $this->hasMany('App\Activity', 'company_id', 'id');
+    }
 }

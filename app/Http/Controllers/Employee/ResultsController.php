@@ -64,7 +64,7 @@ class ResultsController extends Controller
 
     public function firstSurvey($surveyid, $user){
 
-        $objectReturn = (object) ['redirect' => '', 'view' => null, 'categories'=> null, 'valoracionClinica' => null, 'user' => null, 'why' => null];
+        $objectReturn = (object) ['redirect' => '', 'view' => null, 'categories'=> null, 'valoracionClinica' => null, 'user' => null, 'why' => null, 'only6' => false, 'resultsOnly6' => null];
         
         $valoracionClinica = '0';
         $categories = Category::whereHas('preguntas', function ($query) {
@@ -78,19 +78,30 @@ class ResultsController extends Controller
         // return count($results)==0 ? 'No hay nada' :  'Si hay algo';
 
         // $results = [];
-        if(count($results)==0 ){
+        if(count($results) == 0 ){
             $objectReturn->redirect = 'user.resultados.index';
             // return $objectReturn;
             // return redirect()->route('user.resultados.index');
         }
 
         if(count($results) == 6){
+            $objectReturn->view = 'Employee.results.firstSurvey';
             $categories = [$categories[0]];
-            // return 'A todas';
+            $objectReturn->only6 = true;
+            $objectReturn->categories = $categories;
+            $objectReturn->resultsOnly6 = $results;
+            $objectReturn->why = 'Respondio NO a todas las preguntas de la primera seccion ';
+            $objectReturn->user = $user;
+            $objectReturn->valoracionClinica = 'No';
+
+            // return $categories;
+
+            foreach ($categories[0]->preguntas as $pregunta) {
+                $pregunta->answer = 0;
+            }
+
+            return $objectReturn;
         }
-        
-        // return $categories;
-        // return $results;
 
         $answersByCategories = [];
         foreach ($categories as $category) {
@@ -115,7 +126,7 @@ class ResultsController extends Controller
             // return $categories;
             $why = 0;
             $valoracionClinica = $valoracionClinica==1 ? 'Si' : 'No';
-            $view = 'Admin.atrausev';
+            // $view = 'Admin.atrausev';
             // return view($view, compact('categories', 'valoracionClinica', 'user', 'why'));
         }else{
             //---------------------------------------------------------------
@@ -174,16 +185,22 @@ class ResultsController extends Controller
 
     public function secondSurvey($id, $user)
     {
+
+        $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null, 'redirect'=>false];
+
         // $id es el type de la compania, pero no pueden ser 2 y 3 al mismo tiempo, por lo que esta logica la pensamos mal, directamente podiamos obtener el valor de la base de datos, sin que nos dijeran el numero
         $companyid = $user->company_id;
 
         $company = Company::find($companyid);
 
         $companytype = $company->type;
+        
 
         $results = Result::where('survey_id', $companytype)->where('user_id', $user->id)->where('iteration',1)->with('question')->get();
 
         if(count($results)==0 ){
+            $objectReturn->redirect = true;
+            return $objectReturn;
             return redirect()->route('user.resultados.index');
         }
 
@@ -486,7 +503,7 @@ class ResultsController extends Controller
         // return $categories;
         $view = 'Employee.results.secondSurvey';
 
-        $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
+        // $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
 
 
 
@@ -518,12 +535,15 @@ class ResultsController extends Controller
 
         // return $company;
 
-
+        
+        
         // return $id;
         if($surveytype == 1){
             $obj = $this->firstSurvey($surveytype, $user);
 
+
             if(!empty($obj->redirect)){
+                return 'Sin informacion';
                 return redirect()->route('user.resultados.index');
                 return 'reedireccionad';
             }else{
@@ -542,21 +562,22 @@ class ResultsController extends Controller
         }else{
             $objectReturn =  $this->secondSurvey($surveytype, $user);
 
+            if(!empty($objectReturn->redirect)){
+                return 'Sin informacion';
+            }else{
 
+                $view = $objectReturn->view;
+                $final = $objectReturn->final;
+                $categories = $objectReturn->categories;
+                $domains = $objectReturn->domains;
+                $user = $objectReturn->user;
 
-
-
-            $view = $objectReturn->view;
-            $final = $objectReturn->final;
-            $categories = $objectReturn->categories;
-            $domains = $objectReturn->domains;
-            $user = $objectReturn->user;
-
-            // return $objectReturn;
-            
-            return view($view, compact('final', 'categories', 'domains', 'user'));
-
-
+                dd($objectReturn);
+    
+                // return $objectReturn;
+                
+                return view($view, compact('final', 'categories', 'domains', 'user'));
+            }
         }
     }
 
@@ -598,8 +619,8 @@ class ResultsController extends Controller
     {
         // $id es el tipo de encuesta
         $userid = Auth::user()->id;
-        $user= User::where('id',$userid)->with('profile')->first();
-        $company = Company::with('profile')->find($user->company_id);
+        $user= User::where('id',$userid)->with('profile.gender','profile.marital','profile.education','profile.hiring_type')->first();
+        $company = Company::with('profile','activities')->find($user->company_id);
 
         // return $company;
         
@@ -607,42 +628,82 @@ class ResultsController extends Controller
         if($surveytype == 1){
             $obj = $this->firstSurvey($surveytype, $user);
 
+            // return $obj;
             // return 'hola';
             // dd($obj);
+            // return $obj->$categories;
+
+            // if($obj->only6){
+            //     return 'Solo hay 6, ya sabemos que significa';
+            // }
 
             if(!empty($obj->redirect)){
                 return 'COndicion de reedireccionamiento';
             }else{
-
                 $view = $obj->view;
                 $categories = $obj->categories;
                 $valoracionClinica = $obj->valoracionClinica;
                 $why = $obj->why;
-
-                // return view('Employee.download.firstSurvey', compact(['categories','valoracionClinica','why','company']));
-                // $user = $obj->user;
-
-                // return $obj->categories;
-                // dd($obj);
+                $only6 = $obj->only6;
 
                 $pdf = PDF::loadView('Employee.download.firstSurvey', [
                     'categories' => $categories,
                     'valoracionClinica' => $valoracionClinica,
                     'why' => $why,
                     'user' => $user,
-                    'company' => $company
+                    'company' => $company,
+                    'only6' => $only6
                 ]);
                 
                 $pdf->setOption('page-size','letter');
-                $pdf->setOption('margin-left',12);
+                $pdf->setOption('orientation','portrait');
+                // $pdf->setOption('orientation','landscape');
+                $pdf->setOption('margin-left',20);
+                $pdf->setOption('margin-right',20);
+                $pdf->setOption('margin-top',20);
+                $pdf->setOption('margin-bottom',20);
 
                 return $pdf->stream('invoice.pdf');
                 
             }
 
         }else{
+
+            $objectReturn = $this->secondSurvey(2, $user); // El 2 ni se usa, por lo que ni pienses en ello
+
+            // $view = $objectReturn->view;
+            $final = $objectReturn->final;
+            $categories = $objectReturn->categories;
+            $domains = $objectReturn->domains;
+            $user = $objectReturn->user;
+
+            // return $categories;
+
+            $pdf = PDF::loadView('Employee.download.secondSurvey', [
+                'final' => $final,
+                'categories' => $categories,
+                'domains' => $domains,
+                'user' => $user,
+                'company' => $company
+            ]);
+            
+            $pdf->setOption('page-size','letter');
+            $pdf->setOption('orientation','portrait');
+            // $pdf->setOption('orientation','landscape');
+            $pdf->setOption('margin-left',20);
+            $pdf->setOption('margin-right',20);
+            $pdf->setOption('margin-top',20);
+            $pdf->setOption('margin-bottom',20);
+
+            return $pdf->stream('invoice.pdf');
+
+            // return $final->criterio;
+
+            
+
+
             return 'entro en else';
-            return $this->secondSurvey(2, $user); // El 2 ni se usa, por lo que ni pienses en ello
+            // return $this->secondSurvey(2, $user); // El 2 ni se usa, por lo que ni pienses en ello
         }
     }
 }

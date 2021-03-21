@@ -45,7 +45,8 @@
             <div class="row justify-content-center">
                 <div class="col-12 d-flex gap-5 justify-content-center">
                     @foreach ($status as $survey)
-                            
+                    
+                        @if ($survey->answered == 1)
                             <div class="card card-survey p-3">
                                 <div class="header w-100 text-center">
                                     @if ($survey->survey_id == 1 )
@@ -65,6 +66,8 @@
                                         @endif
                                 </div>
                             </div>
+                        @endif
+                            
                     @endforeach
                 </div>
             </div>
