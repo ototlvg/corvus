@@ -506,7 +506,11 @@ class ResultsController extends Controller
         // $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
 
 
-
+        if($companytype==2){
+            $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
+        }else{
+            $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
+        }
         
 
         $objectReturn->view = $view;
@@ -554,6 +558,7 @@ class ResultsController extends Controller
                 $user = $obj->user;
                 $why = $obj->why;
                 
+                
                 // return 'entrando en else';
                 return view($view, compact('categories', 'valoracionClinica', 'user', 'why', 'company'));
             }
@@ -571,12 +576,13 @@ class ResultsController extends Controller
                 $categories = $objectReturn->categories;
                 $domains = $objectReturn->domains;
                 $user = $objectReturn->user;
+                $surveyname = $objectReturn->surveyname;
 
-                dd($objectReturn);
+                // dd($objectReturn);
     
                 // return $objectReturn;
                 
-                return view($view, compact('final', 'categories', 'domains', 'user'));
+                return view($view, compact('final', 'categories', 'domains', 'user','surveyname'));
             }
         }
     }
@@ -676,6 +682,7 @@ class ResultsController extends Controller
             $categories = $objectReturn->categories;
             $domains = $objectReturn->domains;
             $user = $objectReturn->user;
+            $surveyname = $objectReturn->surveyname;
 
             // return $categories;
 
@@ -684,7 +691,8 @@ class ResultsController extends Controller
                 'categories' => $categories,
                 'domains' => $domains,
                 'user' => $user,
-                'company' => $company
+                'company' => $company,
+                'surveyname' => $surveyname,
             ]);
             
             $pdf->setOption('page-size','letter');

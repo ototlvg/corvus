@@ -115,47 +115,16 @@
                             <h5 class="card-title">Datos</h5>
                             <h6 class="card-subtitle mb-2 text-muted">En esta seccion es posible modificar diferentes propiedades de la empresa</h6>
                         </div>
-
-                        @if (Session::has('success'))
-                            {{-- <div class="alert alert-success">
-                                <ul class="m-0">
-                                    <li>{{Session::get('success')}}</li>
-                                </ul>
-                            </div> --}}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{-- <strong>Holy guacamole!</strong> You should check in on some of those fields below. --}}
-                                <strong>{{Session::get('success')}}</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                              </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="m-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
                         <form method="POST" action="{{route('empresa.update',$company->id)}}">
                             @csrf
                             @method('put')
-
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nombre, denominación o razón social</label>
                                 <input type="text" name="name" id="name" class="form-control" required value="{{ empty( old('companyname') ) ? $company->name : old('companyname') }}">
                             </div>
-                            
                             <div class="mb-3">
                                 <label for="address" class="form-label">Domicilio</label>
                                 <input type="text" name="address" id="address" class="form-control" required value="{{ empty( old('address') ) ? $company->profile->address : old('address') }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password (Dejarlo vacio en caso de no querer modificarlo)</label>
-                                <input minlength="8" type="password" name="password" id="password" class="form-control" placeholder="*************">
                             </div>
                             
 
@@ -178,7 +147,55 @@
         </main>
         
     @else
-        <p>NAdad</p>
+        <div class="main flex-grow-1 d-flex align-items-center justify-content-center">
+            <div class="border p-5">
+
+                <div class="row">
+                    <div class="col-12 p-4 pb-5 d-flex justify-content-center">
+                        <p class="m-0 fs-4 fw-bold">Registro de empresa</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <form action="{{route('empresa.store')}}" method="POST">
+                            @csrf
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="name" class="form-label">Nombre de empresa</label>
+                                    <input required type="text" class="form-control" id="name" aria-describedby="name" name="name">
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="companytype" class="form-label">Cantidad de trabajadores</label>
+                                    <select class="form-select" aria-label="Default select example" id="companytype" name="companytype">
+                                        <option value="1">Menor o igual a 15 trabajadores</option>
+                                        <option value="2">Menor o igual a 50 trabajadores</option>
+                                        <option value="3">Mayor a 50 trabajadores</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="password" class="form-label">Contraseña por default para los trabajadores</label>
+                                    <input required type="password" name="password" id="password" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                                </div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     @endif
 @endsection
 

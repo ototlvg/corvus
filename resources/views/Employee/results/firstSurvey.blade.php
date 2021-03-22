@@ -9,14 +9,18 @@
             <div class="container">
 
                 <div class="row mb-4">
-                    <div class="col-12 d-flex justify-content-lg-between align-items-center">
-                        <p class="m-0 h2">Encuesta 1</p>
-                        <a class="btn btn-primary" href="{{route('employee.download',1)}}" role="button" target="_blank">Descargar reporte</a>
+                    {{-- <div class="col-12 d-flex justify-content-between align-items-center"> --}}
+                    <div class="col-12 d-flex flex-column">
+                        <div class="w-100 d-flex justify-content-center flex-wrap">
+                            <h5 class="card-title">Primera encuesta</h5>
+                            <h6 class="card-subtitle mb-2 text-muted w-100 text-center">1. CUESTIONARIO PARA IDENTIFICAR A LOS TRABAJADORES QUE FUERON SUJETOS A ACONTECIMIENTOS TRAUMÁTICOS SEVEROS</h6>
+                        </div>
+                        <a class="btn btn-primary w-50 align-self-center" href="{{route('employee.download',1)}}" role="button" target="_blank">Descargar reporte</a>
                     </div>
                 </div>
     
                 <div class="row mb-4">
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-one d-flex align-items-center">
@@ -29,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-one d-flex align-items-center">

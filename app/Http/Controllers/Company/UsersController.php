@@ -323,8 +323,23 @@ class UsersController extends Controller
             'work_experience' => ['required', 'numeric'],
         ]);
 
+        
         $user = User::find($id);
+        if(!empty($request['password'])){
+            $this->validate($request, [
+                'password'=> ['required', 'string', 'min:8'],
+            ]);
+
+            $user->password = Hash::make($request['password']);
+            $user->save();
+        }
+        unset($request['password']);
         $user->update($request->all());
+
+
+
+
+
         // $user->profile()->update(['gender_id'=>$request->post('gender_id')]);
         $user->profile()->update(
             [

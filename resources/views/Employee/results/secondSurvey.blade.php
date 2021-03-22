@@ -11,15 +11,28 @@
     
             <div class="container">
 
-                <div class="row mb-4">
-                    <div class="col-12 d-flex justify-content-lg-between align-items-center">
-                        <p class="m-0 h2">Encuesta 2</p>
+                {{-- <div class="row mb-4">
+                    <div class="col-12 d-flex justify-content-between align-items-center w-100">
+                        <div>
+                            <h5 class="card-title">Segunda encuesta</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Actividades</h6>
+                        </div>
                         <a class="btn btn-primary" href="{{route('employee.download',2)}}" role="button" target="_blank">Descargar reporte</a>
+                    </div>
+                </div> --}}
+
+                <div class="row mb-4">
+                    <div class="col-12 d-flex flex-column">
+                        <div class="w-100 d-flex justify-content-center flex-wrap">
+                            <h5 class="card-title">Segunda encuesta</h5>
+                            <h6 class="card-subtitle mb-2 text-muted w-100 text-center">{{$surveyname}}</h6>
+                        </div>
+                        <a class="btn btn-primary w-50 align-self-center" href="{{route('employee.download',2)}}" role="button" target="_blank">Descargar reporte</a>
                     </div>
                 </div>
     
-                <div class="row">
-                    <div class="col-4">
+                <div class="row d-flex align-items-stretch">
+                    <div class="col-12 col-lg-4 mb-4 m-lg-0">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-one d-flex align-items-center">
@@ -32,9 +45,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card">
-                            <div class="card-body">
+                    <div class="col-12 col-lg-4 d-flex mb-4 m-lg-0">
+                        <div class="card w-100">
+                            <div class="card-body d-flex align-items-center">
                                 <div class="stat-widget-one d-flex align-items-center">
                                     <div class="stat-icon dib"><i class="bi bi-award-fill fs-1"></i></div>
                                     <div class="stat-content dib ms-4">
@@ -45,9 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card">
-                            <div class="card-body">
+                    <div class="col-12 col-lg-4 d-flex mb-4 m-lg-0">
+                        <div class="card w-100">
+                            <div class="card-body d-flex align-items-center">
                                 <div class="stat-widget-one d-flex align-items-center">
                                     <div class="stat-icon dib"><i class="bi bi-sort-numeric-up-alt fs-1"></i></div>
                                     <div class="stat-content dib ms-4">

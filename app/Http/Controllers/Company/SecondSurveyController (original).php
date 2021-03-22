@@ -12,8 +12,6 @@ use App\Result;
 use App\Category;
 use App\Company;
 
-use PDF;
-
 class SecondSurveyController extends Controller
 {
     public function __construct()
@@ -24,28 +22,23 @@ class SecondSurveyController extends Controller
         $this->middleware('ReturnAuthVariable');
     }
 
-    public function secondSurvey($user)
-    {
-
-        $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null, 'redirect'=>false];
-
-        // $id es el type de la compania, pero no pueden ser 2 y 3 al mismo tiempo, por lo que esta logica la pensamos mal, directamente podiamos obtener el valor de la base de datos, sin que nos dijeran el numero
-        // $company = Company::find($companyid);
+    public function index($id){
+        // dd('xxxss');
+        // $id es el usuario_id
+        // return $id;
+        // $companytype = 
+        $userid = $id;
         $company = Auth::guard('company')->user();
-        $companyid = $company->id;
 
-
+        // $company = Company::find($admin->company_id);
+        
         $companytype = $company->type;
-        
 
-        $results = Result::where('survey_id', $companytype)->where('user_id', $user->id)->where('iteration',1)->with('question')->get();
-        
+        $user = User::where('company_id', $company->id)->find($userid);
 
-        if(count($results)==0 ){
-            $objectReturn->redirect = true;
-            return $objectReturn;
-            return redirect()->route('user.resultados.index');
-        }
+        // return $user;
+
+        $results = Result::where('survey_id', $companytype)->where('user_id', $userid)->where('iteration',1)->with('question')->get();
 
         $tablaDePuntajes1 = [0,1,2,3,4];
         $tablaDePuntajes2 = [4,3,2,1,0];
@@ -344,108 +337,6 @@ class SecondSurveyController extends Controller
         // return [$user];
         // return [$final];
         // return $categories;
-        $view = 'Employee.results.secondSurvey';
-
-        // $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
-
-
-        if($companytype==2){
-            $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
-        }else{
-            $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
-        }
-        
-
-        $objectReturn->view = $view;
-        $objectReturn->final = $final;
-        $objectReturn->categories = $categories;
-        $objectReturn->domains = $domains;
-        $objectReturn->user = $user;
-
-        return $objectReturn;
-        
-        return view($view, compact('final', 'categories', 'domains', 'user'));
-    }
-
-
-
-    public function index($id){
-        $userid = $id;
-        $company = Auth::guard('company')->user();
-        
-        // $companytype = $company->type;
-
-        $user = User::where('company_id', $company->id)->find($userid);
-
-        $objectReturn = $this->secondSurvey($user);
-
-        // return $user;
-
-        if(!empty($objectReturn->redirect)){
-                return 'Sin informacion';
-        }else{
-
-            // $view = $objectReturn->view;
-            $final = $objectReturn->final;
-            $categories = $objectReturn->categories;
-            $domains = $objectReturn->domains;
-            $user = $objectReturn->user;
-            $surveyname = $objectReturn->surveyname;
-
-            // dd($objectReturn);
-
-            // return $objectReturn;
-            
-            return view('Company.rpsic', compact('final', 'categories', 'domains', 'user','surveyname'));
-        }
-
-        // return $objectReturn->categories;
-
-
-        // $obj =  [$finalobj, $categoriesComplete, $domainsComplete];
-
-        // $categories = $categoriesComplete;
-        // $domains = $domainsComplete;
-        // $final = $finalobj;
-        // return view('Company.rpsic', compact('final', 'categories', 'domains', 'user'));
-    }
-
-    public function download($userid){
-        $company = Auth::guard('company')->user();
-        $user = User::where('company_id', $company->id)->find($userid);
-
-        $objectReturn = $this->secondSurvey($user); // El 2 ni se usa, por lo que ni pienses en ello
-
-            // $view = $objectReturn->view;
-            $final = $objectReturn->final;
-            $categories = $objectReturn->categories;
-            $domains = $objectReturn->domains;
-            $user = $objectReturn->user;
-            $surveyname = $objectReturn->surveyname;
-
-            // return $categories;
-
-            $pdf = PDF::loadView('Employee.download.secondSurvey', [
-                'final' => $final,
-                'categories' => $categories,
-                'domains' => $domains,
-                'user' => $user,
-                'company' => $company,
-                'surveyname' => $surveyname,
-            ]);
-            
-            $pdf->setOption('page-size','letter');
-            $pdf->setOption('orientation','portrait');
-            // $pdf->setOption('orientation','landscape');
-            $pdf->setOption('margin-left',20);
-            $pdf->setOption('margin-right',20);
-            $pdf->setOption('margin-top',20);
-            $pdf->setOption('margin-bottom',20);
-
-            return $pdf->stream('invoice.pdf');
-
-
-
-        return $user;
+        return view('Company.rpsic', compact('final', 'categories', 'domains', 'user'));
     }
 }

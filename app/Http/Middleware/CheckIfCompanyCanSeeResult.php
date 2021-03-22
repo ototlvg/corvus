@@ -20,6 +20,7 @@ class CheckIfCompanyCanSeeResult
     {
         // dd('dd');
         $company = Auth::guard('company')->user();
+        // dd($company);
         $userid = $request->route()->parameter('user');
         $user = User::find($userid);
 

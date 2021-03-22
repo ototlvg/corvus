@@ -63,7 +63,7 @@
             @if ($company->profile->men_workers!=0 && $company->profile->women_workers && $company->type==3)
             
                 <div class="row mb-3">
-                        <div class="col-6">
+                        <div class="col-12 col-lg-6">
                             <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
                                 <div class="card-body d-flex">
                                     <div class="d-flex align-items-center">
@@ -78,8 +78,8 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
-                            <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
+                        <div class="col-12 col-lg-6">
+                            <div class="card text-white mb-3 w-100 d-flex p-2" style="background-color: rgb(138, 45, 60)">
                                 <div class="card-body d-flex">
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-journal-richtext fs-icon"></i>
@@ -187,11 +187,11 @@
                         <table class="table table-hover table-bordered f">
                             <thead>
                                 <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">Encuestas</th>
-                                <th scope="col">Acciones</th>
+                                    <th scope="col">#</th>
+                                    <th scope="col" class="d-none d-md-block">Nombre</th>
+                                    <th scope="col">Apellidos</th>
+                                    <th scope="col">Encuestas</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -199,40 +199,45 @@
                                     {{-- <p>{{$user}}</p> --}}
                                     <tr>
                                         <th class="align-middle" scope="row">{{$loop->index+1}}</th>
-                                        <td class="align-middle">{{$user->name}}</td>
+                                        <td class="align-middle d-none d-md-block">{{$user->name}}</td>
                                         <td class="align-middle">{{$user->apaterno}} {{$user->amaterno}}</td>
                                         <td class="align-middle">
-                                            @if ($user->status[0]->answered == 1)
-                                                <a href="{{route('admin.atrausev.index', $user->id)}}">
-                                                    <button type="button" class="btn btn-info text-light">ATS</button>
-                                                </a>
-                                            @else
-                                                {{-- <p>nada1</p> --}}
-                                                <button type="button" class="btn btn-info text-light" disabled>ATS</button>
-                                            @endif
-
-                                            @if (!empty($user->status[1]))
-                                                @if ($user->status[1]->answered == 1)
-                                                    <a href="{{route('admin.rpsic.index', $user->id)}}">
-                                                        <button type="button" class="btn btn-danger">RPSIC</button>
+                                            <div class="w-100 d-flex flex-column flex-lg-row">
+                                                @if ($user->status[0]->answered == 1)
+                                                    <a href="{{route('admin.atrausev.index', $user->id)}}" class="flex-grow-1 me-lg-2">
+                                                        <button type="button" class="btn btn-info text-light w-100">ATS</button>
                                                     </a>
                                                 @else
-                                                    <button type="button" class="btn btn-danger" disabled>RPSIC</button>
+                                                    {{-- <p>nada1</p> --}}
+                                                    <button type="button" class="btn btn-info text-light flex-grow-1 me-lg-2" disabled>ATS</button>
                                                 @endif
-                                            @endif
+    
+                                                @if (!empty($user->status[1]))
+                                                    @if ($user->status[1]->answered == 1)
+                                                        <a href="{{route('admin.rpsic.index', $user->id)}}" class="flex-grow-1">
+                                                            <button type="button" class="btn btn-danger w-100">RPSIC</button>
+                                                        </a>
+                                                    @else
+                                                        <button type="button" class="btn btn-danger flex-grow-1" disabled>RPSIC</button>
+                                                    @endif
+                                                @endif
 
-
+                                            </div>
                                         </td>
                                         <td class="align-middle">
                                             {{-- <button type="button" class="btn btn-success">Editar</button> --}}
 
-                                            <a href="{{route('users.edit', $user->id)}}">
-                                                <button type="button" class="btn btn-primary">Editar</button>
-                                            </a>
+                                            <div class="w-100 d-flex flex-column flex-lg-row">
+                                                <a href="{{route('users.edit', $user->id)}}" class="flex-grow-1 me-lg-2 mb-2">
+                                                    <button type="button" class="btn btn-primary w-100">Editar</button>
+                                                </a>
+    
+                                                <a href="{{route('users.show', $user->id)}}" class="flex-grow-1">
+                                                    <button type="button" class="btn btn-primary w-100">Ver</button>
+                                                </a>
+                                            </div>
 
-                                            <a href="{{route('users.show', $user->id)}}">
-                                                <button type="button" class="btn btn-primary">Ver</button>
-                                            </a>
+
                                         </td>
                                     </tr>
                                     

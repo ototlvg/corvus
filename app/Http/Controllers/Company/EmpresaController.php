@@ -183,6 +183,22 @@ class EmpresaController extends Controller
             'women_workers' => ['required', 'numeric'],
         ]);
 
+        // return $request;
+
+        $password = $request['password'];
+
+        if(!empty($request['password'])){
+            // return 'Se agrego contraseña';
+            $this->validate($request, [
+                'password'=> ['required', 'string', 'min:8'],
+            ]);
+        }
+
+        // return 'hohla';
+        // else{
+        //     return 'no se agrego contraseña';
+        // }
+
         $company = Company::with('profile')->find($id);
 
         // return $company->profile->men_workers;
@@ -199,15 +215,30 @@ class EmpresaController extends Controller
 
         // return $request['_token'];
         // return $request['_method'];
-
         unset($request['_token']);
         unset($request['_method']);
+        
+        // return $request->all();
+        $company->name = $request['name'];
+        if(!empty($request['password'])){
+            $company->default_password_user = Hash::make($request['password']);
+        }
+        $company->save();
+        
         unset($request['name']);
-
+        unset($request['password']);
+        
         $company->profile()->update($request->all());
 
 
-        return redirect()->back();
+        // return redirect()->back();
+
+        if(!empty($password)){
+            return redirect()->back()->with('success','Contraseña actualizada exitosamente');
+        }else{
+            return redirect()->back();
+        }
+
     }
 
     /**

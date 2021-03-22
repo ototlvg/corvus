@@ -299,6 +299,13 @@
                             </div>
                         </div>
 
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="mb-2" for="password">Password</label>
+                                <input name="password" id="password" type="password" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary w-100" style="height: 50px;">Editar usuario</button>

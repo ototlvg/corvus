@@ -111,7 +111,10 @@ Route::group(['prefix' => 'empresa'], function(){
     // ]);
 
     Route::get('/rpsic/{user}', 'Company\SecondSurveyController@index')->name('admin.rpsic.index');
+    Route::get('/rpsic/download/{user}', 'Company\SecondSurveyController@download')->name('company.rpsic.download');
+    
     Route::get('/atrausev/{user}', 'Company\FirstSurveyController@index')->name('admin.atrausev.index');
+    Route::get('/atrausev/download/{user}', 'Company\FirstSurveyController@download')->name('company.atrausev.download');
 
     // Password resets routes
     Route::post('/password/email', 'Auth\CompanyForgotPasswordController@sendResetLinkEmail')->name('company.password.email');//este es el metodo que envia el mail al correo, cual correo se enviara se definie en el Model!!!
