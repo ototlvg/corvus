@@ -43,10 +43,10 @@
             </div>
         
             <div class="row justify-content-center">
-                <div class="col-12 d-flex gap-5 justify-content-center">
+                <div class="col-12 d-flex flex-column flex-lg-row align-items-center">
                     @foreach ($surveys as $survey)
                             
-                            <div class="card card-survey p-3">
+                            <div class="card card-survey p-3 w-100 mb-3 mb-lg-0 me-lg-5">
                                 {{-- <div class="card-header">Header</div> --}}
                                 <div class="header w-100 text-center">
                                     @if ($survey->survey_id ==1)
@@ -72,14 +72,29 @@
         </div>
         
     @else
-        <div class="container d-flex justify-content-center text-primary pt-5">
-            <div class="d-flex flex-wrap w-50">
-                <div class="header w-100 d-flex justify-content-center" style="font-size: 8em;">
-                    {{-- <i class="bi bi-hand-thumbs-up-fill"></i> --}}
-                    <i class="bi bi-hand-thumbs-up"></i>
+        <div class="container" style="padding-top: 8em">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center flex-wrap">
+                    <div class="w-100 d-flex justify-content-center">
+                        <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 4em"></i>
+                        <i class="bi bi-bookmark-star-fill text-primary" style="font-size: 4em"></i>
+                    </div>
+    
+                    <div class="w-100 d-flex justify-content-center">
+                        <h1 class="w-100 text-center">Todas las evaluaciones han sido contestadas</h1>
+                    </div>
                 </div>
-                <div class="body w-100 d-flex justify-content-center" style="font-size: 2em">
-                <p class="text-center fw-bold">Se han contestado todos los cuestionarios de la empresa {{$companyname}}</p>
+            </div>
+    
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <p class="w-100 text-center">Ahora puede ver todos los resultados</p>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <a class="btn btn-primary" href="{{route('user.resultados.index')}}" role="button">Ir a resultados</a>
                 </div>
             </div>
         </div>

@@ -118,12 +118,12 @@ class CompanyRegisterController extends Controller
      */
     protected function create(array $data)
     {
-
+        // return $data;
         return Company::create([
             'name' => $data['company_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'type' => 2,
+            'type' => $data['company_type'],
             'access' => 0,
             'default_password_user' => Hash::make($data['default_password'])
         ]);

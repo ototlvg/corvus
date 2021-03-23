@@ -44,7 +44,7 @@
                             {{-- <a class="nav-link active" aria-current="page" href="#">Login</a> --}}
                             
                         @else
-                            <div class="d-flex">
+                            <div class="d-flex flex-column flex-lg-row">
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Inicio</a>
                                 </li>

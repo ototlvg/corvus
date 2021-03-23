@@ -22,8 +22,8 @@
                 alt="The cover of Stubborn Attachments"
                 />
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title w-100 text-center">NOM-035</h5>
+                    <p class="card-text">Para continuar es necesario pagar los derechos de uso de la plataforma NOM-035</p>
                     {{-- <a href="#" class="btn btn-primary">Go somewhere</a>
                      --}}
                     <button type="button" id="checkout-button" class="btn btn-primary w-100">
