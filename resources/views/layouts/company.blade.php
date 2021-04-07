@@ -41,7 +41,14 @@
         .container-mini{
             max-width: 500px;
         }
+        body{
+            background-color: #f2f2f0 !important;
+        }
+
+        
     </style>
+
+    <link rel="stylesheet" href="{{asset('css//global.css')}}">
 
     @stack('style-stack')
 

@@ -1,0 +1,37 @@
+.bg-ats{
+    background-color: orangered;
+    color: white;
+}
+
+.bg-rpsic{
+    background-color: #581845;
+    color: white;
+}
+
+.btn-ats{
+    background-color: orangered;
+    color: white;
+}
+
+.btn-ats:hover{
+    background-color: rgb(193, 54, 3);
+}
+
+
+
+.btn-rpsic{
+    background-color: #581845;
+    color: white;
+}
+
+/* .btn-rpsic:hover{
+    background-color: white;
+    color: #581845;
+    border: 1px solid #581845;
+} */
+
+.btn-rpsic:hover{
+    background-color: #3a102d;
+    color: white;
+    /* border: 1px solid #581845; */
+}

@@ -44,16 +44,18 @@
             
             
             <div class="row mb-3">
-                <div class="col d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="card-title">Usuarios</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{$userscount}} usuarios registrados</h6>
-                    </div>
-
-                    <div>
-                        <a href="{{route('users.create')}}">
-                            <button type="button" class="btn btn-success">Añadir</button>
-                        </a>
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
+                        <div>
+                            <h5 class="card-title fs-3">Usuarios</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{$userscount}} usuarios registrados</h6>
+                        </div>
+    
+                        <div>
+                            <a href="{{route('users.create')}}">
+                                <button type="button" class="btn btn-success">Añadir</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,7 +81,7 @@
                         </div>
 
                         <div class="col-12 col-lg-6">
-                            <div class="card text-white mb-3 w-100 d-flex p-2" style="background-color: rgb(138, 45, 60)">
+                            <div class="card text-white mb-3 w-100 d-flex p-2" style="background-color: rgb(199, 70, 91)">
                                 <div class="card-body d-flex">
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-journal-richtext fs-icon"></i>
@@ -184,66 +186,59 @@
             @if (count($users)!=0)
                 <div class="row">
                     <div class="col-12">
-                        <table class="table table-hover table-bordered f">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col" class="d-none d-md-block">Nombre</th>
-                                    <th scope="col">Apellidos</th>
-                                    <th scope="col">Encuestas</th>
-                                    <th scope="col">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $user)
-                                    {{-- <p>{{$user}}</p> --}}
+                        <div class="w-100 bg-white border">
+                            <table class="table table-hover table-borderless w-100 p-4 m-0">
+                                <thead>
                                     <tr>
-                                        <th class="align-middle" scope="row">{{$loop->index+1}}</th>
-                                        <td class="align-middle d-none d-md-block">{{$user->name}}</td>
-                                        <td class="align-middle">{{$user->apaterno}} {{$user->amaterno}}</td>
-                                        <td class="align-middle">
-                                            <div class="w-100 d-flex flex-column flex-lg-row">
+                                        <th scope="col">#</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Nombre</th>
+                                        <th scope="col">Apellidos</th>
+                                        <th scope="col">Encuestas</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $user)
+                                        {{-- <p>{{$user}}</p> --}}
+                                        <tr>
+                                            <th class="align-middle" scope="row">{{$loop->index+1}}</th>
+                                            <td class="align-middle d-none d-md-table-cell">{{$user->name}}</td>
+                                            <td class="align-middle">{{$user->apaterno}} {{$user->amaterno}}</td>
+                                            <td class="align-middle">
                                                 @if ($user->status[0]->answered == 1)
-                                                    <a href="{{route('admin.atrausev.index', $user->id)}}" class="flex-grow-1 me-lg-2">
-                                                        <button type="button" class="btn btn-info text-light w-100">ATS</button>
+                                                    <a href="{{route('admin.atrausev.index', $user->id)}}" class="">
+                                                        <button type="button" class="btn btn-ats text-light mb-2 mb-md-0"><i class="bi bi-journal me-2"></i>ATS</button>
                                                     </a>
                                                 @else
-                                                    {{-- <p>nada1</p> --}}
-                                                    <button type="button" class="btn btn-info text-light flex-grow-1 me-lg-2" disabled>ATS</button>
+                                                    <button type="button" class="btn btn-ats text-light mb-2 mb-md-0" disabled><i class="bi bi-journal me-2"></i>ATS</button>
                                                 @endif
     
                                                 @if (!empty($user->status[1]))
                                                     @if ($user->status[1]->answered == 1)
-                                                        <a href="{{route('admin.rpsic.index', $user->id)}}" class="flex-grow-1">
-                                                            <button type="button" class="btn btn-danger w-100">RPSIC</button>
+                                                        <a href="{{route('admin.rpsic.index', $user->id)}}" class="">
+                                                            <button type="button" class="btn btn-rpsic mb-2 mb-md-0"><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
                                                         </a>
                                                     @else
-                                                        <button type="button" class="btn btn-danger flex-grow-1" disabled>RPSIC</button>
+                                                        <button type="button" class="btn btn-rpsic mb-2 mb-md-0" disabled><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
                                                     @endif
                                                 @endif
-
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            {{-- <button type="button" class="btn btn-success">Editar</button> --}}
-
-                                            <div class="w-100 d-flex flex-column flex-lg-row">
-                                                <a href="{{route('users.edit', $user->id)}}" class="flex-grow-1 me-lg-2 mb-2">
-                                                    <button type="button" class="btn btn-primary w-100">Editar</button>
+    
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="{{route('users.edit', $user->id)}}" class="">
+                                                    <button type="button" class="btn btn-primary mb-2 mb-md-0"><i class="bi bi-pencil-square me-2"></i>Editar</button>
                                                 </a>
     
-                                                <a href="{{route('users.show', $user->id)}}" class="flex-grow-1">
-                                                    <button type="button" class="btn btn-primary w-100">Ver</button>
+                                                <a href="{{route('users.show', $user->id)}}" class="">
+                                                    <button type="button" class="btn btn-primary mb-2 mb-md-0 bg-success"><i class="bi bi-eye-fill me-2"></i>Ver</button>
                                                 </a>
-                                            </div>
-
-
-                                        </td>
-                                    </tr>
-                                    
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            </td>
+                                        </tr>
+                                        
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             @else
