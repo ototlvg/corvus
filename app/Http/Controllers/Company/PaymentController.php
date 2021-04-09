@@ -16,6 +16,7 @@ class PaymentController extends Controller
     public function __construct(){
         $this->middleware('auth:company');
         $this->middleware('email.verified.company');
+        $this->middleware('RedirectIfPaymentIsDone');
         $this->middleware('ReturnAuthVariable');
     }
 

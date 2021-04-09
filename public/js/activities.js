@@ -1938,6 +1938,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['X-CSRF-TOKEN'] = window.codigo;
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2505,7 +2512,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "activities" }, [
+  return _c("div", { staticClass: "activities mb-3 bg-white p-4 border" }, [
     _c("div", { staticClass: "w-100 d-flex mb-3" }, [
       _c("input", {
         directives: [
@@ -2517,7 +2524,7 @@ var render = function() {
           }
         ],
         staticClass: "form-control me-3",
-        attrs: { type: "text" },
+        attrs: { type: "text", placeholder: "Agregue una actividad" },
         domProps: { value: _vm.activity },
         on: {
           input: function($event) {
@@ -2534,36 +2541,52 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("table", { staticClass: "table table-bordered" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.activities, function(activity, index) {
-          return _c("tr", { key: index }, [
-            _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(index + 1))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(activity.activity))]),
-            _vm._v(" "),
-            _c("td", [
+    _vm.activities.length != 0
+      ? _c("div", [
+          _c(
+            "table",
+            { staticClass: "table table-borderless table-hover m-0" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  on: {
-                    click: function($event) {
-                      return _vm.destroy(activity.id)
-                    }
-                  }
-                },
-                [_vm._v("Eliminar")]
+                "tbody",
+                _vm._l(_vm.activities, function(activity, index) {
+                  return _c("tr", { key: index }, [
+                    _c(
+                      "th",
+                      { staticClass: "align-middle", attrs: { scope: "row" } },
+                      [_vm._v(_vm._s(index + 1))]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle" }, [
+                      _vm._v(_vm._s(activity.activity))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.destroy(activity.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
+                  ])
+                }),
+                0
               )
-            ])
-          ])
-        }),
-        0
-      )
-    ])
+            ]
+          )
+        ])
+      : _c("div", { staticClass: "p-4 w-100 text-center text-secondary" }, [
+          _c("p", [_vm._v("Aun no se registran actividades")])
+        ])
   ])
 }
 var staticRenderFns = [

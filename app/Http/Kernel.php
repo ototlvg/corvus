@@ -72,6 +72,7 @@ class Kernel extends HttpKernel
         'email.verified.company' => \App\Http\Middleware\VerifyCompanyEmail::class,
         'PaymentDone' => \App\Http\Middleware\PaymentDone::class,
         'ReturnAuthVariable' => \App\Http\Middleware\ReturnAuthVariable::class,
+        'RedirectIfPaymentIsDone' => \App\Http\Middleware\RedirectIfPaymentIsDone::class,
         
     ];
 

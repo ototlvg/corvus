@@ -1,28 +1,35 @@
 <template>
-    <div class="activities">
+    <div class="activities mb-3 bg-white p-4 border">
         <div class="w-100 d-flex mb-3">
-            <input type="text" v-model="activity" class="form-control me-3">
+            <input type="text" v-model="activity" class="form-control me-3" placeholder="Agregue una actividad">
             <button class="btn btn-primary" @click="add">Agregar</button>
         </div>
-        <table class="table table-bordered">
 
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Actividad</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
+        <div v-if="activities.length != 0">
+            <table class="table table-borderless table-hover m-0">
 
-            <tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Actividad</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
 
-                <tr v-for="(activity,index) in activities" :key="index">
-                    <th scope="row">{{index+1}}</th>
-                    <td>{{activity.activity}}</td>
-                    <td><button class="btn btn-danger" @click="destroy(activity.id)">Eliminar</button></td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+
+                    <tr v-for="(activity,index) in activities" :key="index">
+                        <th class="align-middle" scope="row">{{index+1}}</th>
+                        <td class="align-middle">{{activity.activity}}</td>
+                        <td class="align-middle"><button class="btn btn-danger" @click="destroy(activity.id)">Eliminar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="p-4 w-100 text-center text-secondary" v-else>
+            <p>Aun no se registran actividades</p>
+        </div>
     </div>
 </template>
 

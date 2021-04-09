@@ -24,12 +24,12 @@
 
     {{-- STRIPEE --}}
 
-    @yield('style-area-stripe')
+    {{-- @yield('style-area-stripe') --}}
 
     {{-- <link rel="stylesheet" href="{{asset('css/stripe.css')}}"> --}}
     
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+    @stack('script-top')
+    
 
     {{-- STRIPE --}}
 
@@ -45,12 +45,14 @@
             background-color: #f2f2f0 !important;
         }
 
+        .container{
+            max-width: 1080px;
+        }
+
         
     </style>
 
     <link rel="stylesheet" href="{{asset('css//global.css')}}">
-
-    @stack('style-stack')
 
     @yield('styles')
 </head>
@@ -142,11 +144,11 @@
     </script>
     
     {{-- STRIPE --}}
-    @yield('script-area-stripe')
+    {{-- @yield('script-area-stripe') --}}
 
-        {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
 
-    @stack('script-stack')
+    @stack('script')
 
 </body>
 </html>

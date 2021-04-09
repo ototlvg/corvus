@@ -8,6 +8,11 @@
 
 @endsection
 
+@push('script-top')
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+@endpush
+
 @section('content')
 
 <div class="container">
@@ -56,7 +61,7 @@
     
 @endsection
 
-@section('script-area-stripe')
+@push('script')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
 
@@ -118,4 +123,4 @@
           // });
         });
     </script>
-@endsection
+@endpush

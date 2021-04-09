@@ -186,7 +186,7 @@
             @if (count($users)!=0)
                 <div class="row">
                     <div class="col-12">
-                        <div class="w-100 bg-white border">
+                        <div class="w-100 bg-white border p-4">
                             <table class="table table-hover table-borderless w-100 p-4 m-0">
                                 <thead>
                                     <tr>

@@ -4,9 +4,16 @@
     <main class="d-flex w-100 flex-grow-1">
         
         <div class="container mb-5">
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <p class="fs-2">Editar usuario</p>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
+                        <div>
+                            <h5 class="card-title fs-3">Editar usuario</h5>
+                            <h6 class="card-subtitle text-muted">
+                                Edicion de usuario
+                            </h6>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -43,7 +50,7 @@
 
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <form method="POST" action="{{ route('users.update',$user->id) }}" class="w-75">
+                    <form method="POST" action="{{ route('users.update',$user->id) }}" class="w-100 p-4">
                         @csrf
                         @method('PUT')
                         

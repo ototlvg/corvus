@@ -34,9 +34,8 @@
         <main class="flex-grow-1 d-flex">
             <div class="container">
 
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <div class="col">
-                        {{-- <p></p> --}}
                         <h5 class="card-title">{{$company->name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             @if ($company->type == 1)
@@ -49,9 +48,28 @@
                         </h6>
 
                     </div>
+                </div> --}}
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
+                            <div>
+                                <h5 class="card-title fs-3">{{$company->name}}</h5>
+                                <h6 class="card-subtitle text-muted">
+                                    @if ($company->type == 1)
+                                        Menor o igual a 15 trabajadores
+                                    @elseif($company->type == 2)
+                                        Menor o igual a 50 trabajadores
+                                    @else
+                                        Mayor a 50 trabajadores
+                                    @endif
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row w-100">
+                <div class="row">
                     <div class="col-12 col-lg-4">
                         <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
                             <div class="card-body d-flex">
@@ -97,13 +115,32 @@
                           </div>
                     </div>
                 </div>
+                
+                {{-- <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
+                            <div>
+                                <h5 class="card-title fs-3">{{$company->name}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    @if ($company->type == 1)
+                                        Menor o igual a 15 trabajadores
+                                    @elseif($company->type == 2)
+                                        Menor o igual a 50 trabajadores
+                                    @else
+                                        Mayor a 50 trabajadores
+                                    @endif
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
 
                 <div class="row flex-column mb-5">
                     
                     <div class="col">
-                        <div class="w-100 mb-3">
+                        <div class="w-100 mb-3 bg-white p-4 border">
                             <h5 class="card-title">Principales actividades</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Actividades</h6>
+                            <h6 class="card-subtitle text-muted">Actividades</h6>
                         </div>
 
                         <div class="d-flex w-100" id="activities">
@@ -111,9 +148,9 @@
                     </div>
 
                     <div class="col">
-                        <div class="w-100 mb-3">
+                        <div class="w-100 mb-3 bg-white p-4 border">
                             <h5 class="card-title">Datos</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">En esta seccion es posible modificar diferentes propiedades de la empresa</h6>
+                            <h6 class="card-subtitle text-muted">En esta seccion es posible modificar diferentes propiedades de la empresa</h6>
                         </div>
 
                         @if (Session::has('success'))
@@ -139,7 +176,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{route('empresa.update',$company->id)}}">
+                        <form method="POST" action="{{route('empresa.update',$company->id)}}" class="bg-white p-4 border">
                             @csrf
                             @method('put')
 
@@ -182,7 +219,7 @@
     @endif
 @endsection
 
-@push('script-stack')
+@push('script')
     <script src="{{asset('js/activities.js')}}"></script>
 @endpush
 
