@@ -8,12 +8,40 @@
         .card-survey{
             width: 35%;
             transition: all 0.3s;
+            max-width: 400px !important;
         }
 
-        .card-survey:hover{
-            color: #0d6efd;
-            border-color: #0d6efd;
+
+
+        /*                 */
+
+
+        .card-survey.rpsic:hover{
+            border-color: none !important;
+            background-color: white;
+            color: #581845;
         }
+
+        .card-survey.rpsic:hover button{
+            color: white;
+            background-color: #581845;
+        }
+
+
+
+
+        .card-survey.ats:hover{
+            border-color: none !important;
+            background-color: white;
+            color: orangered;
+        }
+
+        .card-survey.ats:hover button{
+            color: white;
+            background-color: orangered;
+        }
+
+        /*                 */
 
         .pointer{
             cursor: pointer;
@@ -28,6 +56,10 @@
         .maximo{
             color: red !important;
         }
+
+        .card:last-child{
+            margin-right: 0 !important;
+        }
     </style>
 @endsection
 
@@ -35,18 +67,27 @@
 {{-- <main class="flex-grow-1 bg-primary"> --}}
 <main class="flex-grow-1">
     @if (count($surveys)!=0)
-        <div class="container py-4">
-            <div class="row mb-4">
+        <div class="container container-mini py-4">
+            {{-- <div class="row mb-4">
                 <div class="col-12 text-center">
                 <p class="fw-bold">Cuestionarios - {{$companyname}}</p>
+                </div>
+            </div> --}}
+
+            <div class="row mb-4">
+                <div class="col-12 text-center text-lg-start">
+                    <p class="fw-bold m-0 w-100 text-center">Cuestionarios</p>
+                    <p class="text-secondary m-0 w-100 text-center">{{$companyname}}</p>
                 </div>
             </div>
         
             <div class="row justify-content-center">
-                <div class="col-12 d-flex flex-column flex-lg-row align-items-center">
+                <div class="col-12 d-flex flex-column flex-lg-row align-items-center justify-content-center">
                     @foreach ($surveys as $survey)
+
+                    
                             
-                            <div class="card card-survey p-3 w-100 mb-3 mb-lg-0 me-lg-5">
+                            <div class="card card-survey p-3 w-100 mb-3 mb-lg-0 me-lg-5 {{$survey->survey_id == 1 ? 'bg-ats' : 'bg-rpsic'}} {{$survey->survey_id == 1 ? 'ats' : 'rpsic'}}">
                                 {{-- <div class="card-header">Header</div> --}}
                                 <div class="header w-100 text-center">
                                     @if ($survey->survey_id ==1)
@@ -59,10 +100,10 @@
                                         <p class="text-center survey_title">{{$survey->survey->title}}</p>
             
                                         @if ($survey->survey->id == 1)
-                                            <a href="{{ route('survey.first') }}"><button type="button" class="btn btn-primary">Contestar</button></a>
+                                            <a href="{{ route('survey.first') }}"><button type="button" class="btn btn-light">Contestar</button></a>
                                         @else
                                             {{-- <a href="{{ route('survey.second') }}">ir</a> --}}
-                                            <a href="{{ route('survey.second') }}"><button type="button" class="btn btn-primary">Contestar</button></a>
+                                            <a href="{{ route('survey.second') }}"><button type="button" class="btn btn-light">Contestar</button></a>
                                         @endif
                                 </div>
                             </div>
@@ -72,7 +113,7 @@
         </div>
         
     @else
-        <div class="container" style="padding-top: 8em">
+        <div class="container container-mini" style="padding-top: 8em">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center flex-wrap">
                     <div class="w-100 d-flex justify-content-center">

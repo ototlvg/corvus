@@ -18,6 +18,7 @@ class ReturnAuthVariable
      */
     public function handle($request, Closure $next)
     {
+        // dd('MW ReturnAuthVariable');
         $company = Auth::guard('company')->user();
         View::share('companyGlobal', $company);
         // dd($company);

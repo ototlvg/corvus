@@ -3,15 +3,18 @@
 @section('content')
     <main class="d-flex w-100 flex-grow-1">
         
-        <div class="container mb-5">
+        <div class="container container-mini mb-5">
             <div class="row mb-3">
                 <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
+                    <div class="d-flex justify-content-between align-items-center bg-white px-5 py-4 border">
                         <div>
-                            <h5 class="card-title fs-3">Editar usuario</h5>
-                            <h6 class="card-subtitle text-muted">
-                                Edicion de usuario
-                            </h6>
+                            <h5 class="card-title fs-3 m-0">Editar datos de {{$user->name}}</h5>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0">
+                                  <li class="breadcrumb-item"><a href="{{route('users.index')}}">Empleados</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">Editar</li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -50,7 +53,7 @@
 
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <form method="POST" action="{{ route('users.update',$user->id) }}" class="w-100 p-4">
+                    <form method="POST" action="{{ route('users.update',$user->id) }}" class="w-100 p-5 bg-white border">
                         @csrf
                         @method('PUT')
                         
@@ -308,8 +311,8 @@
 
                         <div class="row mb-4">
                             <div class="col">
-                                <label class="mb-2" for="password">Password</label>
-                                <input name="password" id="password" type="password" class="form-control">
+                                <label class="mb-2" for="password">Contraseña</label>
+                                <input name="password" id="password" type="password" class="form-control" placeholder="Dejar vacio en caso de no querer modificarlo">
                             </div>
                         </div>
 

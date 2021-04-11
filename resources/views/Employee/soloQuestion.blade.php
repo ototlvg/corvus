@@ -16,6 +16,7 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.3s;
+            background-color: white;
         }
 
         .boton:hover{
@@ -30,6 +31,10 @@
 
         .w-special{
             width: 54% !important;
+        }
+
+        body{
+            background-color: #f2f2f0 !important;
         }
 
 

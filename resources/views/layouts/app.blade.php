@@ -19,12 +19,32 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css//global.css')}}">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
+        body{
+            background-color: #f2f2f0 !important;
+        }
+
         .app{
             min-height: 100vh;
+        }
+
+        .container.container-mini{
+            max-width: 800px !important;
+            /* background-color: red !important; */
+        }
+
+        .fs-subtitle{
+            font-size: 10px;
+            letter-spacing: 2.2px;
+        }
+
+        .bg-logo{
+            background-color: #1F6096;
+            color: white !important;
         }
     </style>
 
@@ -32,14 +52,22 @@
 </head>
 <body>
     <div id="app" class="d-flex flex-wrap w-100 flex-column app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">NOM-035</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-0 border-bottom">
+            <div class="container-fluid ps-0">
+                
+                
+                {{-- <a class="navbar-brand d-flex flex-column px-3 bg-logo" href="#">NOM-035</a> --}}
+                <a class="navbar-brand d-flex flex-column px-3 bg-logo" href="/">
+                    <span>NOM-035</span>
+                    <span class="fs-subtitle w-100 text-center">EVALUACIÓN</span>
+                </a>
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex justify-content-lg-between">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex justify-content-lg-between ps-3 ps-lg-0">
                         @guest
                             {{-- <a class="nav-link active" aria-current="page" href="#">Login</a> --}}
                             
@@ -70,7 +98,7 @@
 
                                 <li class="nav-item">
                                     <div class="dropdown">
-                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                             {{Auth::user()->name}}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">

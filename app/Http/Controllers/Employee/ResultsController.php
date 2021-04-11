@@ -12,6 +12,7 @@ use App\Result;
 use App\ResultTrauma;
 use App\Category;
 use App\Company;
+use App\Survey;
 
 
 use PDF;
@@ -72,6 +73,8 @@ class ResultsController extends Controller
         })->with('preguntas')->get();
         // })->get();
 
+        $surveyname = Survey::find($surveyid)->title;
+
         
         $results = ResultTrauma::where('user_id', $user->id)->orderBy('question_id', 'ASC')->get();
         
@@ -121,6 +124,8 @@ class ResultsController extends Controller
             }
         }
 
+        
+
         if(count($results) == 6){
             // return 'Solo hay 6 resultados, por lo que contesto a todas no';
             // return $categories;
@@ -134,6 +139,7 @@ class ResultsController extends Controller
             // $answersByCategories[1] - Sección III Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento
             // $answersByCategories[2] - Sección IV Afectación
     
+            // return $categories;
             if(in_array(1, $answersByCategories[0])){
                 $valoracionClinica = 1;
                 $why = 'Cuando responda "Sí", en alguna de las preguntas de la Sección II Recuerdos persistentes sobre acontecimiento';
@@ -177,6 +183,7 @@ class ResultsController extends Controller
         $objectReturn->valoracionClinica = $valoracionClinica;
         $objectReturn->user = $user;
         $objectReturn->why = $why;
+        $objectReturn->surveyname = $surveyname;
         
         // return 'xls';
         return $objectReturn;
@@ -314,7 +321,7 @@ class ResultsController extends Controller
             'El riesgo resulta despreciable por lo que no se requiere medidas adicionales.',
             'Es necesario una mayor difusión de la política de prevención de riesgos psicosociales y programas para: la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la violencia laboral.',
             'Se requiere revisar la política de prevención de riesgos psicosociales y programas para la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la violencia laboral, así como reforzar su aplicación y difusión, mediante un Programa de intervención.',
-            'Se requiere realizar un análisis de cada categoría y dominio, de manera quese puedan determinar las acciones de intervención apropiadas a través de un Programa de intervención, que podrá incluir una evaluación específica1y deberá incluir una campaña de sensibilización, revisar la política deprevención de riesgos psicosociales y programas para la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacionalfavorable y la prevención de la violencia laboral, así como reforzar suaplicación y difusión.',
+            'Se requiere realizar un análisis de cada categoría y dominio, de manera quese puedan determinar las acciones de intervención apropiadas a través de un Programa de intervención, que podrá incluir una evaluación específica y deberá incluir una campaña de sensibilización, revisar la política deprevención de riesgos psicosociales y programas para la prevención de los factores de riesgo psicosocial, la promoción de un entorno organizacionalfavorable y la prevención de la violencia laboral, así como reforzar suaplicación y difusión.',
             'Se requiere realizar el análisis de cada categoría y dominio para establecerlas acciones de intervención apropiadas, mediante un Programa de intervención que deberá incluir evaluaciones específicas, y contemplarcampañas de sensibilización, revisar la política de prevención de riesgospsicosociales y programas para la prevención de los factores de riesgopsicosocial, la promoción de un entorno organizacional favorable y laprevención de la violencia laboral, así como reforzar su aplicación y difusión.'
         ];
 
@@ -545,6 +552,8 @@ class ResultsController extends Controller
         if($surveytype == 1){
             $obj = $this->firstSurvey($surveytype, $user);
 
+            // dd($obj);
+
 
             if(!empty($obj->redirect)){
                 return 'Sin informacion';
@@ -557,10 +566,10 @@ class ResultsController extends Controller
                 $valoracionClinica = $obj->valoracionClinica;
                 $user = $obj->user;
                 $why = $obj->why;
-                
+                $surveyname = $obj->surveyname;
                 
                 // return 'entrando en else';
-                return view($view, compact('categories', 'valoracionClinica', 'user', 'why', 'company'));
+                return view($view, compact('categories', 'valoracionClinica', 'user', 'why', 'company','surveyname'));
             }
 
             // return json_decode();

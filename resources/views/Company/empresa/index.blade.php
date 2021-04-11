@@ -34,22 +34,6 @@
         <main class="flex-grow-1 d-flex">
             <div class="container">
 
-                {{-- <div class="row mb-3">
-                    <div class="col">
-                        <h5 class="card-title">{{$company->name}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            @if ($company->type == 1)
-                                Menor o igual a 15 trabajadores
-                            @elseif($company->type == 2)
-                                Menor o igual a 50 trabajadores
-                            @else
-                                Mayor a 50 trabajadores
-                            @endif
-                        </h6>
-
-                    </div>
-                </div> --}}
-
                 <div class="row mb-3">
                     <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
@@ -69,24 +53,27 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-lg-4">
-                        <div class="card text-white bg-primary mb-3 w-100 d-flex p-2">
+                <div class="row mb-3">
+
+                    <div class="col-12 col-lg-4 d-flex">
+                        <div class="card text-white bg-primary mb-3 mb-lg-0 w-100 d-flex p-2">
                             <div class="card-body d-flex">
+
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-people fs-icon"></i>
                                 </div>
 
                                 <div class="d-flex flex-wrap ms-4">
-                                    <p class="w-100 m-0 fs-special">Cantidad de empleados</p>
+                                    <p class="w-100 m-0 fs-special">Empleados</p>
                                     <p class="card-text fs-1">{{$usersCount}}</p>
                                 </div>
+
                             </div>
                           </div>
                     </div>
 
-                    <div class="col-12 col-lg-4">
-                        <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
+                    <div class="col-12 col-lg-4 d-flex">
+                        <div class="card text-white bg-ats mb-3 mb-lg-0 w-100 d-flex p-2">
                             <div class="card-body d-flex">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-journal-richtext fs-icon"></i>
@@ -100,8 +87,8 @@
                           </div>
                     </div>
 
-                    <div class="col-12 col-lg-4">
-                        <div class="card text-white bg-success mb-3 w-100 d-flex p-2">
+                    <div class="col-12 col-lg-4 d-flex">
+                        <div class="card text-white bg-rpsic mb-3 mb-lg-0 w-100 d-flex p-2">
                             <div class="card-body d-flex">
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-journal-text fs-icon"></i>
@@ -114,26 +101,8 @@
                             </div>
                           </div>
                     </div>
+
                 </div>
-                
-                {{-- <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center bg-white p-4 border">
-                            <div>
-                                <h5 class="card-title fs-3">{{$company->name}}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    @if ($company->type == 1)
-                                        Menor o igual a 15 trabajadores
-                                    @elseif($company->type == 2)
-                                        Menor o igual a 50 trabajadores
-                                    @else
-                                        Mayor a 50 trabajadores
-                                    @endif
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
 
                 <div class="row flex-column mb-5">
                     

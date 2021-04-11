@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css//global.css')}}">
 
     {{-- STRIPEE --}}
 
@@ -46,27 +47,45 @@
         }
 
         .container{
-            max-width: 1080px;
+            max-width: 940px;
+
+        }
+
+        .container.container-mini{
+            max-width: 700px;
+        }
+
+        .fs-subtitle{
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+
+        .bg-logo{
+            background-color: #C10037;
         }
 
         
     </style>
 
-    <link rel="stylesheet" href="{{asset('css//global.css')}}">
+    
 
     @yield('styles')
 </head>
 <body>
     <div id="app" class="d-flex flex-column app">
         {{-- {{$companyGlobal}} --}}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{route('empresa.index')}}">Empresa</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-0">
+            <div class="container-fluid ps-0">
+                {{-- <a class="navbar-brand d-flex flex-column px-3 bg-logo" href="{{route('empresa.index')}}"> --}}
+                <a class="navbar-brand d-flex flex-column px-3 bg-logo" href="/">
+                    <span>NOM-035</span>
+                    <span class="fs-subtitle w-100 text-center">EMPRESA</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex justify-content-between">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex justify-content-between ps-3 ps-lg-0">
                         <li class="nav-item">
                             {{-- <a class="nav-link active" aria-current="page" href="#">Home</a> --}}
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -74,7 +93,7 @@
 
                                     @if ($companyGlobal->access)
                                         <li class="nav-item">
-                                            <a class="nav-link" aria-current="page" href="{{route('empresa.index')}}">Empresa</a>
+                                            <a class="nav-link" aria-current="page" href="{{route('empresa.index')}}">Inicio</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" aria-current="page" href="{{route('users.index')}}">Usuarios</a>

@@ -2,16 +2,30 @@
 
 @section('content')
     <main class="d-flex w-100 flex-grow-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <p class="fs-2">Crear nuevo usuario</p>
+        <div class="container container-mini">
+            
+            
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center bg-white px-5 py-4 border">
+                        <div>
+                            <h5 class="card-title fs-3 m-0">Añadir empleado</h5>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0">
+                                  <li class="breadcrumb-item"><a href="{{route('users.index')}}">Empleados</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">Añadir</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            
+
             <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <form method="POST" action="{{ route('users.store') }}" class="w-75 p-5 border">
+                <div class="col-12">
+                    <form method="POST" action="{{ route('users.store') }}" class="p-5 border bg-white">
                         @csrf
                         <div class="row mb-4">
                             <div class="col">

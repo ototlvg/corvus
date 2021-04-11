@@ -76,6 +76,7 @@ class EmpresaController extends Controller
             // return $secondSurveyAnswered;
         
             $answered = [
+                // Primeera encuesta contestada por
                 // (object) array('name' => 'Guia de referencia I','title' => 'CUESTIONARIO PARA IDENTIFICAR A LOS TRABAJADORES QUE FUERON SUJETOS A ACONTECIMIENTOS TRAUMÁTICOS SEVEROS', 'answered' => count($firstSurveyAnswered)),
                 (object) array('name' => 'Primera encuesta','title' => '1. CUESTIONARIO PARA IDENTIFICAR A LOS TRABAJADORES QUE FUERON SUJETOS A ACONTECIMIENTOS TRAUMÁTICOS SEVEROS', 'answered' => count($firstSurveyAnswered)),
                 // (object) array('name' => 'Guia de referencia ' . $admin->company->type,'title' => $admin->company->type==2 ? 'IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL': 'IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO', 'answered' => count($secondSurveyAnswered))

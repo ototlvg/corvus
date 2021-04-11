@@ -40,6 +40,8 @@ class SecondSurveyController extends Controller
         // $companytypeid =  User::find($userid)->company_type->type;
         $companytype =  $user->company_type->type;
 
+        $surveyname = Survey::find($companytype)->title;
+
         // return $companytype;
         // return $companyid;
         $categories = Category::whereHas('questions', function($query) use($companytype){
@@ -115,7 +117,7 @@ class SecondSurveyController extends Controller
         // return $sections;
         
         $surveyRouteName = 'survey.store.second';
-        return view('Employee.SurveySecond', compact('sections', 'surveyRouteName'));
+        return view('Employee.SurveySecond', compact('sections', 'surveyRouteName','surveyname'));
     }
 
     public function store(Request $request){
