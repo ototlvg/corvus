@@ -66,7 +66,7 @@
 <main class="flex-grow-1">
     {{-- @if (count($surveys)!=0) --}}
     {{-- <p>{{$status[0]->survey_id}}</p> --}}
-        @if ($status[0]->answered!=0 || $status[1]->answered!=0)
+        @if ($canSee)
             <div class="container container-mini py-4">
                 <div class="row mb-4">
                     <div class="col-12 text-center text-lg-start">

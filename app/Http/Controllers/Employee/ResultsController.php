@@ -34,12 +34,22 @@ class ResultsController extends Controller
      */
     public function index()
     {
+        // return 'cococ';
         $userid = Auth::user()->id;
         $user= User::where('id',$userid)->with('status.survey')->first();
-
+        $company = Company::find($user->company_id);
+        // return $company;
+        // return $user->status[0]->answered;
         $status = $user->status;
+        if($company->type == 1){
+            $canSee = $status[0]->answered!=0;
+        }else{
+            $canSee = ($status[0]->answered!=0) || ($status[1]->answered!=0);
+        }
+
+
         // return $user->status;
-        return view('Employee.results.home', compact('status'));
+        return view('Employee.results.home', compact('status','canSee'));
     }
 
     /**
