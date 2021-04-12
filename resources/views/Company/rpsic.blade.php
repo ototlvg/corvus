@@ -6,6 +6,19 @@
 
         <div class="container mb-5">
 
+            <div class="row">
+                <div class="col">
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{route('users.index')}}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Segunda encuesta</li>
+                        </ol>
+                    </nav>
+
+                </div>
+            </div>
+
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="d-flex flex-column flex-lg-row justify-content-between border align-items-stretch">

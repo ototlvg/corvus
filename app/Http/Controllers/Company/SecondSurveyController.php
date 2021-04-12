@@ -11,6 +11,7 @@ use App\User;
 use App\Result;
 use App\Category;
 use App\Company;
+use App\Survey;
 
 use PDF;
 
@@ -348,11 +349,15 @@ class SecondSurveyController extends Controller
 
         // $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
 
+        $surveys = Survey::all();
+        
 
         if($companytype==2){
-            $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
+            // $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
+            $objectReturn->surveyname = $surveys[1]->title;
         }else{
-            $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
+            // $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
+            $objectReturn->surveyname = $surveys[2]->title;
         }
         
 

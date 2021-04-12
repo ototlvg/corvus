@@ -7,21 +7,41 @@
 
         <div class="container">
 
-            {{-- <div class="row mb-4">
-                <div class="col-12 d-flex justify-content-between align-items-center">
-                    <p class="m-0 h2">Encuesta 1</p>
-                    <a class="btn btn-primary" href="{{route('company.atrausev.download',$user->id)}}" role="button" target="_blank">Descargar reporte</a>
-                </div>
-            </div> --}}
+            <div class="row">
+                <div class="col">
 
-            <div class="row mb-4">
-                {{-- <div class="col-12 d-flex justify-content-between align-items-center"> --}}
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{route('users.index')}}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Primera encuesta</li>
+                        </ol>
+                    </nav>
+
+                </div>
+            </div>
+
+            {{-- <div class="row mb-4">
                 <div class="col-12 d-flex flex-column">
                     <div class="w-100 d-flex justify-content-center flex-wrap">
                         <h5 class="card-title">Primera encuesta</h5>
-                        <h6 class="card-subtitle mb-2 text-muted w-100 text-center">1. CUESTIONARIO PARA IDENTIFICAR A LOS TRABAJADORES QUE FUERON SUJETOS A ACONTECIMIENTOS TRAUMÁTICOS SEVEROS</h6>
+                        <h6 class="card-subtitle mb-2 text-muted w-100 text-center">{{$surveyname}}</h6>
                     </div>
                     <a class="btn btn-primary w-50 align-self-center" href="{{route('company.atrausev.download',$user->id)}}" role="button" target="_blank">Descargar reporte</a>
+                </div>
+            </div> --}}
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between border align-items-stretch">
+                        <div class="bg-ats p-4 me-lg-3">
+                            <h5 class="card-title fs-3">Primera encuesta</h5>
+                            <h6 class="card-subtitle mb-2 text-white">{{$surveyname}}</h6>
+                        </div>
+                        <a class="btn btn-success d-flex justify-content-center align-items-center d-flex flex-column" href="{{route('company.atrausev.download', $user->id)}}" role="button" target="_blank">
+                            <i class="bi bi-file-arrow-down-fill fs-3"></i>
+                            Descargar
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -56,16 +76,17 @@
             </div>
 
             @if ($why!='0')
-                <div class="row">
+                <div class="row mb-4">
                     <div class="col-12">
-                        <div class="card text-dark bg-light mb-4 w-100">
-                            <div class="card-header">Criterio</div>
+                        <div class="card text-dark bg-light w-100">
                             <div class="card-body">
-                            <p class="card-text">{{$why}}</p>
+                                <h5 class="card-title fw-bold">Criterio</h5>
+                                <p class="card-text m-0">{{$why}}</p>
+                                <p class="text-secondary m-0" style="font-size: 14px">NOTA: El criterio indica las condiciones que se deben de cumplir para que sea necesario una valoración clínica, si las condiciones no se cumplen la valoración clínica no es necesaria.</p>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             @endif
 
             <div class="row mb-5">
@@ -89,8 +110,8 @@
                                 <div class="tab-pane fade show active" id="tab-{{$category->id}}" role="tabpanel" aria-labelledby="{{$category->id}}-tab">
                                     <div class="row mt-4 ">
                                         <div class="col-12">
-                                            <div class="card w-100 bg-primary">
-                                                <div class="card-header fw-bold text-white">
+                                            <div class="card w-100">
+                                                <div class="card-header bg-ats fw-bold text-white">
                                                     {{$category->category}}
                                                 </div>
                                                 <ul class="list-group list-group-flush">
@@ -112,8 +133,8 @@
                                 <div class="tab-pane fade" id="tab-{{$category->id}}" role="tabpanel" aria-labelledby="{{$category->id}}-tab">
                                     <div class="row mt-4 ">
                                         <div class="col-12">
-                                            <div class="card w-100 bg-primary">
-                                                <div class="card-header fw-bold text-white">
+                                            <div class="card w-100">
+                                                <div class="card-header bg-ats fw-bold text-white">
                                                     {{$category->category}}
                                                 </div>
                                                 <ul class="list-group list-group-flush">

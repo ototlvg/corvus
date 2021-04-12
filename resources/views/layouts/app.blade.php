@@ -49,6 +49,7 @@
     </style>
 
     @yield('style')
+    @stack('style')
 </head>
 <body>
     <div id="app" class="d-flex flex-wrap w-100 flex-column app">
@@ -79,6 +80,10 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="{{ route('user.resultados.index') }}">Resultados</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ route('employee.perfil.index') }}">Perfil</a>
                                 </li>
 
                                 @yield('li-options')

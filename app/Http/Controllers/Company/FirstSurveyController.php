@@ -11,6 +11,8 @@ use App\User;
 use App\Result;
 use App\ResultTrauma;
 use App\Category;
+use App\Survey;
+
 
 use PDF;
 
@@ -43,6 +45,7 @@ class FirstSurveyController extends Controller
         })->with('preguntas')->get();
         // })->get();
 
+        $surveyname = Survey::find(1)->title;
         
         $results = ResultTrauma::where('user_id', $user->id)->orderBy('question_id', 'ASC')->get();
         
@@ -64,6 +67,7 @@ class FirstSurveyController extends Controller
             $objectReturn->why = 'Respondio NO a todas las preguntas de la primera seccion ';
             $objectReturn->user = $user;
             $objectReturn->valoracionClinica = 'No';
+            $objectReturn->surveyname = $surveyname;
 
             // return $categories;
 
@@ -148,6 +152,7 @@ class FirstSurveyController extends Controller
         $objectReturn->valoracionClinica = $valoracionClinica;
         $objectReturn->user = $user;
         $objectReturn->why = $why;
+        $objectReturn->surveyname = $surveyname;
         
         // return 'xls';
         return $objectReturn;
@@ -173,11 +178,12 @@ class FirstSurveyController extends Controller
             $valoracionClinica = $obj->valoracionClinica;
             $user = $obj->user;
             $why = $obj->why;
-            
+            $surveyname = $obj->surveyname;
+
             // return 'entrando en else';
             // return $why;
             // return view('Company.atrausev', compact('categories', 'valoracionClinica', 'user', 'why'));
-            return view('Company.atrausev', compact('categories', 'valoracionClinica', 'user', 'why', 'company'));
+            return view('Company.atrausev', compact('categories', 'valoracionClinica', 'user', 'why', 'company','surveyname'));
         }
 
     }

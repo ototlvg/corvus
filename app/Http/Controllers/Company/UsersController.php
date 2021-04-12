@@ -52,17 +52,51 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $empleado = $request->get('empleado');
+
+        
+        // return $empleado;
+
         // return 'Hola';
         // return view('Admin.home');
         // $admin = Auth::guard('admin')->user();
         // $companyOfAdminId = $admin->company_id;
+
+        $variablesReturning = [];
+
+
+
         $companyid = Auth::guard('company')->id();
 
         $company = Company::with('profile')->find($companyid);
 
-        $users = User::where('company_id', $companyid)->with('status')->paginate(10);
+        // $users = User::where('company_id', $companyid)->orderBy('id','DESC')->with('status')->paginate(10);
+        
+        
+        
+        if(!is_null($empleado)){
+            // return Patient::where('name', 'LIKE' ,"%$search%")->orWhere('apaterno', 'LIKE' ,"%$search%")->orWhere('amaterno','LIKE',"%$search%")->paginate($this->paginationNumber);
+            $users = User::where('company_id', $companyid)->where('name', 'LIKE' ,"%$empleado%")->orWhere('apaterno', 'LIKE' ,"%$empleado%")->orderBy('id','DESC')->with('status')->get();
+            // return $users;
+            // return 'Vacio';
+        }else{
+            $users = User::where('company_id', $companyid)->orderBy('id','DESC')->with('status')->paginate(10); // Si lee vas a cambiar de 10 recurda cambiar el 10 en el index al paginar
+        }
+
+        
+        
+        
+        
+        
+        
+        array_push($variablesReturning, 'users');
+        array_push($variablesReturning, 'company');
+        array_push($variablesReturning, 'userscount');
+        
+        // dd($users);
 
         $userscount = User::where('company_id',$companyid)->count();
 
@@ -94,24 +128,16 @@ class UsersController extends Controller
             $numberOfWomenWhoNeedsToTakeTheSurvey = $numberOfWomenWhoNeedsToTakeTheSurvey-$womenAlreadyRegistered;
             $numberOfMenWhoNeedsToTakeTheSurvey = $numberOfMenWhoNeedsToTakeTheSurvey-$menAlreadyRegistered;
             
-            return view('Company.users.index', compact(['users', 'company','totalWorkers','numberOfWomenWhoNeedsToTakeTheSurvey','numberOfMenWhoNeedsToTakeTheSurvey', 'userscount']));
+            
+            // return view('Company.users.index', compact(['users', 'company','userscount','totalWorkers','numberOfWomenWhoNeedsToTakeTheSurvey','numberOfMenWhoNeedsToTakeTheSurvey']));
+
+            array_push($variablesReturning, 'totalWorkers');
+            array_push($variablesReturning, 'numberOfWomenWhoNeedsToTakeTheSurvey');
+            array_push($variablesReturning, 'numberOfMenWhoNeedsToTakeTheSurvey');
+
         }
-
-        // return $numberOfMenWhoNeedsToTakeTheSurvey;
-
-
-
-        // return $company;
-        // $companyid = $company->id;
-
-        // return $admin;
-        // $users = User::where('company_id', $companyOfAdminId)->paginate(1);
-        
         // return $users;
-        // dd($admin);
-        // return $admin;
-        // return $users;
-        return view('Company.users.index', compact(['users', 'company','userscount']));
+        return view('Company.users.index', compact($variablesReturning));
     }
 
     public function createStatus($user, $company_type){
@@ -239,11 +265,16 @@ class UsersController extends Controller
 
         $data = $request->all();
 
+        // return $data['name'];
+
         
         $this->createUserPack($data);
         // $this->createStatus($user,$company_type);
 
-        return redirect()->route('users.index');
+        $name = $data['name'] . ' ' . $data['apaterno'];
+        // return $data['name'];
+
+        return redirect()->route('users.index')->with(['stored'=>$name]);
     }
 
     /**
@@ -370,11 +401,19 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        $user->delete();
+        // $user->save();
+
+        return redirect()->route('users.index')->with(['deleted' => $user]);
     }
 
     public function importFromExcel(Request $request){
         // return 'holadsdasdasdsadsads';
+        $this->validate($request, [
+            'file'=> ['required', 'file', 'mimes:xlsx'],
+        ]);
 
 
         $company = Auth::guard('company')->user();

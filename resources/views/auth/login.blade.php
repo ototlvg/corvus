@@ -1,13 +1,21 @@
 @extends('../layouts.app')
 
+@push('style')
+    <style>
+        .container{
+            max-width: 940px !important;
+        }
+    </style>
+@endpush
+
 @section('content')
 <div class="container pt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Iniciar sesion</div>
+                <div class="card-header p-4">Iniciar sesion</div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form method="POST" action="{{ route('login') }}" id="form">
                         @csrf
 

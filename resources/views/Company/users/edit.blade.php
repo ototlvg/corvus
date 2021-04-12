@@ -25,7 +25,7 @@
                     @if (Session::has('saved'))
                         {{-- {{Session::get('email')}} --}}
 
-                        <div class="alert alert-success alert-dismissible fade show w-75" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show w-100" role="alert">
                             <strong>Cambios guardados correctamento</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>

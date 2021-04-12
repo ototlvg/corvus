@@ -73,7 +73,7 @@ class ResultsController extends Controller
         })->with('preguntas')->get();
         // })->get();
 
-        $surveyname = Survey::find($surveyid)->title;
+        $surveyname = Survey::find(1)->title;
 
         
         $results = ResultTrauma::where('user_id', $user->id)->orderBy('question_id', 'ASC')->get();
@@ -96,6 +96,7 @@ class ResultsController extends Controller
             $objectReturn->why = 'Respondio NO a todas las preguntas de la primera seccion ';
             $objectReturn->user = $user;
             $objectReturn->valoracionClinica = 'No';
+            $objectReturn->surveyname = $surveyname;
 
             // return $categories;
 
@@ -512,11 +513,15 @@ class ResultsController extends Controller
 
         // $objectReturn = (object) ['view' => null, 'final' => null, 'categories' => null, 'domains' => null, 'user' => null];
 
+        $surveys = Survey::all();
+        
 
         if($companytype==2){
-            $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
+            // $objectReturn->surveyname = '2. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL';
+            $objectReturn->surveyname = $surveys[1]->title;
         }else{
-            $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
+            // $objectReturn->surveyname = '3. IDENTIFICACIÓN Y ANÁLISIS DE LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUACIÓN DELENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO';
+            $objectReturn->surveyname = $surveys[2]->title;
         }
         
 
@@ -551,6 +556,8 @@ class ResultsController extends Controller
         // return $id;
         if($surveytype == 1){
             $obj = $this->firstSurvey($surveytype, $user);
+
+            // dd($obj);
 
             // dd($obj);
 

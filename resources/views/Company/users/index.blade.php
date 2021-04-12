@@ -40,6 +40,7 @@
         
         
         
+        
         <div class="container">
             
             
@@ -107,7 +108,7 @@
                             <label for="formFile" class="form-label">Subida masiva de usuarios</label>
                         </div>
                         <div class="d-flex">
-                            <input class="form-control" type="file" id="formFile" name="file">
+                            <input class="form-control" type="file" id="formFile" name="file" required>
                             <button type="submit" class="btn btn-primary ms-3">Subir</button>
                         </div>
                         <div class="d-flex">
@@ -117,6 +118,42 @@
                     </form>
                 </div>
             </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div>
+                        <h5><strong>Errores encontrados</strong></h5>
+                        <ul class="m-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (Session::has('stored'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div>
+                        <h5><strong>Empleado agragado</strong></h5>
+                        <p>El empleado "{{Session::get('stored')}}" ha sido agregado</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (Session::has('deleted'))
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Usuario eliminado correctamente</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                    <div>
+                        <p class="m-0">El empleado "{{Session::get('deleted')->name}}" ha sido eliminado exitosamente</p>
+                    </div>
+                </div>
+            @endif
 
             @if (Session::has('duplicate') && count(Session::get('duplicate'))!=0)
 
@@ -180,13 +217,41 @@
                 </div>
             @endif
 
-            
-
 
             @if (count($users)!=0)
                 <div class="row">
                     <div class="col-12">
                         <div class="w-100 bg-white border p-4">
+
+                            <div class="w-100 mb-4">
+
+                                {{-- <form action="{{route("users.index",['coco'=>1])}}" method="get"> --}}
+                                <form action="{{route("users.index")}}" method="get">
+                                    @csrf
+                                    {{-- <div class="row">
+                                        <div class="col-12 d-flex justify-content-start">
+                                            <div>
+                                                <input type="checkbox" name="" id="onlymen" class="form-check-input">
+                                                <label class="form-check-label" for="onlymen">Solo Hombres</label>
+                                            </div>
+                                            <div>
+                                                <input type="checkbox" name="" id="onlywomen" class="form-check-input">
+                                                <label class="form-check-label" for="onlywomen">Solo Mujeres</label>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <input type="text" name="empleado" id="" class="form-control" placeholder="Buscar empleado">
+                                        </div>
+                                        <div class="col-2">
+                                            <button class="btn btn-success w-100">Buscar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
                             <table class="table table-hover table-borderless w-100 p-4 m-0">
                                 <thead>
                                     <tr>
@@ -199,45 +264,60 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
-                                        {{-- <p>{{$user}}</p> --}}
                                         <tr>
                                             <th class="align-middle" scope="row">{{$loop->index+1}}</th>
                                             <td class="align-middle d-none d-md-table-cell">{{$user->name}}</td>
                                             <td class="align-middle">{{$user->apaterno}} {{$user->amaterno}}</td>
                                             <td class="align-middle">
-                                                @if ($user->status[0]->answered == 1)
-                                                    <a href="{{route('admin.atrausev.index', $user->id)}}" class="">
-                                                        <button type="button" class="btn btn-ats text-light mb-2 mb-md-0"><i class="bi bi-journal me-2"></i>ATS</button>
-                                                    </a>
-                                                @else
-                                                    <button type="button" class="btn btn-ats text-light mb-2 mb-md-0" disabled><i class="bi bi-journal me-2"></i>ATS</button>
-                                                @endif
-    
-                                                @if (!empty($user->status[1]))
-                                                    @if ($user->status[1]->answered == 1)
-                                                        <a href="{{route('admin.rpsic.index', $user->id)}}" class="">
-                                                            <button type="button" class="btn btn-rpsic mb-2 mb-md-0"><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
+                                                <div class="d-flex flex-column flex-lg-row">
+                                                    @if ($user->status[0]->answered == 1)
+                                                        <a href="{{route('admin.atrausev.index', $user->id)}}" class="mb-2 mb-lg-0 me-lg-2">
+                                                            <button type="button" class="btn btn-ats text-light"><i class="bi bi-journal me-2"></i>ATS</button>
                                                         </a>
                                                     @else
-                                                        <button type="button" class="btn btn-rpsic mb-2 mb-md-0" disabled><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
+                                                        <button type="button" class="btn btn-ats text-light mb-2 mb-lg-0 me-lg-2" disabled><i class="bi bi-journal me-2"></i>ATS</button>
                                                     @endif
-                                                @endif
-    
+        
+                                                    @if (!empty($user->status[1]))
+                                                        @if ($user->status[1]->answered == 1)
+                                                            <a href="{{route('admin.rpsic.index', $user->id)}}" class="">
+                                                                <button type="button" class="btn btn-rpsic"><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
+                                                            </a>
+                                                        @else
+                                                            <button type="button" class="btn btn-rpsic" disabled><i class="bi bi-journal-medical me-2"></i>RPSIC</button>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{route('users.edit', $user->id)}}" class="">
-                                                    <button type="button" class="btn btn-primary mb-2 mb-md-0"><i class="bi bi-pencil-square me-2"></i>Editar</button>
-                                                </a>
+                                                <div class="d-flex flex-column w-100 flex-lg-row">
+                                                    <a href="{{route('users.edit', $user->id)}}" class="flex-lg-grow-1 mb-2 mb-lg-0 me-lg-2">
+                                                        <button type="button" class="d-flex justify-content-center align-items-center btn btn-primary w-100"><i class="bi bi-pencil-square me-1"></i>Editar</button>
+                                                    </a>
+        
+                                                    <a href="{{route('users.show', $user->id)}}" class="flex-lg-grow-1 mb-2 mb-lg-0 me-lg-2">
+                                                        <button type="button" class="d-flex justify-content-center align-items-center btn btn-primary bg-success w-100"><i class="bi bi-eye-fill me-1"></i>Ver</button>
+                                                    </a>
     
-                                                <a href="{{route('users.show', $user->id)}}" class="">
-                                                    <button type="button" class="btn btn-primary mb-2 mb-md-0 bg-success"><i class="bi bi-eye-fill me-2"></i>Ver</button>
-                                                </a>
+                                                    <button type="button" class="btn btn-danger w-100 flex-lg-grow-1" onclick="deleteUser({{$user->id}})"><i class="bi bi-trash me-1"></i>Eliminar</button>
+    
+                                                    <form action="{{route("users.destroy", $user->id)}}" id="user-delete-{{$user->id}}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                         
                                     @endforeach
                                 </tbody>
                             </table>
+                            
+                            @if ( !(count($users) < 10) )
+                                <div class="w-100 d-flex justify-content-center mt-4">
+                                    {{ $users->links() }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -249,9 +329,36 @@
                 </div>
             @endif
         </div>
-
-
-
     </div>
 
 @endsection
+
+@push('script')
+    <script src="{{asset('js/sweetalert2.js')}}"></script>
+@endpush
+
+@push('script')
+    <script>
+        
+        let deleteUser = userid => {
+            // console.log(userid)
+            Swal.fire(
+                {
+                    title: '¿Estas seguro?',
+                    text: "El empleado sera eliminado",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let form = document.getElementById('user-delete-'+userid)
+                        console.log(form)
+                        form.submit()
+                    }
+            })
+        }
+
+    </script>
+@endpush

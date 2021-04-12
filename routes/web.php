@@ -51,6 +51,10 @@ Route::get('/company', function () {
     return redirect()->route('empresa.index');
 });
 
+Route::resource('/perfil', 'Employee\PerfilController', [
+    'as' => 'employee',
+]);
+
 
 Route::get('cuestionario/descargar/{surveytype}', 'Employee\ResultsController@download')->name('employee.download');
 
