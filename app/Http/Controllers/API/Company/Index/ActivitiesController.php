@@ -22,7 +22,7 @@ class ActivitiesController extends Controller
     {
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
-        return Activity::where('company_id',$companyid)->get();
+        return Activity::where('company_id',$companyid)->orderBy('id','DESC')->get();
         
         return response()->json(['name' => 'Abigail','state' => 'CA',]);
     }
@@ -82,6 +82,8 @@ class ActivitiesController extends Controller
     public function destroy($id)
     {
         $companyid = Auth::guard('company')->id();
+
+
         $res = Activity::where('id',$id)->where('company_id', $companyid)->delete();
 
         return $res;

@@ -252,6 +252,29 @@ class UsersController extends Controller
     {
         $company = Auth::guard('company')->user();
         $companyid = $company->id;
+        $companytype = $company->type;
+
+        // return $companytype;
+        
+
+        $users = User::where('company_id', $companyid)->orderBy('id','DESC')->with('status')->get(); // Si lee vas a cambiar de 10 recurda cambiar el 10 en el index al paginationNumber
+
+        // return count($users);
+
+        if($companytype == 1){
+            
+            if(count($users) == 15 ){
+                return  'Ya estan los 15';
+            }
+
+        }elseif($companytype == 2){
+
+            if(count($users) == 50 ){
+                return  'Ya estan los 50';
+            }
+
+        }
+
         $company_type = $company->type;
 
         
@@ -421,6 +444,24 @@ class UsersController extends Controller
         $company_type = $company->type;
         $companyDefaultPassword = $company->default_password_user;
 
+        $users = User::where('company_id', $companyid)->orderBy('id','DESC')->with('status')->get(); // Si lee vas a cambiar de 10 recurda cambiar el 10 en el index al paginationNumber
+        $userscount = count($users);
+
+        if($companytype == 1){
+            
+            if($userscount == 15 ){
+                return  'Ya estan los 15';
+            }
+
+        }elseif($companytype == 2){
+
+            if($userscount == 50 ){
+                return  'Ya estan los 50';
+            }
+
+        }
+
+        // return $userscount;
 
         $availableGenders = array_map('strtoupper', Gender::orderBy('id', 'ASC')->pluck('gender')->toArray()  );
         $availableMaritals = array_map('strtoupper', Marital::orderBy('id', 'ASC')->pluck('status')->toArray()  );
@@ -540,6 +581,8 @@ class UsersController extends Controller
 
 
                         $this->createStatus($newUser, $company_type);
+
+                        $userscount++;
                     } catch (\Exception $e) {
                         // return $e->getCode();
 

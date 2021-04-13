@@ -113,7 +113,7 @@
                         </div>
                         <div class="d-flex">
                             {{-- <div id="emailHelp" class="form-text"></div> --}}
-                            <a href="" class="form-text">Descargar plantilla</a>
+                            <a href="{{asset("assets/layout.xlsx")}}" class="form-text">Descargar plantilla</a>
                         </div>
                     </form>
                 </div>

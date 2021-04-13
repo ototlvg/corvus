@@ -160,11 +160,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password (Dejarlo vacio en caso de no querer modificarlo)</label>
+                                <label for="password" class="form-label">Contraseña que tendran los empleados al registrarse (dejar vacio si no se requiere modificar)</label>
                                 <input minlength="8" type="password" name="password" id="password" class="form-control" placeholder="*************">
                             </div>
                             
-
+                            
+                            @if ($company->id == 3)
                             <div class="row mb-4">
                                 <div class="col">
                                     <label for="men_workers" class="form-label">Numero de Hombres</label>
@@ -175,6 +176,7 @@
                                     <input id="women_workers" name="women_workers" type="number" class="form-control" required value="{{ empty( old('women_workers') ) ? $company->profile->women_workers : old('women_workers') }}">
                                 </div>
                             </div>
+                            @endif
                             <button type="submit" class="btn btn-primary w-100">Actualizar</button>
                           </form>
                     </div>
