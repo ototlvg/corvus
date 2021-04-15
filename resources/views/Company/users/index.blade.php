@@ -217,6 +217,27 @@
                 </div>
             @endif
 
+            @if (Session::has('usersWhoHaveNotExistingColumnsValues') && count(Session::get('usersWhoHaveNotExistingColumnsValues'))!=0)
+                <div class="row mb-4">
+                    <div class="col-12">
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Los siguientes usuarios no fueron agregados porque en sus columnas tienen valores que no existen en la base de datos</strong>
+                            <ul>
+                                
+                                @foreach (Session::get('usersWhoHaveNotExistingColumnsValues') as $email)
+                                    <li>{{$email}}</li>
+                                @endforeach
+
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            {{-- {{$usersWhoHaveNotExistingColumnsValues}} --}}
+
 
             @if (count($users)!=0)
                 <div class="row">
@@ -324,7 +345,7 @@
             @else
                 <div class="row">
                     <div class="col-12 text-center">
-                        <p>Sin usuarios registrados</p>
+                        <p><a href="{{route('users.index')}}">Sin usuarios registrados</a></p>
                     </div>
                 </div>
             @endif

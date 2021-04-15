@@ -447,19 +447,19 @@ class UsersController extends Controller
         $users = User::where('company_id', $companyid)->orderBy('id','DESC')->with('status')->get(); // Si lee vas a cambiar de 10 recurda cambiar el 10 en el index al paginationNumber
         $userscount = count($users);
 
-        if($companytype == 1){
+        // if($companytype == 1){
             
-            if($userscount == 15 ){
-                return  'Ya estan los 15';
-            }
+        //     if($userscount == 15 ){
+        //         return  'Ya estan los 15';
+        //     }
 
-        }elseif($companytype == 2){
+        // }elseif($companytype == 2){
 
-            if($userscount == 50 ){
-                return  'Ya estan los 50';
-            }
+        //     if($userscount == 50 ){
+        //         return  'Ya estan los 50';
+        //     }
 
-        }
+        // }
 
         // return $userscount;
 
@@ -493,6 +493,8 @@ class UsersController extends Controller
         $flagNull = 0;
 
         $usersNotAddedBecauseEmailDuplicate = [];
+        // return $usersInit;
+        $usersWhoHaveNoExistingColumnsValue = [];
         foreach($usersInit as $key=>$user){
             $flagCurrentNulls = 0;
 
@@ -606,6 +608,9 @@ class UsersController extends Controller
                     // $hiring_type = $hiring_type_ids[$hiring_type_key]->id;
                     // $turn = $gender_ids[$turn_key]->id;
                                                                 
+                }else{
+                    array_push($usersWhoHaveNoExistingColumnsValue, $u[3]);
+                    // return "Uno no se agrego porque las opciones que pusieron no existe";
                 }
 
 
@@ -639,6 +644,7 @@ class UsersController extends Controller
 
             
         }
+        // return $usersWhoHaveNoExistingColumnsValue;
         // return $users;
         // return $usersInit;
         // return $usersNotAddedBecauseEmailDuplicate;
@@ -648,7 +654,7 @@ class UsersController extends Controller
         $data3 = json_encode((array)$notAddedUsers);
         // return $headersWhoAreNull;
         // return redirect()->back()->withErrors(['duplicate' => $usersNotAddedBecauseEmailDuplicate, 'notadded' => $notAddedUsers  ])->with('success',$usersAdded);
-        return redirect()->back()->with([ 'success'=> $usersAdded, 'duplicate' => json_decode($data2, true), 'notadded' => json_decode($data3, true)]);
+        return redirect()->back()->with([ 'success'=> $usersAdded, 'duplicate' => json_decode($data2, true), 'notadded' => json_decode($data3, true), 'usersWhoHaveNotExistingColumnsValues' => $usersWhoHaveNoExistingColumnsValue]);
     }
 
     // public function createUserProfile(){

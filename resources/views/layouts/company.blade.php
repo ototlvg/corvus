@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
 
-    <title>Empresa</title>
+    <title>NOM-035 - Empresa</title>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -119,7 +119,8 @@
                         </li>
                         <li class="nav-item d-flex">
                             @auth('company')
-                                <a class="nav-link active" aria-current="page" href="{{ route('company.logout') }}">Logout</a>
+                                {{-- <a class="nav-link active" aria-current="page" href="{{ route('company.logout') }}">Logout</a> --}}
+                                <a class="btn btn-danger" href="{{ route('company.logout') }}" role="button">Salir</a>
                                 {{-- <a class="btn btn-primary" href="#" role="button">Link</a> --}}
                             @endauth
                             {{-- <a class="nav-link active" aria-current="page" href="#">Usuarios</a> --}}

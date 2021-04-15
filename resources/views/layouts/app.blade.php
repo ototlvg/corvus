@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Empleado</title>
+    <title>NOM-035 - Empleado</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

@@ -20,9 +20,17 @@ class CheckIfCompanyCanSeeResult
     {
         // dd('dd');
         $company = Auth::guard('company')->user();
+
+        
+
         // dd($company);
         $userid = $request->route()->parameter('user');
         $user = User::find($userid);
+
+        if(is_null($user)){
+            abort(403);
+            dd('El usuario no existe');
+        }
 
         if($user->company_id == $company->id){
             // dd('Esta empresa tiene acceso a este ususario');

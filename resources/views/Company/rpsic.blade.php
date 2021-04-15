@@ -11,8 +11,8 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('users.index')}}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Segunda encuesta</li>
+                            <li class="breadcrumb-item"><a href="{{route('users.index')}}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Segunda encuesta</li>
                         </ol>
                     </nav>
 
@@ -22,7 +22,7 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="d-flex flex-column flex-lg-row justify-content-between border align-items-stretch">
-                        <div class="bg-rpsic p-4 me-lg-3">
+                        <div class="bg-rpsic p-4 me-lg-3 flex-grow-1">
                             <h5 class="card-title fs-3">Segunda encuesta</h5>
                             <h6 class="card-subtitle mb-2 text-white">{{$surveyname}}</h6>
                         </div>
